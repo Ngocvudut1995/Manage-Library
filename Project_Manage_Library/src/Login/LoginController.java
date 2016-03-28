@@ -64,7 +64,8 @@ public class LoginController implements Initializable {
         }
 
     }
-
+    Node node;
+    
     @FXML
     public void Login(ActionEvent event) throws IOException {
         tb.setText("");
@@ -75,8 +76,7 @@ public class LoginController implements Initializable {
             Scene scene = new Scene(root);
             stage = new Stage();
             stage.setScene(scene);
-
-            ((Node) (event.getSource())).getScene().getWindow().hide();
+           ((Node) (event.getSource())).getScene().getWindow().hide();
             stage.show();
         } else {
             tb.setText("Username or Password wrong!");
