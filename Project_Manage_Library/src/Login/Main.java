@@ -3,12 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Login;
 
+import java.io.IOException;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -17,11 +22,15 @@ import javafx.stage.Stage;
 public class Main extends Application {
     
     @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+    public void start(Stage stage) throws IOException {
+      Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         
         Scene scene = new Scene(root);
-        
+      //  stage.setFullScreen(true);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UTILITY);
+       // stage.resizableProperty().setValue(Boolean.FALSE);
+      //  stage.setMaximized(false);
         stage.setScene(scene);
         stage.show();
     }
