@@ -11,19 +11,19 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quanLy.NhanVienController">
-   <columnConstraints>
-      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" maxWidth="283.0" minWidth="10.0" prefWidth="112.0" />
-      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" maxWidth="711.0" minWidth="10.0" prefWidth="550.0" />
-      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" maxWidth="342.0" minWidth="10.0" prefWidth="302.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
-   </rowConstraints>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="1100.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="157.0" />
+      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="627.0" minWidth="10.0" prefWidth="627.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="316.0" minWidth="10.0" prefWidth="316.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+  </rowConstraints>
    <children>
-      <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="549.0" GridPane.columnIndex="1">
+      <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="626.0" GridPane.columnIndex="1">
          <content>
-            <TableView prefHeight="426.0" prefWidth="925.0">
+            <TableView prefHeight="361.0" prefWidth="1039.0">
                <columns>
                   <TableColumn prefWidth="75.0" text="Mã NV" />
                   <TableColumn prefWidth="146.0" text="Tên NV" />
@@ -38,34 +38,19 @@
             </TableView>
          </content>
       </ScrollPane>
-      <Pane prefHeight="443.0" prefWidth="144.0">
+      <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Button alignment="CENTER_RIGHT" layoutX="23.0" layoutY="318.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../../../../Document/Aptech/sem2/Project/MyProject_ManageLibrary/src/CSS/fextile.css" text="Xóa" />
-            <Button alignment="CENTER_RIGHT" layoutX="23.0" layoutY="206.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="76.0" styleClass="btn-" stylesheets="@../../../../../Document/Aptech/sem2/Project/MyProject_ManageLibrary/src/CSS/fextile.css" text="Sửa" />
-            <Button alignment="CENTER_RIGHT" layoutX="23.0" layoutY="98.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="76.0" styleClass="btn-add" stylesheets="@../../../../../Document/Aptech/sem2/Project/MyProject_ManageLibrary/src/CSS/fextile.css" text="Thêm" />
+            <Button layoutX="48.0" layoutY="20.0" mnemonicParsing="false" prefHeight="87.0" prefWidth="52.0" text="Thêm" />
+            <Button layoutX="48.0" layoutY="154.0" mnemonicParsing="false" prefHeight="97.0" prefWidth="52.0" text="Sửa" />
+            <Button layoutX="48.0" layoutY="312.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="52.0" text="Xóa" />
          </children>
       </Pane>
-      <Pane prefHeight="443.0" prefWidth="333.0" GridPane.columnIndex="2">
+      <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
          <children>
-            <Label layoutX="14.0" layoutY="52.0" text="Mã NV" />
-            <TextField layoutX="105.0" layoutY="47.0" />
-            <Label layoutX="14.0" layoutY="94.0" text="Tên NV" />
-            <TextField layoutX="105.0" layoutY="89.0" />
-            <Label layoutX="14.0" layoutY="134.0" text="Ngày sinh" />
-            <Label layoutX="14.0" layoutY="173.0" text="SĐT" />
-            <Label layoutX="14.0" layoutY="211.0" text="GT" />
-            <Label layoutX="14.0" layoutY="249.0" text="ĐC" />
-            <Label layoutX="14.0" layoutY="288.0" text="CMND" />
-            <Label layoutX="14.0" layoutY="328.0" text="Chức vụ" />
-            <Label layoutX="14.0" layoutY="367.0" text="Lương" />
-            <TextField layoutX="105.0" layoutY="129.0" />
-            <TextField layoutX="105.0" layoutY="168.0" />
-            <TextField layoutX="105.0" layoutY="206.0" />
-            <TextField layoutX="105.0" layoutY="244.0" />
-            <TextField layoutX="105.0" layoutY="283.0" />
-            <TextField layoutX="105.0" layoutY="323.0" />
-            <TextField layoutX="105.0" layoutY="362.0" />
-            <Button layoutX="129.0" layoutY="406.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="59.0" text="Lưu" />
+            <Label layoutX="45.0" layoutY="109.0" text="Label" />
+            <TextField layoutX="105.0" layoutY="105.0" />
+            <Label layoutX="54.0" layoutY="189.0" text="Label" />
+            <TextField layoutX="114.0" layoutY="185.0" />
          </children>
       </Pane>
    </children>

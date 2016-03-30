@@ -73,6 +73,36 @@ public class IndexController implements Initializable {
         tab.setContent(root);
         tabPane.getTabs().add(tab);
     }
+    @FXML
+    private Button reportNV;
+    @FXML
+    private Button reportDG;
+     @FXML
+    private Button reportMuon;
+        @FXML
+    private void reportNV(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Báo Cáo Nhân Viên    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_NhanVien.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+        @FXML
+    private void reportDG(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Báo Cáo Đọc Giả   ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_DocGia.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+        @FXML
+    private void reportMuon(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Báo Cáo Mượn Sách    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_MuonSach.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

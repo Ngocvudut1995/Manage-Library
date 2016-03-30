@@ -347,3 +347,11 @@
 	-fx-background-image: url("../Picture/Button_icon/year.png");
   -fx-background-repeat: no-repeat;
 }
+.btn-student1{
+	-fx-background-image: url("../Picture/Button_icon/student/Users-Student-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-employee1{
+	-fx-background-image: url("../Picture/Button_icon/employee/Office-Client-Female-Light-icon.png");
+  -fx-background-repeat: no-repeat;
+}
