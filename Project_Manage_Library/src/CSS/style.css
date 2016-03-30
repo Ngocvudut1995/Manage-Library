@@ -13,18 +13,16 @@ and open the template in the editor.
     -fx-background-repeat: no-repeat;
     -fx-background-size: 600pt;
 }
-.button{
-    -fx-background-color:  #18cc63;
-}
-.button:hover{
-    -fx-background-color: red;
-}
-.button:focus{
-    -fx-height: 110%;
-}
+
 .container {
     -fx-padding-right: 15px;
     -fx-padding-left: 15px;
     -fx-margin-right: auto;
     -fx-margin-left: auto;
+}
+
+.border{
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 4px;
 }

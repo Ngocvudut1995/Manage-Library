@@ -55,16 +55,18 @@ public class LoginController implements Initializable {
                 Scene scene = new Scene(root);
                 stage = new Stage();
                 stage.setScene(scene);
-
+                stage.resizableProperty().setValue(Boolean.FALSE);
                 ((Node) (ke.getSource())).getScene().getWindow().hide();
+                
                 stage.show();
+                
             } else {
                 tb.setText("Username or Password wrong!");
             }
         }
 
     }
-    Node node;
+    
     
     @FXML
     public void Login(ActionEvent event) throws IOException {
@@ -76,6 +78,7 @@ public class LoginController implements Initializable {
             Scene scene = new Scene(root);
             stage = new Stage();
             stage.setScene(scene);
+            stage.resizableProperty().setValue(Boolean.FALSE);
            ((Node) (event.getSource())).getScene().getWindow().hide();
             stage.show();
         } else {

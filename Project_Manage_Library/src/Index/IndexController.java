@@ -31,20 +31,48 @@ public class IndexController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    private Button loan;
+    private Button trasach;
     @FXML
     private TabPane tabPane;
-
     @FXML
-    private void Muon(ActionEvent event) throws IOException {
+    private Button muonsach;
+    @FXML
+    private Button chitietmuon;
+    @FXML
+    private Button chitiettra;
+    @FXML
+    private void traSach(ActionEvent event) throws IOException {
         Tab tab = new Tab();
-        tab.setText("    Mượn Sách    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/demo.fxml"));
+        tab.setText("    Trả Sách    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/trasach.fxml"));
 //      
         tab.setContent(root);
         tabPane.getTabs().add(tab);
     }
-
+    @FXML
+    private void MuonSach(ActionEvent e) throws IOException{  
+        Tab tab = new Tab();
+        tab.setText("    Mượn Sách    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/phieumuon.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+    @FXML
+    private void chitietmuon(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Chi Tiết Mượn Sách    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/chi_tiet_muon.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+      @FXML
+    private void chitiettra(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Chi Tiết Trả Sách    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/chi_tiet_tra.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

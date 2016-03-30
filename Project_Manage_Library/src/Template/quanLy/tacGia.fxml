@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="quanLy.TacGiaController">
+    <stylesheets>
+        <URL value="@tacgia.css" />
+    </stylesheets>
+   <children>
+      <TableView layoutX="3.0" layoutY="4.0" prefHeight="667.0" prefWidth="937.0">
+         <columns>
+            <TableColumn prefWidth="156.0" text="Mã Tác Giả" />
+            <TableColumn prefWidth="208.0" text="Tên Tác Giả" />
+            <TableColumn prefWidth="164.0" text="Năm Sinh" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

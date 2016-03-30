@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="quanLy.SachController">
+    <stylesheets>
+        <URL value="@sach.css" />
+    </stylesheets>
+   <children>
+      <TableView layoutX="2.0" layoutY="3.0" prefHeight="667.0" prefWidth="937.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="Mã sách" />
+            <TableColumn prefWidth="144.0" text="Tên Sách" />
+            <TableColumn prefWidth="118.0" text="NXB" />
+            <TableColumn prefWidth="114.0" text="Thể Loại" />
+            <TableColumn prefWidth="126.0" text="Tác giả" />
+            <TableColumn prefWidth="87.0" text="Số Lượng" />
+            <TableColumn prefWidth="94.0" text="SL còn" />
+            <TableColumn prefWidth="91.0" text="Ngôn Ngữ" />
+            <TableColumn prefWidth="91.0" text="Giá" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

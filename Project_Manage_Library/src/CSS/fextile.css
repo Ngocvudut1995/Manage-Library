@@ -270,3 +270,80 @@
   -fx-background-color: #5bc0de;
   -fx-border-color: #46b8da;
 }
+.btn-close{
+  -fx-background-image: url("../Picture/Button_icon/Button-Close-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-add{
+ -fx-background-image: url("../Picture/Button_icon/Button-Add-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-update{
+  -fx-background-image: url("../Picture/Button_icon/Button-Reload-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-phieumuon{
+  //-fx-background-image: url("../Picture/Button_icon/phieumuon.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-tra-sach{
+  -fx-background-image: url("../Picture/Icon/tra_sach.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-sach{
+  -fx-background-image: url("../Picture/Icon/sach.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-save{
+	-fx-background-image: url("../Picture/Button_icon/Save-icon.png");
+  -fx-background-repeat: no-repeat;
+
+}
+.btn-export{
+	-fx-background-image: url("../Picture/Button_icon/export.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-load{
+  -fx-background-image: url("../Picture/Button_icon/load-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-ok{
+  -fx-background-image: url("../Picture/Button_icon/Button-Ok-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-book{
+  -fx-background-image: url("../Picture/Button_icon/Sach/book1.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-book2{
+  -fx-background-image: url("../Picture/Button_icon/Sach/book2.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-book3{
+  -fx-background-image: url("../Picture/Button_icon/Sach/book3.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-book4{
+  -fx-background-image: url("../Picture/Button_icon/Sach/book4.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-book5{
+  -fx-background-image: url("../Picture/Button_icon/Sach/book5.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-week{
+	-fx-background-image: url("../Picture/Button_icon/week.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-month{
+	-fx-background-image: url("../Picture/Button_icon/month.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-qui{
+	-fx-background-image: url("../Picture/Button_icon/qui.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-year{
+	-fx-background-image: url("../Picture/Button_icon/year.png");
+  -fx-background-repeat: no-repeat;
+}

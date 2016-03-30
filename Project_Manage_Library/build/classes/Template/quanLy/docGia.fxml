@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="quanLy.DocGiaController">
+    <stylesheets>
+        <URL value="@docgia.css" />
+    </stylesheets>
+   <children>
+      <TableView layoutX="4.0" layoutY="4.0" prefHeight="667.0" prefWidth="937.0">
+         <columns>
+            <TableColumn prefWidth="65.0" text="Mã ĐG" />
+            <TableColumn prefWidth="123.0" text="Tên ĐG" />
+            <TableColumn prefWidth="101.0" text="Ngày sinh" />
+            <TableColumn prefWidth="84.0" text="SĐT" />
+            <TableColumn prefWidth="70.0" text="Giới Tính" />
+            <TableColumn prefWidth="146.0" text="Địa chỉ" />
+            <TableColumn prefWidth="86.0" text="Số CMND" />
+            <TableColumn text="Ngày làm" />
+            <TableColumn prefWidth="94.0" text="Ngày hết" />
+            <TableColumn prefWidth="85.0" text="Trạng thái" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>
