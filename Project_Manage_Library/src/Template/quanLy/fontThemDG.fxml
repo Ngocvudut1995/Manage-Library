@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="Template.quanLy.FontThemDGController">
+    <stylesheets>
+        <URL value="@fontthemdg.css" />
+    </stylesheets>
+   <children>
+      <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass">
+         <stylesheets>
+            <URL value="@../../../../JavaFXApplication1/src/javafxapplication1/dk.css" />
+         </stylesheets>
+         <children>
+            <Pane layoutX="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="600.0">
+               <children>
+                  <Label layoutX="164.0" layoutY="20.0" text="Tạo thẻ thư viện cho bạn đọc" textFill="#504066">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="18.0" layoutY="94.0" text="Họ và tên " />
+                  <TextField layoutX="110.0" layoutY="89.0" prefHeight="31.0" prefWidth="225.0" />
+                  <Label layoutX="351.0" layoutY="94.0" text="Ngày sinh " />
+                  <Label layoutX="18.0" layoutY="217.0" prefHeight="21.0" prefWidth="71.0" text="Địa chỉ " />
+                  <TextField layoutX="111.0" layoutY="212.0" prefHeight="31.0" prefWidth="462.0" />
+                  <Label layoutX="18.0" layoutY="134.0" text="Số ĐT" />
+                  <TextField layoutX="110.0" layoutY="129.0" prefHeight="31.0" prefWidth="225.0" />
+                  <TextField layoutX="430.0" layoutY="128.0" prefHeight="31.0" prefWidth="142.0" />
+                  <Label layoutX="351.0" layoutY="134.0" text="Số CMND " />
+                  <Label layoutX="18.0" layoutY="175.0" text="Nghề nghiệp: " />
+                  <TextField layoutX="110.0" layoutY="170.0" prefHeight="31.0" prefWidth="225.0" />
+                  <Label layoutX="351.0" layoutY="175.0" text="Giới tính " />
+                  <Label layoutX="18.0" layoutY="256.0" text="Email " />
+                  <TextField layoutX="110.0" layoutY="251.0" prefHeight="31.0" prefWidth="225.0" />
+                  <TextField layoutX="430.0" layoutY="251.0" prefHeight="31.0" prefWidth="142.0" />
+                  <Label layoutX="351.0" layoutY="256.0" text="Mã đọc giả" />
+                  <Label layoutX="99.0" layoutY="305.0" text="Ngày tạo " />
+                  <Label layoutX="336.0" layoutY="305.0" text="Ngày hết hạn" />
+                  <TextField layoutX="164.0" layoutY="300.0" prefHeight="31.0" prefWidth="142.0" />
+                  <TextField layoutX="430.0" layoutY="300.0" prefHeight="31.0" prefWidth="142.0" />
+                  <Button layoutX="190.0" layoutY="355.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="69.0" text="Tạo" />
+                  <Button layoutX="339.0" layoutY="355.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="60.0" text="Hủy" />
+                  <ChoiceBox layoutX="430.0" layoutY="170.0" prefHeight="31.0" prefWidth="142.0" />
+                  <ChoiceBox layoutX="430.0" layoutY="89.0" prefHeight="31.0" prefWidth="40.0" />
+                  <ChoiceBox layoutX="472.0" layoutY="89.0" prefHeight="31.0" prefWidth="40.0" />
+                  <ChoiceBox layoutX="516.0" layoutY="89.0" prefHeight="31.0" prefWidth="54.0" />
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
