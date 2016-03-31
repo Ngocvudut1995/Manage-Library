@@ -52,7 +52,7 @@
                         <String fx:value="btn-primary" />
                         <String fx:value="button" />
                      </styleClass></Button>
-                  <Button layoutX="242.0" layoutY="24.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="75.0" styleClass="btn-primary" stylesheets="@../CSS/fextile.css" text="Cancel" />
+                  <Button fx:id="cancel" layoutX="242.0" layoutY="24.0" mnemonicParsing="false" onAction="#Cancel" prefHeight="32.0" prefWidth="75.0" styleClass="btn-primary" stylesheets="@../CSS/fextile.css" text="Cancel" />
                   <Label fx:id="tb" layoutX="100.0" layoutY="69.0" prefHeight="20.0" prefWidth="193.0" />
                </children>
             </Pane>

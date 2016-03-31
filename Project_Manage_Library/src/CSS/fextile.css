@@ -352,3 +352,27 @@
 	-fx-background-image: url("../Picture/Button_icon/year.png");
   -fx-background-repeat: no-repeat;
 }
+.btn-student1{
+    -fx-background-image: url("../Picture/Button_icon/student/Users-Student-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-employee1{
+     -fx-background-image: url("../Picture/Button_icon/employee/Office-Client-Female-Light-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-user1{
+     -fx-background-image: url("../Picture/Button_icon/employee/user-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-user2{
+     -fx-background-image: url("../Picture/Button_icon/employee/user-icon2.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-logout{
+     -fx-background-image: url("../Picture/Button_icon/logout.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-system{
+     -fx-background-image: url("../Picture/Button_icon/system.png");
+  -fx-background-repeat: no-repeat;
+}
