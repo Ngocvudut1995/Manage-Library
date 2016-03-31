@@ -160,10 +160,10 @@ public class Report_DocGiaController implements Initializable {
         try {
             ObservableList<DocGia> data = FXCollections.observableArrayList();;
             //Column MaDocGia
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+               Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             CachedRowSet crs = new CachedRowSetImpl();
             crs.setUsername("admin");
-            crs.setPassword("toilangocvu");
+            crs.setPassword("123456");
             crs.setUrl(util.Connect_JDBC.url);
             crs.setCommand("select * from Coffees");
             crs.execute();
