@@ -400,3 +400,15 @@
     -fx-background-image: url("../Picture/Button_icon/search-icon.png");
   -fx-background-repeat: no-repeat;
 }
+.btn-tacGia{
+    -fx-background-image: url("../Picture/Button_icon/Tac_Gia/tacGia.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-qlNXB{
+    -fx-background-image: url("../Picture/Button_icon/Sach/book4.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-qlTL{
+    -fx-background-image: url("../Picture/Button_icon/Sach/book5.png");
+  -fx-background-repeat: no-repeat;
+}

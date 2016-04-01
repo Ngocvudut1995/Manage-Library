@@ -60,8 +60,8 @@
                      </font>
                   </Label>
                   <TextField layoutX="142.0" layoutY="56.0" prefHeight="25.0" prefWidth="249.0" />
-                  <Button alignment="CENTER_RIGHT" layoutX="417.0" layoutY="8.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="24.0" styleClass="btn-load" stylesheets="@../../CSS/fextile.css" />
-                  <Button alignment="TOP_RIGHT" layoutX="417.0" layoutY="53.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="4.0" styleClass="btn-load" stylesheets="@../../CSS/fextile.css" />
+                  <Button alignment="CENTER_RIGHT" layoutX="417.0" layoutY="8.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css" />
+                  <Button alignment="TOP_RIGHT" layoutX="417.0" layoutY="53.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css" />
                </children>
             </Pane>
          </children>

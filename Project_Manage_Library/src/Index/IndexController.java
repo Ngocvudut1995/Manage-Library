@@ -135,6 +135,70 @@ public class IndexController implements Initializable {
         tab.setContent(root);
         tabPane.getTabs().add(tab);
     }
+     @FXML
+    private void quanLyNV(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Quan ly Nhân Viên    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/nhanVien.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+    @FXML
+    private void quanLyDG(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Quan ly Doc Gia    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/docGia.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+    @FXML
+    private void quanLySach(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Quan ly Sach  ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/sach.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+    @FXML
+    private void quanLyNXB(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Quan ly NXB    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/NXB.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+    @FXML
+    private void quanLyTG(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Quan ly TG    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/tacGia.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+    @FXML
+    private void quanLyTL(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Quan ly thể loại    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/theLoai.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+    @FXML
+    private void indexNV(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Thông tin của nhân viên   ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/index/nhanVien.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+    @FXML
+    private void indexDKTK(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Đăng kí tài khoản NV   ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/index/taoNV.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
