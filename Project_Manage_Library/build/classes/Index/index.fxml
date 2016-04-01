@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -18,8 +19,8 @@
       <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" maxWidth="1300.0" minWidth="10.0" prefWidth="24.0" />
   </columnConstraints>
   <rowConstraints>
-      <RowConstraints maxHeight="650.0" minHeight="10.0" prefHeight="110.0" valignment="TOP" vgrow="ALWAYS" />
-    <RowConstraints maxHeight="674.0" minHeight="10.0" prefHeight="490.0" vgrow="ALWAYS" />
+      <RowConstraints maxHeight="650.0" minHeight="10.0" prefHeight="116.0" valignment="TOP" vgrow="ALWAYS" />
+    <RowConstraints maxHeight="674.0" minHeight="10.0" prefHeight="484.0" vgrow="ALWAYS" />
   </rowConstraints>
    <children>
       <GridPane prefHeight="346.0" prefWidth="1004.0" GridPane.columnIndex="1">
@@ -30,7 +31,7 @@
             <RowConstraints minHeight="10.0" valignment="TOP" vgrow="ALWAYS" />
          </rowConstraints>
          <children>
-            <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="622.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="107.0" prefWidth="1004.0" tabClosingPolicy="ALL_TABS">
+            <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="622.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="119.0" prefWidth="1004.0" tabClosingPolicy="ALL_TABS">
                <tabs>
                   <Tab closable="false" text="           Trang Chinh           ">
                      <content>
@@ -145,7 +146,11 @@
                                  </children></Pane>
                               <Pane prefHeight="114.0" prefWidth="230.0" styleClass="border" stylesheets="@../CSS/style.css">
                                  <children>
-                                    <Button fx:id="muonsach" alignment="BOTTOM_CENTER" layoutX="65.0" layoutY="7.0" mnemonicParsing="false" onAction="#MuonSach" prefHeight="50.0" prefWidth="50.0" styleClass="btn-book2" stylesheets="@../CSS/fextile.css" />
+                                    <Button fx:id="muonsach" alignment="BOTTOM_CENTER" layoutX="65.0" layoutY="7.0" mnemonicParsing="false" onAction="#MuonSach" prefHeight="50.0" prefWidth="50.0" styleClass="btn-book2">
+                                       <stylesheets>
+                                          <URL value="@../CSS/fextile.css" />
+                                          <URL value="@../CSS/style.css" />
+                                       </stylesheets></Button>
                                     <Label layoutX="55.0" layoutY="57.0" text="Phiếu Mượn">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
@@ -178,20 +183,52 @@
                      <content>
                         <GridPane prefHeight="88.0" prefWidth="1004.0">
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="617.0" minWidth="10.0" prefWidth="228.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1051.0" minWidth="10.0" prefWidth="227.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="617.0" minWidth="10.0" prefWidth="230.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1051.0" minWidth="10.0" prefWidth="230.0" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="1051.0" minWidth="10.0" prefWidth="236.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1051.0" minWidth="10.0" prefWidth="282.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1051.0" minWidth="10.0" prefWidth="230.0" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="1051.0" minWidth="10.0" prefWidth="435.0" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Pane prefHeight="115.0" prefWidth="224.0" style="-fx-background-color: red;" GridPane.columnIndex="1" />
-                              <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: blue;" />
-                              <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: blue;" GridPane.columnIndex="2" />
-                              <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" GridPane.columnIndex="3" />
+                              <Pane prefHeight="115.0" prefWidth="230.0" GridPane.columnIndex="1">
+                                 <children>
+                                    <Button layoutX="51.0" layoutY="5.0" mnemonicParsing="false" onAction="#searchDG" prefHeight="50.0" prefWidth="50.0" styleClass="btn-search-user1" stylesheets="@../CSS/fextile.css" />
+                                    <Label layoutX="29.0" layoutY="57.0" text="Tìm Kiếm Độc Giả">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children></Pane>
+                              <Pane prefHeight="200.0" prefWidth="230.0">
+                                 <children>
+                                    <Button layoutX="55.0" layoutY="7.0" mnemonicParsing="false" onAction="#searchBook" prefHeight="50.0" prefWidth="50.0" styleClass="btn-search-book" stylesheets="@../CSS/fextile.css" />
+                                    <Label layoutX="39.0" layoutY="58.0" text="Tìm Kiếm Sách">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children></Pane>
+                              <Pane prefHeight="200.0" prefWidth="230.0" GridPane.columnIndex="2">
+                                 <children>
+                                    <Button layoutX="58.0" layoutY="6.0" mnemonicParsing="false" onAction="#searchMuon" prefHeight="50.0" prefWidth="50.0" styleClass="btn-search-loan" stylesheets="@../CSS/fextile.css" />
+                                    <Label layoutX="31.0" layoutY="57.0" text="Tìm Kiếm Mượn Trả">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children></Pane>
+                              <Pane prefHeight="200.0" prefWidth="230.0" GridPane.columnIndex="3">
+                                 <children>
+                                    <Button layoutX="60.0" layoutY="5.0" mnemonicParsing="false" onAction="#searchNV" prefHeight="50.0" prefWidth="50.0" styleClass="btn-search-user2" stylesheets="@../CSS/fextile.css" />
+                                    <Label layoutX="28.0" layoutY="55.0" text="Tìm Kiếm Nhân Viên">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children></Pane>
                            </children>
                         </GridPane>
                      </content>
@@ -249,7 +286,7 @@
                                  </children></Pane>
                               <Pane prefHeight="200.0" prefWidth="230.0" styleClass="border" stylesheets="@../CSS/style.css" GridPane.columnIndex="3">
                                  <children>
-                                    <Button fx:id="reportMuon1" layoutX="61.0" layoutY="4.0" mnemonicParsing="false" onAction="#reportMuon" prefHeight="50.0" prefWidth="50.0" styleClass="btn-book" stylesheets="@../CSS/fextile.css" />
+                                    <Button fx:id="reportMuon1" layoutX="61.0" layoutY="4.0" mnemonicParsing="false" onAction="#reportMuon" prefHeight="50.0" prefWidth="50.0" styleClass="btn-phat" stylesheets="@../CSS/fextile.css" />
                                     <Label layoutX="63.0" layoutY="56.0" text="Vi Phạm">
                                        <font>
                                           <Font name="System Bold" size="12.0" />

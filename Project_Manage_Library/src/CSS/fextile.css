@@ -376,3 +376,27 @@
      -fx-background-image: url("../Picture/Button_icon/system.png");
   -fx-background-repeat: no-repeat;
 }
+.btn-search-book{
+      -fx-background-image: url("../Picture/Button_icon/Search/search-book2.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-search-user1{
+      -fx-background-image: url("../Picture/Button_icon/Search/search-user2.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-search-user2{
+      -fx-background-image: url("../Picture/Button_icon/Search/search-user3.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-search-loan{
+      -fx-background-image: url("../Picture/Button_icon/Search/search-loan.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-phat{
+   -fx-background-image: url("../Picture/Button_icon/phat.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-search-small{
+    -fx-background-image: url("../Picture/Button_icon/search-icon.png");
+  -fx-background-repeat: no-repeat;
+}

@@ -102,6 +102,38 @@ public class IndexController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_MuonSach.fxml"));     
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+    }    
+    @FXML
+    private void searchBook(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Tra Cứu Sách    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_Sach.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+    @FXML
+    private void searchDG(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Tra Cứu Đọc Giả    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_DocGia.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+     @FXML
+    private void searchMuon(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Tra Cứu Mượn Trả Sách    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_Muon_Tra.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+    }
+     @FXML
+    private void searchNV(ActionEvent e) throws IOException{
+        Tab tab = new Tab();
+        tab.setText("    Tra Cứu Nhân Viên    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_NhanVien.fxml"));     
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
