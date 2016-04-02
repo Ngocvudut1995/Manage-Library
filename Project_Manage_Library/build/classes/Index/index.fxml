@@ -323,7 +323,7 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <TabPane fx:id="tabPane" prefHeight="461.0" prefWidth="1190.0" rotateGraphic="true" tabClosingPolicy="ALL_TABS" GridPane.columnIndex="1">
+            <TabPane fx:id="tabPane" onMousePressed="#chuotphai" prefHeight="461.0" prefWidth="1190.0" rotateGraphic="true" tabClosingPolicy="ALL_TABS" GridPane.columnIndex="1">
               <tabs>
                 <Tab closable="false" text="About">
                   <content>

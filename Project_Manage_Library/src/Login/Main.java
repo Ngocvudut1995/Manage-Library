@@ -26,7 +26,6 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         Scene scene = new Scene(root);
         stage.resizableProperty().setValue(Boolean.FALSE);
-        stage.setTitle("Quản Lý Thư Viện");
         stage.setScene(scene);
         stage.show();
     }

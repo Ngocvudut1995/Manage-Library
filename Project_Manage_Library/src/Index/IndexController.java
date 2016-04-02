@@ -8,16 +8,30 @@ package Index;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -41,164 +55,288 @@ public class IndexController implements Initializable {
     @FXML
     private Button chitiettra;
     @FXML
+    private TabPane tb;
+  
+   SingleSelectionModel<Tab> selectionModel;
+     ContextMenu cm = new ContextMenu();
+    @FXML
+    private void chuotphai(MouseEvent e) {
+            cm.getItems().remove(0, cm.getItems().size());
+        if (e.getButton() == MouseButton.SECONDARY) {
+            
+            MenuItem menuItem1 = new MenuItem("Close");
+            MenuItem menuItem2 = new MenuItem("Close all");
+            MenuItem menuItem3 = new MenuItem("Close tab to right");
+            MenuItem menuItem4 = new MenuItem("Close tab to left");
+           menuItem1.setOnAction(new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+                     tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedItem());     
+                }
+            });
+           
+           menuItem2.setOnAction(new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+                     int max = tabPane.getTabs().size();
+                     tabPane.getTabs().remove(0, max);
+                }
+            });
+            menuItem3.setOnAction(new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+                     int to = tabPane.getTabs().size();
+                    int from =   tabPane.getSelectionModel().getSelectedIndex();
+                     tabPane.getTabs().remove(from+1, to);
+                }
+            });
+             menuItem4.setOnAction(new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+                   
+                    int to = tabPane.getSelectionModel().getSelectedIndex();
+                     tabPane.getTabs().remove(0,to);
+                }
+            });
+          
+
+            
+
+            cm.getItems().add(menuItem1);
+            cm.getItems().add(menuItem2);
+            cm.getItems().add(menuItem3);
+            cm.getItems().add(menuItem4);
+           
+
+           
+          //  e.getSource().getScene().getWindow();
+            cm.show(tabPane,e.getScreenX(),e.getScreenY());
+           
+        }
+    }
+
+    @FXML
     private void traSach(ActionEvent event) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Trả Sách    ");
+        
         Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/trasach.fxml"));
-//      
+        
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+        
+        selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
+
     @FXML
-    private void MuonSach(ActionEvent e) throws IOException{  
+    private void MuonSach(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Mượn Sách    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/phieumuon.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/phieumuon.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+         selectionModel= tabPane.getSelectionModel();
+       selectionModel.select(tab);
+        
     }
+
     @FXML
-    private void chitietmuon(ActionEvent e) throws IOException{
+    private void chitietmuon(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Chi Tiết Mượn Sách    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/chi_tiet_muon.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/chi_tiet_muon.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+          selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
-      @FXML
-    private void chitiettra(ActionEvent e) throws IOException{
+
+    @FXML
+    private void chitiettra(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Chi Tiết Trả Sách    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/chi_tiet_tra.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/chi_tiet_tra.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+          selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
     @FXML
     private Button reportNV;
     @FXML
     private Button reportDG;
-     @FXML
+    @FXML
     private Button reportMuon;
-        @FXML
-    private void reportNV(ActionEvent e) throws IOException{
+
+    @FXML
+    private void reportNV(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Báo Cáo Nhân Viên    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_NhanVien.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_NhanVien.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+          selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
-        @FXML
-    private void reportDG(ActionEvent e) throws IOException{
+
+    @FXML
+    private void reportDG(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Báo Cáo Đọc Giả   ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_DocGia.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_DocGia.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+          selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
-        @FXML
-    private void reportMuon(ActionEvent e) throws IOException{
+
+    @FXML
+    private void reportMuon(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Báo Cáo Mượn Sách    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_MuonSach.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_MuonSach.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
-    }    
+          selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
+    }
+
     @FXML
-    private void searchBook(ActionEvent e) throws IOException{
+    private void searchBook(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Tra Cứu Sách    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_Sach.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_Sach.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+          selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
+
     @FXML
-    private void searchDG(ActionEvent e) throws IOException{
+    private void searchDG(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Tra Cứu Đọc Giả    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_DocGia.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_DocGia.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+          selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
-     @FXML
-    private void searchMuon(ActionEvent e) throws IOException{
+
+    @FXML
+    private void searchMuon(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Tra Cứu Mượn Trả Sách    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_Muon_Tra.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_Muon_Tra.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+         selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
-     @FXML
-    private void searchNV(ActionEvent e) throws IOException{
+
+    @FXML
+    private void searchNV(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Tra Cứu Nhân Viên    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_NhanVien.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Tra_Cuu/TK_NhanVien.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+         selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
-     @FXML
-    private void quanLyNV(ActionEvent e) throws IOException{
+    @FXML
+    private void quanLyNV(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Quan ly Nhân Viên    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/nhanVien.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/nhanVien.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+          selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
+
     @FXML
-    private void quanLyDG(ActionEvent e) throws IOException{
+    private void quanLyDG(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Quan ly Doc Gia    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/docGia.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/docGia.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+          selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
+
     @FXML
-    private void quanLySach(ActionEvent e) throws IOException{
+    private void quanLySach(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Quan ly Sach  ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/sach.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/sach.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+         selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
+
     @FXML
-    private void quanLyNXB(ActionEvent e) throws IOException{
+    private void quanLyNXB(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Quan ly NXB    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/NXB.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/NXB.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+      selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
+
     @FXML
-    private void quanLyTG(ActionEvent e) throws IOException{
+    private void quanLyTG(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Quan ly TG    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/tacGia.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/tacGia.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+          selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
+
     @FXML
-    private void quanLyTL(ActionEvent e) throws IOException{
+    private void quanLyTL(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Quan ly thể loại    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/theLoai.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/quanLy/theLoai.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+          selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
+
     @FXML
-    private void indexNV(ActionEvent e) throws IOException{
+    private void indexNV(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Thông tin của nhân viên   ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/index/nhanVien.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/index/nhanVien.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+       selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
+
     @FXML
-    private void indexDKTK(ActionEvent e) throws IOException{
+    private void indexDKTK(ActionEvent e) throws IOException {
         Tab tab = new Tab();
         tab.setText("    Đăng kí tài khoản NV   ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/index/taoNV.fxml"));     
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/index/taoNV.fxml"));
         tab.setContent(root);
         tabPane.getTabs().add(tab);
+        selectionModel= tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

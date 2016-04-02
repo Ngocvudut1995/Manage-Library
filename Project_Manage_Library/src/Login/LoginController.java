@@ -57,7 +57,7 @@ public class LoginController implements Initializable {
                 stage.setScene(scene);
                 stage.resizableProperty().setValue(Boolean.FALSE);
                 ((Node) (ke.getSource())).getScene().getWindow().hide();
-                stage.setTitle("Quản Lý Thư Viện");
+                
                 stage.show();
                 
             } else {
@@ -80,7 +80,6 @@ public class LoginController implements Initializable {
             stage.setScene(scene);
             stage.resizableProperty().setValue(Boolean.FALSE);
            ((Node) (event.getSource())).getScene().getWindow().hide();
-           stage.setTitle("Quản Lý Thư Viện");
             stage.show();
         } else {
             tb.setText("Username or Password wrong!");

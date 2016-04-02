@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Index.IndexController">
@@ -323,15 +324,19 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <TabPane fx:id="tabPane" prefHeight="461.0" prefWidth="1190.0" rotateGraphic="true" tabClosingPolicy="ALL_TABS" GridPane.columnIndex="1">
-              <tabs>
-                <Tab closable="false" text="About">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </Tab>
-              </tabs>
-            </TabPane>
+            <StackPane GridPane.columnIndex="1">
+               <children>
+                  <TabPane fx:id="tabPane" onMousePressed="#chuotphai" prefHeight="461.0" prefWidth="1190.0" rotateGraphic="true" tabClosingPolicy="ALL_TABS">
+                    <tabs>
+                      <Tab closable="false" text="About">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </StackPane>
          </children>
       </GridPane>
    </children>
