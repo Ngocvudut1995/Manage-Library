@@ -32,7 +32,7 @@
             <RowConstraints minHeight="10.0" valignment="TOP" vgrow="ALWAYS" />
          </rowConstraints>
          <children>
-            <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="622.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="119.0" prefWidth="1004.0">
+            <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="622.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="119.0" prefWidth="1004.0" style="-fx-background-color: #80ccff;">
                <tabs>
                   <Tab closable="false" text="           Trang Chinh           ">
                      <content>
@@ -246,7 +246,7 @@
                         </GridPane>
                      </content>
                   </Tab>
-                  <Tab closable="false" text="       Báo Cáo       ">
+                  <Tab closable="false" text="          Báo Cáo            ">
                      <content>
                         <GridPane prefHeight="103.0" prefWidth="1250.0">
                            <columnConstraints>

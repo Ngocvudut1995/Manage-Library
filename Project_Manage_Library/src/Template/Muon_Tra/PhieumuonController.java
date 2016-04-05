@@ -5,9 +5,19 @@
  */
 package Template.Muon_Tra;
 
-import Template.Bao_Cao.Report_DocGiaController;
+import com.sun.rowset.JdbcRowSetImpl;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,18 +36,63 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import static util.Connect_JDBC.password;
+import static util.Connect_JDBC.url;
+import static util.Connect_JDBC.userName;
 
 /**
  * FXML Controller class
  *
  * @author Vu Dang
  */
-public class PhieumuonController implements Initializable{
-     public class phieumuonsach{
-        private String MaSach;
+public class PhieumuonController implements Initializable {
 
-        public phieumuonsach(String MaSach) {
+    public class phieumuonsach {
+
+        private String MaMuon;
+        private String MaSach;
+        private String NgayMuon;
+        private String HanTra;
+        private String TinhTrang;
+
+        public phieumuonsach(String MaMuon, String MaSach, String NgayMuon, String HanTra, String TinhTrang) {
+            this.MaMuon = MaMuon;
             this.MaSach = MaSach;
+            this.NgayMuon = NgayMuon;
+            this.HanTra = HanTra;
+            this.TinhTrang = TinhTrang;
+        }
+
+        public String getMaMuon() {
+            return MaMuon;
+        }
+
+        public void setMaMuon(String MaMuon) {
+            this.MaMuon = MaMuon;
+        }
+
+        public String getNgayMuon() {
+            return NgayMuon;
+        }
+
+        public void setNgayMuon(String NgayMuon) {
+            this.NgayMuon = NgayMuon;
+        }
+
+        public String getHanTra() {
+            return HanTra;
+        }
+
+        public void setHanTra(String HanTra) {
+            this.HanTra = HanTra;
+        }
+
+        public String getTinhTrang() {
+            return TinhTrang;
+        }
+
+        public void setTinhTrang(String TinhTrang) {
+            this.TinhTrang = TinhTrang;
         }
 
         public String getMaSach() {
@@ -47,9 +102,7 @@ public class PhieumuonController implements Initializable{
         public void setMaSach(String MaSach) {
             this.MaSach = MaSach;
         }
-        
 
-       
     }
     @FXML
     private TextField Ma_DG;
@@ -65,16 +118,57 @@ public class PhieumuonController implements Initializable{
     private Button bt_xuat;
     @FXML
     private TableView<phieumuonsach> TB_Muon;
-   
+
     ObservableList<phieumuonsach> data = FXCollections.observableArrayList();
     @FXML
     private TextField MaSach;
+    Connection cn = null;
+
     @FXML
     private void them_sach(ActionEvent event) throws IOException {
-        if(!MaSach.getText().equals("")){
-            
-            data.add(new phieumuonsach(MaSach.getText()));
-            TB_Muon.setItems(data);
+        // Date today = new Date();
+        Locale currentLocale;
+        currentLocale = new Locale("vi", "VN");
+
+        DateFormat currentDateFormat = DateFormat.getDateInstance(3, currentLocale);
+        Calendar calendar = Calendar.getInstance();
+        String today = currentDateFormat.format(calendar.getTime());
+         
+      
+        if (!MaSach.getText().equals("")) {
+            try {
+
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                cn = util.Connect_JDBC.getConnection();
+                // cn = DriverManager.getConnection("jdbc:sqlserver://VUDANG:1433;databaseName = QLThuVien","admin","123456");
+                String queryString = "SELECT a.*,b.TGMuon FROM dbo.Book a, dbo.LoaiSach b WHERE a.MaLoaiSach = b.MaLoaiSach";
+                Statement st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE);
+                ResultSet rs = st.executeQuery(queryString);
+               // rs.next();
+                //System.out.println(rs.getString(1));
+         
+//                String s = MaSach.getText();
+//                System.out.println(s+"|");
+                 String s = MaSach.getText();
+                while(rs.next()) {
+                    
+                   
+                    System.out.println(s+"|"+rs.getString(1)+"|");
+                    if (s.equalsIgnoreCase(rs.getString(1).trim())) {
+                        System.out.println(rs.getString(1));
+                         calendar.add(calendar.MONTH, rs.getInt("TGMuon"));
+                         String dealline = currentDateFormat.format(calendar.getTime());
+                        data.add(new phieumuonsach(rs.getString(1), rs.getString(1),today, dealline,"Bình Thường"));
+                    }
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+           TB_Muon.setItems(data);
             MaSach.setText("");
         }
 
@@ -82,10 +176,33 @@ public class PhieumuonController implements Initializable{
 
     @FXML
     public void luu_vaoDB(ActionEvent event) {
-        ObservableList<String> data1 = FXCollections.observableArrayList();
-        data1.add(new String("Hello"));
-      //  TB_Muon.setItems(data1);
-        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            cn = util.Connect_JDBC.getConnection();
+            Statement stmt = cn.createStatement(
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM COFFEES");
+            JdbcRowSetImpl rowSet = new JdbcRowSetImpl(rs);
+            for(int i = 0; i<data.size();i++){
+                phieumuonsach pm = data.get(i);
+                rowSet.last();
+                rowSet.moveToInsertRow();
+                rowSet.updateString(1,pm.getMaMuon());
+                rowSet.updateString(2,pm.getMaSach());
+                Date date = new Date(pm.getNgayMuon());
+               // rowSet.updateDate(3,date);
+                rowSet.updateString(1,pm.getMaMuon());
+                
+            }
+             
+            //  TB_Muon.setItems(data1);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     @FXML
@@ -99,63 +216,24 @@ public class PhieumuonController implements Initializable{
     /**
      * Initializes the controller class.
      */
-  
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        TableColumn<phieumuonsach,String> col = new TableColumn<>("Ma Sach");
+        TableColumn<phieumuonsach, String> col = new TableColumn<>("Mã Mượn");
         col.setCellValueFactory(new PropertyValueFactory<>("MaSach"));
         TB_Muon.getColumns().add(col);
-        //   MaDGCol.setCellFactory(new );
-        //Column CMND
-//        TableColumn CMNDCol = new TableColumn("   CMND   ");
-//        CMNDCol.setCellValueFactory(new PropertyValueFactory<>("CMND"));
-//       TB_Muon.getColumns().add(CMNDCol);
-        //Column Hovaten
-//        TableColumn<Report_DocGiaController.DocGia, String> TenCol = new TableColumn("    Họ Và Tên   ");
-//        TenCol.setMinWidth(120);
-//        TenCol.setCellValueFactory(new PropertyValueFactory<>("Hovaten"));
-//       TB_Muon.getColumns().add(TenCol);
-        //Column NgheNghiep
-//        TableColumn<Report_DocGiaController.DocGia, String> jobCol = new TableColumn("Nghề Nghiệp");
-//        jobCol.setMinWidth(120);
-//        jobCol.setCellValueFactory(new PropertyValueFactory<>("NgheNghiep"));
-//        TB_Muon.getColumns().add(jobCol);
-//        //Column CoQuan
-//        TableColumn<Report_DocGiaController.DocGia, String> coquanCol = new TableColumn("Cơ Quan");
-//        coquanCol.setMinWidth(120);
-//        coquanCol.setCellValueFactory(new PropertyValueFactory<>("CoQuan"));
-//        TB_Muon.getColumns().add(coquanCol);
-//        //Column SoDT
-//        TableColumn<Report_DocGiaController.DocGia, String> sdtCol = new TableColumn("Số Điện Thoại");
-//        sdtCol.setMinWidth(120);
-//        sdtCol.setCellValueFactory(new PropertyValueFactory<>("SoDT"));
-//       TB_Muon.getColumns().add(sdtCol);
-//        //Column DiaChi
-//        TableColumn<Report_DocGiaController.DocGia, String> diachiCol = new TableColumn("Địa Chỉ");
-//        diachiCol.setMinWidth(120);
-//        diachiCol.setCellValueFactory(new PropertyValueFactory<>("DiaChi"));
-//        TB_Muon.getColumns().add(diachiCol);
-//        //Column NgaySinh
-//        TableColumn<Report_DocGiaController.DocGia, String> ngaysinhCol = new TableColumn("Ngày Sinh");
-//        ngaysinhCol.setMinWidth(120);
-//        ngaysinhCol.setCellValueFactory(new PropertyValueFactory<>("NgaySinh"));
-//       TB_Muon.getColumns().add(ngaysinhCol);
-//        //Column GioiTinh
-//        TableColumn<Report_DocGiaController.DocGia, String> gtCol = new TableColumn("Giới Tính");
-//        gtCol.setMinWidth(120);
-//        gtCol.setCellValueFactory(new PropertyValueFactory<>("GioiTinh"));
-//        TB_Muon.getColumns().add(gtCol);
-//        //Column Email
-//        TableColumn<Report_DocGiaController.DocGia, String> emailCol = new TableColumn("Email");
-//        emailCol.setMinWidth(120);
-//        emailCol.setCellValueFactory(new PropertyValueFactory<>("Email"));
-//        TB_Muon.getColumns().add(emailCol);
-//        //Column HanSD
-//        TableColumn<Report_DocGiaController.DocGia, String> hansdCol = new TableColumn("Hạn Sử Dụng");
-//        hansdCol.setMinWidth(120);
-//        hansdCol.setCellValueFactory(new PropertyValueFactory<>("HanSD"));
-//        TB_Muon.getColumns().add(hansdCol);
+         TableColumn<phieumuonsach, String> MScol = new TableColumn<>("Mã Sách");
+        MScol.setCellValueFactory(new PropertyValueFactory<>("MaSach"));
+        TB_Muon.getColumns().add(MScol);
+         TableColumn<phieumuonsach, String> NMcol = new TableColumn<>("Ngày Mượn");
+        NMcol.setCellValueFactory(new PropertyValueFactory<>("NgayMuon"));
+        TB_Muon.getColumns().add(NMcol);
+         TableColumn<phieumuonsach, String> Han = new TableColumn<>("Hạn Trả");
+        Han.setCellValueFactory(new PropertyValueFactory<>("HanTra"));
+        TB_Muon.getColumns().add(Han);
+         TableColumn<phieumuonsach, String> Tinhtrang = new TableColumn<>("Tình Trạng");
+        Tinhtrang.setCellValueFactory(new PropertyValueFactory<>("TinhTrang"));
+        TB_Muon.getColumns().add(Tinhtrang);
+      
     }
 
 }

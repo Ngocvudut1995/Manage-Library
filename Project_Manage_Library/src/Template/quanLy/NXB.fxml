@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Template.quanLy.NXBController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
       <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" maxWidth="283.0" minWidth="10.0" prefWidth="112.0" />
       <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" maxWidth="721.0" minWidth="10.0" prefWidth="586.0" />
@@ -22,7 +23,16 @@
    <children>
       <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="565.0" GridPane.columnIndex="1">
          <content>
-            <TableView fx:id="TB_NXB" prefHeight="424.0" prefWidth="725.0" />
+            <TableView prefHeight="424.0" prefWidth="725.0">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="Mã NXB" />
+                  <TableColumn prefWidth="135.0" text="Tên NXB" />
+                  <TableColumn prefWidth="120.0" text="Năm Thành Lập" />
+                  <TableColumn prefWidth="116.0" text="SĐT" />
+                  <TableColumn prefWidth="167.0" text="Địa chỉ" />
+                  <TableColumn prefWidth="180.0" text="Email" />
+               </columns>
+            </TableView>
          </content>
       </ScrollPane>
       <Pane prefHeight="443.0" prefWidth="157.0">
