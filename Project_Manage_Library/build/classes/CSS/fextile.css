@@ -126,7 +126,6 @@
 }
 .h1 {
   -fx-font-size: 36px;
-  
 }
 .h2 {
   -fx-font-size: 30px;
@@ -412,4 +411,17 @@
 .btn-qlTL{
     -fx-background-image: url("../Picture/Button_icon/Sach/book5.png");
   -fx-background-repeat: no-repeat;
+}
+.backgroundAbout{
+    -fx-background-image: url("../Picture/about.png");
+  -fx-background-repeat: no-repeat;
+}
+.fontTiltle{
+    -fx-font-size: 26px;
+     
+}
+.fontTiltlePro{
+    -fx-font-size: 40px;
+    -fx-color: red;
+     
 }

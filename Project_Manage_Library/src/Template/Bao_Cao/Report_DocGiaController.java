@@ -164,7 +164,7 @@ public class Report_DocGiaController implements Initializable {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             CachedRowSet crs = new CachedRowSetImpl();
             crs.setUsername("admin");
-            crs.setPassword("toilangocvu");
+            crs.setPassword("toilatu");
             crs.setUrl(util.Connect_JDBC.url);
             crs.setCommand("select * from Coffees");
             crs.execute();

@@ -36,7 +36,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import quanLy.TacGiaController;
+//import quanLy.TacGiaController;
 
 /**
  * FXML Controller class
