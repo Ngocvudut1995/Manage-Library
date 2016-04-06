@@ -9,10 +9,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -23,6 +26,22 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class TacGiaController implements Initializable {
     @FXML
     private TableView<tacGia> TB_TG;
+    @FXML
+    private Button btn_edit;
+    @FXML
+    private Button btn_xoa;
+    @FXML
+    private Button btn_them;
+    @FXML
+    private TextField tf_maTG;
+    @FXML
+    private TextField tf_tenTG;
+    @FXML
+    private TextField tf_gt;
+    @FXML
+    private TextField tf_namSinh;
+    @FXML
+    private Button btn_save;
 
     /**
      * Initializes the controller class.
@@ -93,7 +112,16 @@ public class TacGiaController implements Initializable {
             TB_TG.getColumns().add(gioiTinhcol);
             
             ObservableList<tacGia> data= FXCollections.observableArrayList();
-            
+            data.add(new tacGia("TG001", "Tú MỠ", "1995", "nam"));
+            TB_TG.setItems(data);
     }    
-    
+    @FXML
+    public void themTG(ActionEvent e) {
+        ObservableList<tacGia> data = FXCollections.observableArrayList();
+        tf_maTG.setText("");
+        tf_tenTG.setText("");
+        tf_namSinh.setText("");
+        tf_gt.setText("");       
+              
+    }
 }

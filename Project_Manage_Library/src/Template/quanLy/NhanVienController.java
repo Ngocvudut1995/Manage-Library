@@ -6,15 +6,23 @@
 package quanLy;
 
 import Template.Bao_Cao.Report_DocGiaController;
+import com.sun.rowset.CachedRowSetImpl;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javax.sql.rowset.CachedRowSet;
 
 /**
  * FXML Controller class
@@ -24,6 +32,32 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class NhanVienController implements Initializable {
     @FXML
     private TableView<nhanvien> TB_NV;
+    @FXML
+    private Button btn_xoa;
+    @FXML
+    private Button btn_edit;
+    @FXML
+    private Button btn_them;
+    @FXML
+    private TextField tf_maNV;
+    @FXML
+    private TextField tf_tenNV;
+    @FXML
+    private TextField tf_NgaySinh;
+    @FXML
+    private TextField tf_sdt;
+    @FXML
+    private TextField tf_gt;
+    @FXML
+    private TextField tf_dc;
+    @FXML
+    private TextField tf_cmnd;
+    @FXML
+    private TextField tf_chucVu;
+    @FXML
+    private TextField tf_luong;
+    @FXML
+    private Button btn_save;
     public class nhanvien{
       private  String MaNV;
       private  String TenNV;
@@ -154,8 +188,64 @@ public class NhanVienController implements Initializable {
         TB_NV.getColumns().add(luongcol);
          
         ObservableList<nhanvien> data = FXCollections.observableArrayList();
-         data.add(new nhanvien("MHS2", "VU", "Sinh Viên", "ĐH Bách Khoa Đà Nẵng", null, null, null, null, null));
+         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            CachedRowSet crs = new CachedRowSetImpl();
+            crs.setUsername("sa");
+            crs.setPassword("123456");
+            crs.setUrl(util.Connect_JDBC.url);
+            crs.setCommand("select * from NhanVien");
+            crs.execute();
+            while(crs.next()){
+                data.add(new nhanvien(crs.getString(1), crs.getString(2), crs.getString(3),crs.getString(4) , crs.getString(5),crs.getString(6),crs.getString(7),crs.getString(8),crs.getDouble(9)));
+            }
+            crs.acceptChanges();
+            crs.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+         
          TB_NV.setItems(data);
-    }    
+    } 
+    @FXML
+    public void themNhanVien(ActionEvent e) {
+        ObservableList<nhanvien> data = FXCollections.observableArrayList();
+        tf_maNV.setText("");
+        tf_tenNV.setText("");
+        tf_NgaySinh.setText("");
+        tf_dc.setText("");
+        tf_gt.setText("");
+        tf_cmnd.setText("");
+        tf_sdt.setText("");
+        tf_chucVu.setText("");
+        tf_luong.setText("");
+        
+              
+    }
+    @FXML
+    public void thongTinNV(ActionEvent e){
+        ObservableList<nhanvien> data = FXCollections.observableArrayList();
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            CachedRowSet crs = new CachedRowSetImpl();
+            crs.setUsername("sa");
+            crs.setPassword("123456");
+            crs.setUrl(util.Connect_JDBC.url);
+            crs.setCommand("select * from NhanVien");
+            crs.execute();
+            while(crs.next()){
+                data.add(new nhanvien(crs.getString(1), crs.getString(2), crs.getString(3),crs.getString(4) , crs.getString(5),crs.getString(6),crs.getString(7),crs.getString(8),crs.getDouble(9)));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
     
 }

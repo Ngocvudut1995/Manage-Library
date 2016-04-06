@@ -5,15 +5,26 @@
  */
 package Template.quanLy;
 
+import com.sun.rowset.JdbcRowSetImpl;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javax.sql.rowset.JdbcRowSet;
 
 /**
  * FXML Controller class
@@ -23,6 +34,36 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class DocGiaController implements Initializable {
     @FXML
     private TableView<docGia> TB_DG;
+    @FXML
+    private Button btn_edit;
+    @FXML
+    private Button btn_xoa;
+    @FXML
+    private Button btn_them;
+    @FXML
+    private TextField tf_maDG;
+    @FXML
+    private TextField tf_tenDG;
+    @FXML
+    private TextField tf_ngaySinh;
+    @FXML
+    private TextField tf_sdt;
+    @FXML
+    private TextField tf_gt;
+    @FXML
+    private TextField tf_dc;
+    @FXML
+    private TextField tf_cmnd;
+    @FXML
+    private TextField tf_email;
+    @FXML
+    private TextField tf_TT;
+    @FXML
+    private Button btn_save;
+    @FXML
+    private TextField tf_ngayDK;
+    @FXML
+    private TextField tf_ngayHet;
 
     public  class docGia{
         private String maDG;
@@ -186,6 +227,42 @@ public class DocGiaController implements Initializable {
             
             ObservableList<docGia> data= FXCollections.observableArrayList();
             
+        try {
+            Connection connection=util.Connect_JDBC.getConnection();
+            String queryString= "SELECT * FROM Doc_Gia";
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rsSql = statement.executeQuery(queryString); 
+            JdbcRowSet jdbcRowSet;
+            jdbcRowSet = new JdbcRowSetImpl(rsSql);
+            jdbcRowSet.setCommand(queryString);
+            while(jdbcRowSet.next()){
+                data.add(new docGia(jdbcRowSet.getString(1), jdbcRowSet.getString(2), jdbcRowSet.getString(3), jdbcRowSet.getString(4), jdbcRowSet.getString(5), jdbcRowSet.getString(6),
+                                                                                    jdbcRowSet.getString(7), jdbcRowSet.getString(8), jdbcRowSet.getString(9), jdbcRowSet.getString(10), jdbcRowSet.getString(11)));
+            }
+           
+            jdbcRowSet.close();
+            connection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DocGiaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        TB_DG.setItems(data);
+            
     }  
-    
+    @FXML
+    public void themDG(ActionEvent e) {
+        ObservableList<docGia> data = FXCollections.observableArrayList();
+        tf_maDG.setText("");
+        tf_tenDG.setText("");
+        tf_ngaySinh.setText("");
+        tf_dc.setText("");
+        tf_gt.setText("");
+        tf_cmnd.setText("");
+        tf_sdt.setText("");
+        tf_email.setText("");
+        tf_ngayDK.setText("");
+        tf_ngayHet.setText("");
+        tf_TT.setText("");
+                     
+    }
 }

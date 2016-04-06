@@ -9,10 +9,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -23,6 +26,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class TheLoaiController implements Initializable {
     @FXML
     private TableView<theloai> TB_Theloai;
+    @FXML
+    private Button btn_edit;
+    @FXML
+    private Button btn_xoa;
+    @FXML
+    private Button btn_them;
+    @FXML
+    private TextField tf_maTL;
+    @FXML
+    private TextField tf_tenTl;
+    @FXML
+    private Button btn_save;
 
     /**
      * Initializes the controller class.
@@ -67,5 +82,10 @@ public class TheLoaiController implements Initializable {
            data.add(new theloai("TL001", "VĂn HỌc"));
          TB_Theloai.setItems(data);
     }    
-    
+    public void themTL(ActionEvent e) {
+        ObservableList<theloai> data = FXCollections.observableArrayList();
+        tf_maTL.setText("");
+        tf_tenTl.setText("");
+        
+    }
 }

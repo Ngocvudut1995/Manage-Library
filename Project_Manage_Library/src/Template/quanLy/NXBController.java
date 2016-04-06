@@ -9,10 +9,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -24,6 +27,26 @@ public class NXBController implements Initializable {
 
     @FXML
     private TableView<NXB> TB_NXB;
+    @FXML
+    private Button btn_them;
+    @FXML
+    private Button btn_xoa;
+    @FXML
+    private Button btn_edit;
+    @FXML
+    private TextField tf_maNXB;
+    @FXML
+    private TextField tf_tenNXB;
+    @FXML
+    private TextField tf_namThanhLap;
+    @FXML
+    private TextField tf_sdt;
+    @FXML
+    private TextField tf_dc;
+    @FXML
+    private TextField tf_email;
+    @FXML
+    private Button btn_luu;
 
     public class NXB {
 
@@ -117,5 +140,14 @@ public class NXBController implements Initializable {
         data.add(new NXB("NXB001", "Kim Đồng", null, null, null));
         TB_NXB.setItems(data);
     }
-
+public void themNXB(ActionEvent e) {
+        ObservableList<NXB> data = FXCollections.observableArrayList();
+        tf_maNXB.setText("");
+        tf_tenNXB.setText("");
+        tf_namThanhLap.setText("");
+        tf_dc.setText("");  
+        tf_email.setText("");  
+        tf_sdt.setText("");  
+         
+    }
 }

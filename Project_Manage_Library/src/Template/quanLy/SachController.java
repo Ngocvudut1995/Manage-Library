@@ -9,10 +9,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -23,6 +26,32 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class SachController implements Initializable {
     @FXML
     private TableView<sach> TB_sach;
+    @FXML
+    private Button btn_edit;
+    @FXML
+    private Button btn_xoa;
+    @FXML
+    private Button btn_them;
+    @FXML
+    private TextField tf_maSach;
+    @FXML
+    private TextField tf_tenSach;
+    @FXML
+    private TextField tf_NXB;
+    @FXML
+    private TextField tf_TL;
+    @FXML
+    private TextField tf_TG;
+    @FXML
+    private TextField tf_SL;
+    @FXML
+    private TextField tf_SLcon;
+    @FXML
+    private TextField tf_ngonNgu;
+    @FXML
+    private TextField tf_gia;
+    @FXML
+    private Button btn_luu;
     public class sach{
         private String maSach;
         private String tenSach;
@@ -163,7 +192,21 @@ public class SachController implements Initializable {
         ObservableList<sach> data=FXCollections.observableArrayList();
         data.add(new sach("MHS2", "VU", "Sinh Viên", "ĐH Bách Khoa Đà Nẵng", null, null, null, null, null));
         TB_sach.setItems(data);
-    }    
+    } 
+    @FXML
+    public void themSach(ActionEvent e) {
+        ObservableList<sach> data = FXCollections.observableArrayList();
+        tf_maSach.setText("");
+        tf_tenSach.setText("");
+        tf_NXB.setText("");
+        tf_TL.setText("");
+        tf_TG.setText("");
+        tf_ngonNgu.setText("");
+        tf_SL.setText("");
+        tf_SLcon.setText("");
+        tf_gia.setText("");
+                     
+    }
     
     
     
