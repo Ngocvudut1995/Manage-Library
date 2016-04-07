@@ -5,8 +5,12 @@
  */
 package util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,7 +20,7 @@ public class date {
     public static String convertStringToDate(Date indate)
 	{
 	   String dateString = null;
-	   SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+	   SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
 	   /*you can also use DateFormat reference instead of SimpleDateFormat 
 		* like this: DateFormat df = new SimpleDateFormat("dd/MMM/yyyy");
 		trong java mm <> MM (mm: minutes - MM: Month)
@@ -28,4 +32,10 @@ public class date {
 	   }
 	   return dateString;
 	}
+    public static Date convertDatetoString(String date) throws ParseException{
+         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+         Date d = new Date(df.parse(date).getTime());
+         return d;
+    }
+    
 }

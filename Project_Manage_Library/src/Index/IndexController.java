@@ -59,9 +59,9 @@ public class IndexController implements Initializable {
     @FXML
     private Button chitiettra;
     @FXML
-    private TabPane tb;
-    @FXML
     private Button bt_logout;
+    @FXML
+    private Button reportVP;
 
     @FXML
     private void logout(ActionEvent e) throws IOException {
@@ -488,6 +488,17 @@ public class IndexController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void reportVP(ActionEvent event) throws IOException {
+         Tab tab = new Tab();
+        tab.setText("    Báo Cáo Vi Phạm    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_VP.fxml"));
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+        selectionModel = tabPane.getSelectionModel();
+        selectionModel.select(tab);
     }
 
 }

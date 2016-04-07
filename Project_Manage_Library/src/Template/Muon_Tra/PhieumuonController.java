@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -282,7 +284,7 @@ public class PhieumuonController implements Initializable {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             cn = util.Connect_JDBC.getConnection();
             // cn = DriverManager.getConnection("jdbc:sqlserver://VUDANG:1433;databaseName = QLThuVien","admin","123456");
-            String queryString = "SELECT a.MaSach,a.TieuDe,b.TenTheLoai,c.HoVaTen,d.TenNgonNgu,a.Gia,f.TenNXB,e.TGMuon "
+            String queryString = "SELECT a.MaSach,a.TieuDe,b.TenTheLoai,c.TenTacGia,d.TenNgonNgu,a.Gia,f.TenNXB,e.TGMuon "
                     + "FROM dbo.Book a,dbo.TheLoai b, dbo.TacGia c,dbo.NgonNgu d,dbo.LoaiSach e,dbo.NhaXB f\n"
                     + "WHERE (a.MaTheLoai = b.MaTheLoai AND a.MaTacGia = c.MaTacGia) and (a.MaNgonNgu = d.MaNgonNgu) AND a.MaLoaiSach = e.MaLoaiSach AND a.MaNXB = f.MaNXB";
             Statement st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -297,7 +299,7 @@ public class PhieumuonController implements Initializable {
                     calendar.add(calendar.MONTH, rs.getInt("TGMuon"));
                     String dealline = currentDateFormat.format(calendar.getTime());
                     String stt = "" + data.size();
-                    data.add(new phieumuonsach(data.size() + 1, "", rs.getString(1), today, Calendar.getInstance().getTime(), calendar.getTime(), rs.getString("TieuDe"), rs.getString("Hovaten"), rs.getString("TenTheLoai"), rs.getString("TenNgonNgu"), rs.getDouble("Gia"), rs.getString("TenNXB"), dealline, "Binh Thuong"));
+                    data.add(new phieumuonsach(data.size() + 1, "", rs.getString(1), today, Calendar.getInstance().getTime(), calendar.getTime(), rs.getString("TieuDe"), rs.getString("TenTacGia"), rs.getString("TenTheLoai"), rs.getString("TenNgonNgu"), rs.getDouble("Gia"), rs.getString("TenNXB"), dealline, "Bình Thường"));
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Thông Báo");
                     alert.setHeaderText("Thêm Thành Công");
@@ -318,11 +320,14 @@ public class PhieumuonController implements Initializable {
     }
 
     @FXML
-    public void luu_vaoDB(ActionEvent event) {
+    public void luu_vaoDB(ActionEvent event) throws ParseException {
         Locale currentLocale;
         currentLocale = new Locale("vi", "VN");
         DateFormat currentDateFormat = DateFormat.getDateInstance(3, currentLocale);
         Calendar calendar = Calendar.getInstance();
+//         DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+//      Date date = new Date(format.parse(MaNV.getText()).getTime());
+//        System.out.println(date.toString());
         if (data.size() <= 0 || Ma_DG.getText().equals("")) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Thông Báo");
@@ -340,28 +345,15 @@ public class PhieumuonController implements Initializable {
                     cs.setString(2, pm.getMaSach());
                     cs.setString(3, Ma_DG.getText());
                     java.sql.Date sqldate = new java.sql.Date(pm.getToday().getTime());
+
                     cs.setDate(4, sqldate);
                     java.sql.Date sqldeal = new java.sql.Date(pm.getDeal().getTime());
                     cs.setDate(5, sqldeal);
                     cs.setString(6, "NV1021001");
-                    cs.setString(7, "Binh Thuong");
+                    cs.setString(7, pm.getTinhTrang());
 
                     cs.executeUpdate();
-                    Ma_DG.setText("");
-                    data.clear();
-                    cn = util.Connect_JDBC.getConnection();
-                    String queryString = "SELECT RIGHT(a.MaPhieuMuon,LEN(a.MaPhieuMuon)-2) FROM(SELECT TOP 1 MaPhieuMuon FROM dbo.PhieuMuon\n"
-                            + "ORDER BY MaPhieuMuon DESC) a";
-                    Statement st;
-                    try {
-                        st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                                ResultSet.CONCUR_UPDATABLE);
-                        ResultSet rs = st.executeQuery(queryString);
-                        rs.next();
-                        text_PM.setText("PM" + (rs.getInt(1) + 1));
-                    } catch (SQLException ex) {
-                        Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+
                 } catch (SQLException ex) {
                     Alert alert = new Alert(AlertType.ERROR);
                     alert.setTitle("Thông Báo");
@@ -370,40 +362,22 @@ public class PhieumuonController implements Initializable {
                     alert.showAndWait();
                 }
             }
+            Ma_DG.setText("");
+            data.clear();
+            cn = util.Connect_JDBC.getConnection();
+            String queryString = "SELECT RIGHT(a.MaPhieuMuon,LEN(a.MaPhieuMuon)-2) FROM(SELECT TOP 1 MaPhieuMuon FROM dbo.PhieuMuon\n"
+                    + "ORDER BY MaPhieuMuon DESC) a";
+            Statement st;
+            try {
+                st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE);
+                ResultSet rs = st.executeQuery(queryString);
+                rs.next();
+                text_PM.setText("PM" + (rs.getInt(1) + 1));
+            } catch (SQLException ex) {
+                Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-
-        System.out.println("asdas11");
-//                for (int i = 0; i < data.size(); i++) {
-//                    System.out.println("sdasd");
-//                }
-//              try {
-//                  phieumuonsach p = data.get(0);
-//                  System.out.println(p.getMaSach());
-//                  CallableStatement cs = null;
-//                  cs = cn.prepareCall("{call INSERT_MuonSach(?,?,?,?,?,?,?)}");
-//                  cs.setString(1,text_PM.getText());
-//                  cs.setString(2,p.getMaSach());
-//                  cs.setString(3,Ma_DG.getText());
-//                  java.sql.Date sqldate = new java.sql.Date(p.getToday().getTime());
-//                  cs.setDate(4, sqldate);
-//                  
-//                  cs.setDate(5, sqldate);
-//                  cs.setString(6, "NV1021001");
-//                  cs.setString(7, "Binh Thuong");
-//                  
-//                  cs.executeUpdate();
-//                  Ma_DG.setText("");
-//                  data.clear();
-//                  TB_Muon.setItems(data);
-//                  Alert alert = new Alert(AlertType.INFORMATION);
-//                  alert.setTitle("Thông Báo");
-//                  alert.setHeaderText("Đã Lưu Thành Công");
-//                  //alert.setContentText("Thêm Thành Công!");
-//                  alert.showAndWait();
-//              } catch (SQLException ex) {
-//                  Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
-//              }
-        // }
 
     }
 
@@ -441,6 +415,7 @@ public class PhieumuonController implements Initializable {
         TableColumn<phieumuonsach, String> Tinhtrang = new TableColumn<>("Tình Trạng");
         Tinhtrang.setCellValueFactory(new PropertyValueFactory<>("TinhTrang"));
         TB_Muon.getColumns().add(Tinhtrang);
+        Tinhtrang.setEditable(true);
         cn = util.Connect_JDBC.getConnection();
         String queryString = "SELECT RIGHT(a.MaPhieuMuon,LEN(a.MaPhieuMuon)-2) FROM(SELECT TOP 1 MaPhieuMuon FROM dbo.PhieuMuon\n"
                 + "ORDER BY MaPhieuMuon DESC) a";

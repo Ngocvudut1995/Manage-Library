@@ -18,11 +18,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.SortEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.spi.SyncProvider;
 
 /**
  * FXML Controller class
@@ -56,8 +59,30 @@ public class NhanVienController implements Initializable {
     private TextField tf_chucVu;
     @FXML
     private TextField tf_luong;
+    
+    
     @FXML
     private Button btn_save;
+    ObservableList<nhanvien> data = FXCollections.observableArrayList();
+    
+    
+
+    @FXML
+    private void focus_ct(MouseEvent event) {
+        int i=TB_NV.getFocusModel().getFocusedIndex();
+        nhanvien nv=data.get(i);
+        tf_maNV.setText(nv.getMaNV());
+        tf_tenNV.setText(nv.getTenNV());
+        tf_cmnd.setText(nv.getCMND());
+        tf_NgaySinh.setText(nv.getNgaySinh());
+        tf_dc.setText(nv.getDiaChi());
+        tf_gt.setText(nv.gioiTinh);
+        tf_sdt.setText(nv.getSdt());
+        tf_chucVu.setText(nv.getChucVu());
+        tf_luong.setText(nv.luong.toString());
+    }
+
+   
     public class nhanvien{
       private  String MaNV;
       private  String TenNV;
@@ -187,7 +212,7 @@ public class NhanVienController implements Initializable {
         luongcol.setCellValueFactory(new PropertyValueFactory<>("luong"));
         TB_NV.getColumns().add(luongcol);
          
-        ObservableList<nhanvien> data = FXCollections.observableArrayList();
+     //   ObservableList<nhanvien> data = FXCollections.observableArrayList();
          try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             CachedRowSet crs = new CachedRowSetImpl();
@@ -225,27 +250,9 @@ public class NhanVienController implements Initializable {
         
               
     }
-    @FXML
-    public void thongTinNV(ActionEvent e){
-        ObservableList<nhanvien> data = FXCollections.observableArrayList();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            CachedRowSet crs = new CachedRowSetImpl();
-            crs.setUsername("sa");
-            crs.setPassword("123456");
-            crs.setUrl(util.Connect_JDBC.url);
-            crs.setCommand("select * from NhanVien");
-            crs.execute();
-            while(crs.next()){
-                data.add(new nhanvien(crs.getString(1), crs.getString(2), crs.getString(3),crs.getString(4) , crs.getString(5),crs.getString(6),crs.getString(7),crs.getString(8),crs.getDouble(9)));
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+  
         
         
-    }
+    
     
 }

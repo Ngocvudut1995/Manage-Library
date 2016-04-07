@@ -42,7 +42,7 @@
       </Pane>
       <AnchorPane prefHeight="443.0" prefWidth="565.0" GridPane.columnIndex="1">
          <children>
-            <TableView fx:id="TB_TG" prefHeight="443.0" prefWidth="565.0" />
+            <TableView fx:id="TB_TG" onMousePressed="#focus_CTTG" prefHeight="443.0" prefWidth="565.0" />
          </children>
       </AnchorPane>
    </children>

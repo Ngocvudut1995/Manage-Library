@@ -179,6 +179,23 @@ public class DocGiaController implements Initializable {
         }
         
     }
+    ObservableList<docGia> data= FXCollections.observableArrayList();
+    @FXML
+    private void focus_CTDG(ActionEvent e){
+        int i=TB_DG.getFocusModel().getFocusedIndex();
+        docGia dg=data.get(i);
+        tf_maDG.setText(dg.getMaDG());
+        tf_tenDG.setText(dg.getTenDG());
+        tf_ngaySinh.setText(dg.getNgaySinh());
+        tf_cmnd.setText(dg.getCMND());
+        tf_gt.setText(dg.getGioiTinh());
+        tf_dc.setText(dg.getDiaChi());
+        tf_sdt.setText(dg.getSdt());
+        tf_email.setText(dg.getEmail());
+        tf_ngayDK.setText(dg.getNgayDK());
+        tf_ngayHet.setText(dg.getNgayHet());
+        tf_TT.setText(dg.getTrangThai());
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
             TableColumn<docGia,String> maDGcol=new TableColumn<>(" Ma DG ");
@@ -225,7 +242,7 @@ public class DocGiaController implements Initializable {
             trangThaicol.setCellValueFactory(new PropertyValueFactory<>("trangThai"));
             TB_DG.getColumns().add(trangThaicol);
             
-            ObservableList<docGia> data= FXCollections.observableArrayList();
+            
             
         try {
             Connection connection=util.Connect_JDBC.getConnection();
@@ -251,7 +268,7 @@ public class DocGiaController implements Initializable {
     }  
     @FXML
     public void themDG(ActionEvent e) {
-        ObservableList<docGia> data = FXCollections.observableArrayList();
+        
         tf_maDG.setText("");
         tf_tenDG.setText("");
         tf_ngaySinh.setText("");

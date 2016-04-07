@@ -5,8 +5,16 @@
  */
 package Template.quanLy;
 
+import com.sun.rowset.CachedRowSetImpl;
+import com.sun.rowset.JdbcRowSetImpl;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +25,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.JdbcRowSet;
 
 /**
  * FXML Controller class
@@ -45,6 +56,11 @@ public class NXBController implements Initializable {
     private TextField tf_dc;
     @FXML
     private TextField tf_email;
+
+    @FXML
+    private void focus_CTNXB(MouseEvent event) {
+    }
+
     @FXML
     private Button btn_luu;
 
@@ -105,49 +121,103 @@ public class NXBController implements Initializable {
             this.email = email;
         }
 
-        public NXB(String maNXB, String tenNXB, String namTL, String diaChi, String email) {
+        public NXB(String maNXB, String tenNXB, String namTL, String diaChi, String email, String sdt) {
             this.maNXB = maNXB;
             this.tenNXB = tenNXB;
             this.namTL = namTL;
             this.diaChi = diaChi;
             this.email = email;
+            this.sdt = sdt;
         }
 
     }
 
-    /**
-     * Initializes the controller class.
-     */
+    ObservableList<NXB> data = FXCollections.observableArrayList();
+
+    @FXML
+    private void focus_CTTG(ActionEvent e) {
+        int i = TB_NXB.getFocusModel().getFocusedIndex();
+        NXB nxb = data.get(i);
+        tf_maNXB.setText(nxb.getMaNXB());
+        tf_tenNXB.setText(nxb.getTenNXB());
+        tf_namThanhLap.setText(nxb.getNamTL());
+        tf_dc.setText(nxb.getDiaChi());
+        tf_email.setText(nxb.getEmail());
+        tf_sdt.setText(nxb.getSdt());
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        TableColumn<NXB,String> maNXB = new TableColumn<>("Mã NXB");
+        TableColumn<NXB, String> maNXB = new TableColumn<>("Mã NXB");
         maNXB.setCellValueFactory(new PropertyValueFactory<>("maNXB"));
         TB_NXB.getColumns().add(maNXB);
         // TODO
-         TableColumn<NXB,String> tenNXB = new TableColumn<>("Tên NXB");
+        TableColumn<NXB, String> tenNXB = new TableColumn<>("Tên NXB");
         tenNXB.setCellValueFactory(new PropertyValueFactory<>("tenNXB"));
         TB_NXB.getColumns().add(tenNXB);
-        TableColumn<NXB,String> namTL = new TableColumn<>("Tên NXB");
+        TableColumn<NXB, String> namTL = new TableColumn<>("Nam TL");
         namTL.setCellValueFactory(new PropertyValueFactory<>("namTL"));
         TB_NXB.getColumns().add(namTL);
-        TableColumn<NXB,String> diachia = new TableColumn<>("Địa Chỉ");
+        TableColumn<NXB, String> diachia = new TableColumn<>("Địa Chỉ");
         diachia.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
         TB_NXB.getColumns().add(diachia);
-        TableColumn<NXB,String> email = new TableColumn<>("Email");
+        TableColumn<NXB, String> email = new TableColumn<>("Email");
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
         TB_NXB.getColumns().add(email);
-        ObservableList<NXB> data = FXCollections.observableArrayList();
-        data.add(new NXB("NXB001", "Kim Đồng", null, null, null));
+        TableColumn<NXB, String> sdt = new TableColumn<>("SDT");
+        email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        TB_NXB.getColumns().add(email);
+
+        try {
+            Connection connection = util.Connect_JDBC.getConnection();
+            String queryString = "SELECT * FROM Doc_Gia";
+            Statement statement;
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rsSql = statement.executeQuery(queryString);
+            JdbcRowSet jdbcRowSet;
+            jdbcRowSet = new JdbcRowSetImpl(rsSql);
+            jdbcRowSet.setCommand(queryString);
+            while (jdbcRowSet.next()) {
+                data.add(new NXB(jdbcRowSet.getString(1), jdbcRowSet.getString(2), jdbcRowSet.getString(3), jdbcRowSet.getString(4), jdbcRowSet.getString(5), jdbcRowSet.getString(6)));
+            }
+            jdbcRowSet.close();
+            connection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+//        try {
+//            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//            CachedRowSet crs = new CachedRowSetImpl();
+//            crs.setUsername("sa");
+//            crs.setPassword("123456");
+//            crs.setUrl(util.Connect_JDBC.url);
+//            crs.setCommand("select * from NhanVien");
+//            crs.execute();
+//            while(crs.next()){
+//                data.add(new NXB(crs.getString(1), crs.getString(2), crs.getString(3), crs.getString(4), crs.getString(5),crs.getString(6)));
+//            }
+//            crs.acceptChanges();
+//            crs.close();
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        //data.add(new NXB("NXB001", "Kim Đồng", null, null, null));
         TB_NXB.setItems(data);
     }
-public void themNXB(ActionEvent e) {
-        ObservableList<NXB> data = FXCollections.observableArrayList();
+
+    @FXML
+    public void themNXB(ActionEvent e) {
+
         tf_maNXB.setText("");
         tf_tenNXB.setText("");
         tf_namThanhLap.setText("");
-        tf_dc.setText("");  
-        tf_email.setText("");  
-        tf_sdt.setText("");  
-         
+        tf_dc.setText("");
+        tf_email.setText("");
+        tf_sdt.setText("");
+
     }
 }

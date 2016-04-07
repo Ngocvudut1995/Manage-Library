@@ -5,8 +5,12 @@
  */
 package Template.quanLy;
 
+import com.sun.rowset.CachedRowSetImpl;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +21,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javax.sql.rowset.CachedRowSet;
 
 /**
  * FXML Controller class
@@ -36,7 +42,11 @@ public class TheLoaiController implements Initializable {
     private TextField tf_maTL;
     @FXML
     private TextField tf_tenTl;
-    @FXML
+      @FXML
+    private void focus_CTTL(MouseEvent event) {
+    }
+
+  @FXML
     private Button btn_save;
 
     /**
@@ -65,8 +75,16 @@ public class TheLoaiController implements Initializable {
         }
 
         public void setTenTL(String TenTL) {
-            this.TenTL = TenTL;
-        }
+            this.TenTL = TenTL;    }
+        
+    }
+    ObservableList<theloai> data = FXCollections.observableArrayList();
+    @FXML
+    public void focus_CTTL(ActionEvent e) {
+        int i= TB_Theloai.getFocusModel().getFocusedIndex();
+        theloai tl= data.get(i);
+        tf_maTL.setText(tl.getMaTL());
+        tf_tenTl.setText(tl.getTenTL());
         
     }
     @Override
@@ -78,12 +96,33 @@ public class TheLoaiController implements Initializable {
          TableColumn<theloai,String> tenTL = new TableColumn<>("Tên Thể Loại");
         tenTL.setCellValueFactory(new PropertyValueFactory<>("TenTL"));
         TB_Theloai.getColumns().add(tenTL);
-           ObservableList<theloai> data = FXCollections.observableArrayList();
+        try {
+        
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                CachedRowSet crs=new CachedRowSetImpl();
+                crs.setUsername("admin");
+                crs.setPassword("123456");
+                crs.setUrl(util.Connect_JDBC.url);
+                crs.setCommand("SELECT * FROM TheLoai");
+                crs.execute();
+                while(crs.next()){
+                    data.add(new theloai(crs.getString(1), crs.getString(2)));
+                }
+                crs.acceptChanges();
+                crs.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+            
            data.add(new theloai("TL001", "VĂn HỌc"));
          TB_Theloai.setItems(data);
     }    
+    @FXML
     public void themTL(ActionEvent e) {
-        ObservableList<theloai> data = FXCollections.observableArrayList();
+        
         tf_maTL.setText("");
         tf_tenTl.setText("");
         

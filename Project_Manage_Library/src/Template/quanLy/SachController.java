@@ -5,8 +5,12 @@
  */
 package Template.quanLy;
 
+import com.sun.rowset.CachedRowSetImpl;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +21,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javax.sql.rowset.CachedRowSet;
 
 /**
  * FXML Controller class
@@ -52,6 +58,23 @@ public class SachController implements Initializable {
     private TextField tf_gia;
     @FXML
     private Button btn_luu;
+    ObservableList<sach> data=FXCollections.observableArrayList();
+    @FXML
+    private void focus_CTsach(MouseEvent event) {
+        int i=TB_sach.getFocusModel().getFocusedIndex();
+        sach s=data.get(i);
+        tf_maSach.setText(s.getMaSach());
+        tf_tenSach.setText(s.getTenSach());
+        tf_TL.setText(s.getTheLoai());
+        tf_NXB.setText(s.getNXB());
+        tf_TG.setText(s.getTacGia());
+        tf_SL.setText(s.getSL());
+        tf_SLcon.setText(s.getSLcon());
+        tf_ngonNgu.setText(s.getNgonNgu());
+        tf_gia.setText(s.gia.toString());
+    }
+    
+    
     public class sach{
         private String maSach;
         private String tenSach;
@@ -60,6 +83,7 @@ public class SachController implements Initializable {
         private String tacGia;
         private String SL;
         private String SLcon;
+        private String MaLS;
         private String ngonNgu;
         private Double gia;
 
@@ -103,6 +127,14 @@ public class SachController implements Initializable {
             this.tacGia = tacGia;
         }
 
+        public String getMaLS() {
+            return MaLS;
+        }
+
+        public void setMaLS(String MaLS) {
+            this.MaLS = MaLS;
+        }
+
         public String getSL() {
             return SL;
         }
@@ -137,7 +169,7 @@ public class SachController implements Initializable {
         
         
         
-        public sach(String maSach, String tenSach, String NXB, String theLoai, String tacGia, String SL, String SLcon, String ngonNgu,Double gia) {
+        public sach(String maSach, String tenSach, String NXB, String theLoai, String tacGia, String SL, String SLcon,String maLS, String ngonNgu,Double gia) {
             this.maSach = maSach;
             this.tenSach = tenSach;
             this.NXB = NXB;
@@ -145,6 +177,7 @@ public class SachController implements Initializable {
             this.tacGia = tacGia;
             this.SL = SL;
             this.SLcon = SLcon;
+            this.MaLS=maLS;
             this.ngonNgu = ngonNgu;
             this.gia=gia;
         }
@@ -181,6 +214,10 @@ public class SachController implements Initializable {
         SLconcol.setCellValueFactory(new PropertyValueFactory<>("SLcon"));
         TB_sach.getColumns().add(SLconcol);
         
+        TableColumn<sach,String> maLScol=new  TableColumn("Ma loai sach");
+        maLScol.setCellValueFactory(new PropertyValueFactory<>("MaLS"));
+        TB_sach.getColumns().add(maLScol);
+        
         TableColumn<sach,String> NNcol=new  TableColumn("Ngôn Ngữ");
          NNcol.setCellValueFactory(new PropertyValueFactory<>("ngonNgu"));
         TB_sach.getColumns().add(NNcol);
@@ -189,8 +226,27 @@ public class SachController implements Initializable {
         giacol.setCellValueFactory(new PropertyValueFactory<>("gia"));
         TB_sach.getColumns().add(giacol);
             
-        ObservableList<sach> data=FXCollections.observableArrayList();
-        data.add(new sach("MHS2", "VU", "Sinh Viên", "ĐH Bách Khoa Đà Nẵng", null, null, null, null, null));
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            CachedRowSet crs = new CachedRowSetImpl();
+            crs.setUsername("admin");
+            crs.setPassword("123456");
+            crs.setUrl(util.Connect_JDBC.url);
+            crs.setCommand("select * from Book");
+            crs.execute();
+            while(crs.next()){
+                data.add(new sach(crs.getString(1), crs.getString(2), crs.getString(3), crs.getString(4), crs.getString(5), crs.getString(6), crs.getString(7),crs.getString(8) ,crs.getString(9), crs.getDouble("Gia")));
+            }
+            crs.acceptChanges();
+            crs.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SachController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(SachController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        
+        //data.add(new sach("MHS2", "VU", "Sinh Viên", "ĐH Bách Khoa Đà Nẵng", null, null, null, null, null));
         TB_sach.setItems(data);
     } 
     @FXML

@@ -23,7 +23,7 @@
    <children>
       <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="581.0" GridPane.columnIndex="1">
          <content>
-            <TableView fx:id="TB_DG" prefHeight="428.0" prefWidth="1009.0" />
+            <TableView fx:id="TB_DG" onMousePressed="#focus_CTDG" prefHeight="428.0" prefWidth="1009.0" />
          </content>
       </ScrollPane>
       <Pane prefHeight="200.0" prefWidth="200.0">
