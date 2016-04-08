@@ -44,10 +44,34 @@ public class TheLoaiController implements Initializable {
     private TextField tf_tenTl;
       @FXML
     private void focus_CTTL(MouseEvent event) {
+        int i= TB_Theloai.getFocusModel().getFocusedIndex();
+        theloai tl= data.get(i);
+        tf_maTL.setText(tl.getMaTL());
+        tf_tenTl.setText(tl.getTenTL());
     }
 
   @FXML
     private Button btn_save;
+
+    @FXML
+    private void newSave(ActionEvent event) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            CachedRowSet crs = new CachedRowSetImpl();
+             crs.setUsername(util.Connect_JDBC.userName);
+            crs.setPassword(util.Connect_JDBC.password);
+            crs.setUrl(util.Connect_JDBC.url);
+            crs.setCommand("UPDATE TheLoai SET TenTheLoai='"+tf_tenTl.getText()+"'WHERE MaTheLoai='"+tf_maTL.getText()+"'");                 
+                     
+            crs.execute();
+            crs.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+             
+    }
 
     /**
      * Initializes the controller class.
@@ -79,14 +103,7 @@ public class TheLoaiController implements Initializable {
         
     }
     ObservableList<theloai> data = FXCollections.observableArrayList();
-    @FXML
-    public void focus_CTTL(ActionEvent e) {
-        int i= TB_Theloai.getFocusModel().getFocusedIndex();
-        theloai tl= data.get(i);
-        tf_maTL.setText(tl.getMaTL());
-        tf_tenTl.setText(tl.getTenTL());
-        
-    }
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -100,9 +117,9 @@ public class TheLoaiController implements Initializable {
         
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 CachedRowSet crs=new CachedRowSetImpl();
-                crs.setUsername("admin");
-                crs.setPassword("123456");
-                crs.setUrl(util.Connect_JDBC.url);
+                 crs.setUsername(util.Connect_JDBC.userName);
+            crs.setPassword(util.Connect_JDBC.password);
+            crs.setUrl(util.Connect_JDBC.url);
                 crs.setCommand("SELECT * FROM TheLoai");
                 crs.execute();
                 while(crs.next()){

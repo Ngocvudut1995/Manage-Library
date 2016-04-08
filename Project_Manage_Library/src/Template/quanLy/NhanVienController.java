@@ -165,14 +165,14 @@ public class NhanVienController implements Initializable {
             this.luong = luong;
         }
 
-        public nhanvien(String MaNV, String TenNV, String ngaySinh, String sdt, String gioiTinh, String diaChi, String CMND, String ChucVu, Double luong) {
+        public nhanvien(String MaNV, String TenNV, String ngaySinh, String sdt, String gioiTinh, String diaChi, Double luong, String ChucVu) {
             this.MaNV = MaNV;
             this.TenNV = TenNV;
             this.ngaySinh = ngaySinh;
             this.sdt = sdt;
             this.gioiTinh = gioiTinh;
             this.diaChi = diaChi;
-            this.CMND = CMND;
+           // this.CMND = CMND;
             this.ChucVu = ChucVu;
             this.luong = luong;
         }
@@ -216,13 +216,13 @@ public class NhanVienController implements Initializable {
          try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             CachedRowSet crs = new CachedRowSetImpl();
-            crs.setUsername("sa");
-            crs.setPassword("123456");
+            crs.setUsername(util.Connect_JDBC.userName);
+            crs.setPassword(util.Connect_JDBC.password);
             crs.setUrl(util.Connect_JDBC.url);
             crs.setCommand("select * from NhanVien");
             crs.execute();
             while(crs.next()){
-                data.add(new nhanvien(crs.getString(1), crs.getString(2), crs.getString(3),crs.getString(4) , crs.getString(5),crs.getString(6),crs.getString(7),crs.getString(8),crs.getDouble(9)));
+                data.add(new nhanvien(crs.getString("MaNV"), crs.getString("HoVaTen"),crs.getString("NgaySinh"), crs.getString("SoDT"),crs.getString("Gioitinh") ,crs.getString("Email"),crs.getDouble("Luong"),crs.getString("ChucVu")));
             }
             crs.acceptChanges();
             crs.close();

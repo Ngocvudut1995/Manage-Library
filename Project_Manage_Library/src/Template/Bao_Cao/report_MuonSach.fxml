@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -12,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Template.Bao_Cao.Report_MuonSachController">
    <columnConstraints>
       <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" maxWidth="383.0" minWidth="10.0" prefWidth="120.0" />
       <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="ALWAYS" maxWidth="910.0" minWidth="10.0" prefWidth="910.0" />
@@ -34,7 +33,7 @@
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label alignment="CENTER" layoutX="170.0" layoutY="28.0" prefHeight="29.0" prefWidth="480.0" text="Bảng Báo Cáo Thống Kê Mượn SáchTrong Tuần">
+                  <Label fx:id="Title" alignment="CENTER" layoutX="170.0" layoutY="28.0" prefHeight="29.0" prefWidth="480.0" text="Bảng Báo Cáo Thống Kê Mượn SáchTrong Tuần">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -43,12 +42,7 @@
             </Pane>
             <ScrollPane GridPane.rowIndex="1">
                <content>
-                  <TableView prefHeight="359.0" prefWidth="882.0">
-                     <columns>
-                        <TableColumn prefWidth="75.0" text="C1" />
-                        <TableColumn prefWidth="75.0" text="C2" />
-                     </columns>
-                  </TableView>
+                  <TableView fx:id="BangTK" prefHeight="359.0" prefWidth="882.0" />
                </content>
             </ScrollPane>
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
@@ -58,31 +52,31 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="235.0" layoutY="20.0" prefHeight="25.0" prefWidth="225.0" />
-                  <Label layoutX="741.0" layoutY="24.0" text="Số Lượng">
+                  <TextField fx:id="Sach_muon_max" layoutX="235.0" layoutY="20.0" prefHeight="25.0" prefWidth="225.0" />
+                  <Label layoutX="637.0" layoutY="90.0" text="Số Lượng Sách Mượn">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="813.0" layoutY="20.0" prefHeight="25.0" prefWidth="37.0" />
+                  <TextField fx:id="SL_sach_muon" layoutX="775.0" layoutY="86.0" prefHeight="25.0" prefWidth="37.0" />
                   <Label layoutX="49.0" layoutY="56.0" text="Độc giả mượn nhiều nhất: ">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="236.0" layoutY="53.0" prefHeight="25.0" prefWidth="225.0" />
-                  <Label layoutX="741.0" layoutY="56.0" text="Số Lượng">
+                  <TextField fx:id="Doc_gia_muon_max" layoutX="236.0" layoutY="53.0" prefHeight="25.0" prefWidth="225.0" />
+                  <Label layoutX="380.0" layoutY="90.0" text="Số Lượng Độc Giả Đã Mượn">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="813.0" layoutY="53.0" prefHeight="25.0" prefWidth="37.0" />
+                  <TextField fx:id="SL_DG_muon" layoutX="548.0" layoutY="86.0" prefHeight="25.0" prefWidth="37.0" />
                   <Label layoutX="49.0" layoutY="87.0" text="Tổng số lượt mượn:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="236.0" layoutY="86.0" prefHeight="25.0" prefWidth="112.0" />
+                  <TextField fx:id="tong_luot" layoutX="236.0" layoutY="86.0" prefHeight="25.0" prefWidth="112.0" />
                   <Label layoutX="505.0" layoutY="24.0" text="Mã Sách">
                      <font>
                         <Font name="System Bold" size="12.0" />
@@ -93,19 +87,31 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="585.0" layoutY="20.0" prefHeight="25.0" prefWidth="112.0" />
-                  <TextField layoutX="585.0" layoutY="52.0" prefHeight="25.0" prefWidth="112.0" />
+                  <TextField fx:id="Ma_sach" layoutX="585.0" layoutY="20.0" prefHeight="25.0" prefWidth="112.0" />
+                  <TextField fx:id="Ma_DG" layoutX="585.0" layoutY="52.0" prefHeight="25.0" prefWidth="112.0" />
+                  <Label layoutX="710.0" layoutY="24.0" text="SL">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="SL_sach_max" layoutX="731.0" layoutY="20.0" prefHeight="25.0" prefWidth="37.0" />
+                  <Label layoutX="711.0" layoutY="54.0" text="SL">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="SL_DG_max" layoutX="732.0" layoutY="50.0" prefHeight="25.0" prefWidth="37.0" />
                </children>
             </Pane>
          </children>
       </GridPane>
       <Pane prefHeight="200.0" prefWidth="200.0" styleClass="border" stylesheets="@../../CSS/style.css">
          <children>
-            <Button alignment="CENTER_RIGHT" layoutX="7.0" layoutY="53.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="87.0" styleClass="btn-week" stylesheets="@../../CSS/fextile.css" text="Tuần" />
-            <Button alignment="CENTER_RIGHT" layoutX="8.0" layoutY="128.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="87.0" styleClass="btn-month" stylesheets="@../../CSS/fextile.css" text="Tháng" />
-            <Button alignment="CENTER_RIGHT" layoutX="8.0" layoutY="206.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="87.0" styleClass="btn-qui" stylesheets="@../../CSS/fextile.css" text="Quí" />
-            <Button alignment="CENTER_RIGHT" layoutX="7.0" layoutY="283.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="87.0" styleClass="btn-year" stylesheets="@../../CSS/fextile.css" text="Năm" />
-            <Button alignment="CENTER_RIGHT" layoutX="8.0" layoutY="349.0" mnemonicParsing="false" styleClass="btn-export" stylesheets="@../../CSS/fextile.css" text="Xuất Excel" />
+            <Button fx:id="bt_tuan" alignment="CENTER_RIGHT" layoutX="7.0" layoutY="53.0" mnemonicParsing="false" onAction="#TK_Tuan" prefHeight="32.0" prefWidth="87.0" styleClass="btn-week" stylesheets="@../../CSS/fextile.css" text="Tuần" />
+            <Button fx:id="bt_thang" alignment="CENTER_RIGHT" layoutX="8.0" layoutY="128.0" mnemonicParsing="false" onAction="#TK_Thang" prefHeight="32.0" prefWidth="87.0" styleClass="btn-month" stylesheets="@../../CSS/fextile.css" text="Tháng" />
+            <Button fx:id="bt_qui" alignment="CENTER_RIGHT" layoutX="8.0" layoutY="206.0" mnemonicParsing="false" onAction="#TK_qui" prefHeight="32.0" prefWidth="87.0" styleClass="btn-qui" stylesheets="@../../CSS/fextile.css" text="Quí" />
+            <Button fx:id="bt_nam" alignment="CENTER_RIGHT" layoutX="7.0" layoutY="283.0" mnemonicParsing="false" onAction="#TK_nam" prefHeight="32.0" prefWidth="87.0" styleClass="btn-year" stylesheets="@../../CSS/fextile.css" text="Năm" />
+            <Button alignment="CENTER_RIGHT" layoutX="8.0" layoutY="349.0" mnemonicParsing="false" styleClass="btn-export" stylesheets="@../../CSS/fextile.css" text="Xuất Excel" fx:id="xuat_excel" />
          </children>
       </Pane>
    </children>

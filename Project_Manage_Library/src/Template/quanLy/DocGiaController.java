@@ -5,12 +5,19 @@
  */
 package Template.quanLy;
 
+import com.sun.rowset.CachedRowSetImpl;
 import com.sun.rowset.JdbcRowSetImpl;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +31,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.JdbcRowSet;
 
 /**
@@ -64,17 +73,79 @@ public class DocGiaController implements Initializable {
     private TextField tf_ngayDK;
     @FXML
     private TextField tf_ngayHet;
+    ObservableList<docGia> data= FXCollections.observableArrayList();
+    //ObservableList<docGia> data_luu= FXCollections.observableArrayList();
+    
+    @FXML
+    private void focus_CTDG(MouseEvent event) {
+        int i=TB_DG.getFocusModel().getFocusedIndex();
+        docGia dg=data.get(i);
+        tf_maDG.setText(dg.getMaDG());
+        tf_tenDG.setText(dg.getTenDG());
+        tf_ngaySinh.setText(dg.getNgaySinh().toString());
+        tf_cmnd.setText(dg.getCMND());
+        tf_gt.setText(dg.getGioiTinh());
+        tf_dc.setText(dg.getDiaChi());
+        tf_sdt.setText(dg.getSdt());
+        tf_email.setText(dg.getEmail());
+        tf_ngayDK.setText(dg.getNgayDK().toString());
+        tf_ngayHet.setText(dg.getNgayHet().toString());
+        tf_TT.setText(dg.getTrangThai());
+    }
+
+    @FXML
+    private void saveNew(ActionEvent event) {
+        String Ma=tf_maDG.getText();
+        String ten=tf_tenDG.getText();
+        String sdt=tf_sdt.getText();
+        String email=tf_email.getText();
+        String dc=tf_dc.getText();
+        //docGia dg=data.get(i);
+        
+       
+        try {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy"); 
+            //DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+            Date date = new Date(df.parse(tf_ngayHet.getText()).getTime()); 
+            // Date date1 = new Date(df.parse(tf_ngaySinh.getText()).getTime()); 
+            System.out.println(date);
+            String str = df.format(date);
+            Date date1 = new Date(df.parse(tf_ngaySinh.getText()).getTime());
+            String str1 = df.format(date1);
+           //java.sql.Date sqldate = new java.sql.Date(dg.getNgaySinh().getTime());
+           // String str1 = df.format(date1); 
+            System.out.println(str); // System.out.println(date.toString());
+            
+            
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+             CachedRowSet crs = new CachedRowSetImpl();
+            crs.setUsername(util.Connect_JDBC.userName);
+            crs.setPassword(util.Connect_JDBC.password);
+            crs.setUrl(util.Connect_JDBC.url);
+            crs.setCommand("UPDATE Doc_Gia SET HoVaTen='"+ten+"',SoDT='"+sdt+"',Email='"+email+"',DiaChi='"+dc+"',HanSD='"+str+"',NgaySinh='"+str1+"' "                 
+                    + "WHERE MaDocGia='"+Ma+"'");
+            crs.execute();
+            crs.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DocGiaController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DocGiaController.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (ParseException ex) { 
+            Logger.getLogger(DocGiaController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+           
+    }
 
     public  class docGia{
         private String maDG;
         private String tenDG;
-        private String ngaySinh;
+        private Date ngaySinh;
         private String sdt;
         private String gioiTinh;
         private String diaChi;
         private String CMND;
-        private String ngayDK;
-        private String ngayHet;
+        private Date ngayDK;
+        private Date ngayHet;
         private String email;
         private String trangThai;
 
@@ -94,11 +165,11 @@ public class DocGiaController implements Initializable {
             this.tenDG = tenDG;
         }
 
-        public String getNgaySinh() {
+        public Date getNgaySinh() {
             return ngaySinh;
         }
 
-        public void setNgaySinh(String ngaySinh) {
+        public void setNgaySinh(Date ngaySinh) {
             this.ngaySinh = ngaySinh;
         }
 
@@ -132,19 +203,19 @@ public class DocGiaController implements Initializable {
         public void setCMND(String CMND) {
             this.CMND = CMND;
         }
-        public String getNgayDK() {
+        public Date getNgayDK() {
             return ngayDK;
         }
 
-        public void setNgayDK(String ngayDK) {
+        public void setNgayDK(Date ngayDK) {
             this.ngayDK = ngayDK;
         }
 
-        public String getNgayHet() {
+        public Date getNgayHet() {
             return ngayHet;
         }
 
-        public void setNgayHet(String ngayHet) {
+        public void setNgayHet(Date ngayHet) {
             this.ngayHet = ngayHet;
         }
 
@@ -164,14 +235,14 @@ public class DocGiaController implements Initializable {
             this.trangThai = trangThai;
         }
         
-        public docGia(String maDG, String tenDG, String ngaySinh, String sdt, String gioiTinh, String diaChi,String CMND, String ngayDK, String ngayHet, String email, String trangThai) {
+        public docGia(String maDG, String tenDG, Date ngaySinh, String sdt, String gioiTinh, String diaChi, Date ngayDK, Date ngayHet, String email, String trangThai) {
             this.maDG = maDG;
             this.tenDG = tenDG;
             this.ngaySinh = ngaySinh;
             this.sdt = sdt;
             this.gioiTinh = gioiTinh;
             this.diaChi = diaChi;
-            this.CMND=CMND;
+            //this.CMND=CMND;
             this.ngayDK = ngayDK;
             this.ngayHet = ngayHet;
             this.email = email;
@@ -179,23 +250,8 @@ public class DocGiaController implements Initializable {
         }
         
     }
-    ObservableList<docGia> data= FXCollections.observableArrayList();
-    @FXML
-    private void focus_CTDG(ActionEvent e){
-        int i=TB_DG.getFocusModel().getFocusedIndex();
-        docGia dg=data.get(i);
-        tf_maDG.setText(dg.getMaDG());
-        tf_tenDG.setText(dg.getTenDG());
-        tf_ngaySinh.setText(dg.getNgaySinh());
-        tf_cmnd.setText(dg.getCMND());
-        tf_gt.setText(dg.getGioiTinh());
-        tf_dc.setText(dg.getDiaChi());
-        tf_sdt.setText(dg.getSdt());
-        tf_email.setText(dg.getEmail());
-        tf_ngayDK.setText(dg.getNgayDK());
-        tf_ngayHet.setText(dg.getNgayHet());
-        tf_TT.setText(dg.getTrangThai());
-    }
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
             TableColumn<docGia,String> maDGcol=new TableColumn<>(" Ma DG ");
@@ -222,9 +278,9 @@ public class DocGiaController implements Initializable {
             dccol.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
             TB_DG.getColumns().add(dccol);
             
-            TableColumn<docGia,String> cmndcol=new TableColumn("    Số CMND    ");
-            cmndcol.setCellValueFactory(new PropertyValueFactory<>("CMND"));
-            TB_DG.getColumns().add(cmndcol);
+//            TableColumn<docGia,String> cmndcol=new TableColumn("    Số CMND    ");
+//            cmndcol.setCellValueFactory(new PropertyValueFactory<>("CMND"));
+//            TB_DG.getColumns().add(cmndcol);
             
             TableColumn<docGia,String> ngayDKcol=new TableColumn<>("Ngày đăng kí");
             ngayDKcol.setCellValueFactory(new PropertyValueFactory<>("ngayDK"));
@@ -254,8 +310,8 @@ public class DocGiaController implements Initializable {
             jdbcRowSet = new JdbcRowSetImpl(rsSql);
             jdbcRowSet.setCommand(queryString);
             while(jdbcRowSet.next()){
-                data.add(new docGia(jdbcRowSet.getString(1), jdbcRowSet.getString(2), jdbcRowSet.getString(3), jdbcRowSet.getString(4), jdbcRowSet.getString(5), jdbcRowSet.getString(6),
-                                                                                    jdbcRowSet.getString(7), jdbcRowSet.getString(8), jdbcRowSet.getString(9), jdbcRowSet.getString(10), jdbcRowSet.getString(11)));
+                data.add(new docGia(jdbcRowSet.getString("MaDocGia"), jdbcRowSet.getString("HoVaTen"), jdbcRowSet.getDate("NgaySinh"), jdbcRowSet.getString("SoDT"), jdbcRowSet.getString("GioiTinh"), jdbcRowSet.getString("DiaChi"),
+                                                                                    jdbcRowSet.getDate("NgayLamThe"), jdbcRowSet.getDate("HanSD"), jdbcRowSet.getString("Email"), jdbcRowSet.getString(10)));
             }
            
             jdbcRowSet.close();

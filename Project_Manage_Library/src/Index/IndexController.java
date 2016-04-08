@@ -5,13 +5,21 @@
  */
 package Index;
 
+import Template.Bao_Cao.Report_MuonSachController;
+import com.sun.rowset.CachedRowSetImpl;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -36,6 +44,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javax.sql.rowset.CachedRowSet;
 //import quanLy.TacGiaController;
 
 /**
@@ -44,7 +53,7 @@ import javafx.stage.Stage;
  * @author Vu Dang
  */
 public class IndexController implements Initializable {
-
+    Connection cn = null;
     /**
      * Initializes the controller class.
      */
@@ -62,7 +71,7 @@ public class IndexController implements Initializable {
     private Button bt_logout;
     @FXML
     private Button reportVP;
-
+    PreparedStatement ps = null;
     @FXML
     private void logout(ActionEvent e) throws IOException {
         Stage stage = (Stage) bt_logout.getScene().getWindow();
@@ -347,7 +356,7 @@ public class IndexController implements Initializable {
         selectionModel = tabPane.getSelectionModel();
         selectionModel.select(tab_DKTK);
     }
-
+ObservableList<String> data = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -484,8 +493,34 @@ public class IndexController implements Initializable {
                     tabPane.getTabs().remove(tab_QLTL);
                 }
             });
+            cn = util.Connect_JDBC.getConnection();
+              Statement st = null;
+           st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE);
+       
+          String str = "SELECT MaMuon FROM dbo.MuonSach WHERE NgayTra IS NULL AND HanTra < GETDATE() "
+                  + " AND TinhTrang NOT LIKE N'Quá Hạn'";
+           ResultSet rs = st.executeQuery(str);
+           while(rs.next()){
+               data.add(rs.getString("MaMuon"));
+           }
+           st.close();
+                          
 
+           for(int i = 0;i<data.size();i++){
+               
+               String up = "UPDATE dbo.MuonSach SET TinhTrang = N'Quá Hạn' WHERE MaMuon = ?";
+               ps = cn.prepareStatement(up);
+               ps.setNString(1, data.get(i));
+               ps.executeUpdate();
+           }
+              // crs.moveToCurrentRow();
+//                ps.close();
+            
+           
         } catch (IOException ex) {
+            Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

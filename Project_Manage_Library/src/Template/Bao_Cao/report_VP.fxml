@@ -4,7 +4,6 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -34,21 +33,12 @@
          <children>
             <ScrollPane prefHeight="340.0" prefWidth="625.0" GridPane.rowIndex="1">
                <content>
-                  <TableView prefHeight="322.0" prefWidth="816.0">
-                     <columns>
-                        <TableColumn prefWidth="85.0" text="Mã Mượn" />
-                        <TableColumn prefWidth="91.0" text="Mã Sách" />
-                        <TableColumn prefWidth="178.0" text="Tên Sách" />
-                        <TableColumn prefWidth="170.0" text="Ngày Mượn" />
-                        <TableColumn prefWidth="149.0" text="Hạn Trả" />
-                        <TableColumn prefWidth="114.0" text="Tình Trạng" />
-                     </columns>
-                  </TableView>
+                  <TableView fx:id="table_VP" onMousePressed="#focus_ct" prefHeight="322.0" prefWidth="816.0" />
                </content>
             </ScrollPane>
             <Pane prefHeight="127.0" prefWidth="611.0">
                <children>
-                  <Button alignment="TOP_RIGHT" layoutX="503.0" layoutY="46.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css" />
+                  <Button fx:id="bt_search" alignment="TOP_RIGHT" layoutX="503.0" layoutY="46.0" mnemonicParsing="false" onAction="#Load_data" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css" />
                   <Label layoutX="121.0" layoutY="16.0" text="Từ Ngày:">
                      <font>
                         <Font name="System Bold" size="12.0" />
@@ -59,8 +49,8 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <DatePicker layoutX="216.0" layoutY="12.0" prefHeight="25.0" prefWidth="202.0" />
-                  <DatePicker layoutX="216.0" layoutY="49.0" prefHeight="25.0" prefWidth="202.0" />
+                  <DatePicker fx:id="text_tungay" layoutX="216.0" layoutY="12.0" prefHeight="25.0" prefWidth="202.0" />
+                  <DatePicker fx:id="text_denngay" layoutX="216.0" layoutY="49.0" prefHeight="25.0" prefWidth="202.0" />
                   <Label layoutX="140.0" layoutY="90.0" text="Danh Sách Đọc Giả Vi Phạm Trong Thư Viện">
                      <font>
                         <Font name="System Bold" size="16.0" />
@@ -82,32 +72,32 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField layoutX="133.0" layoutY="102.0" prefHeight="25.0" prefWidth="193.0" />
+            <TextField fx:id="ct_maDG" layoutX="133.0" layoutY="102.0" prefHeight="25.0" prefWidth="193.0" />
             <Label layoutX="17.0" layoutY="147.0" text="Tên Đọc Giả:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField layoutX="133.0" layoutY="143.0" prefHeight="25.0" prefWidth="193.0" />
+            <TextField fx:id="ten_DG" layoutX="133.0" layoutY="143.0" prefHeight="25.0" prefWidth="193.0" />
             <Label layoutX="22.0" layoutY="187.0" text="Lý Do:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField layoutX="133.0" layoutY="183.0" prefHeight="25.0" prefWidth="193.0" />
+            <TextField fx:id="Ly_do" layoutX="133.0" layoutY="183.0" prefHeight="25.0" prefWidth="193.0" />
             <Label layoutX="19.0" layoutY="227.0" text="Hình Thức Xử Lý:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField layoutX="133.0" layoutY="223.0" prefHeight="25.0" prefWidth="193.0" />
+            <TextField fx:id="ht_xu_ly" layoutX="133.0" layoutY="223.0" prefHeight="25.0" prefWidth="193.0" />
             <Label layoutX="22.0" layoutY="267.0" text="Ngày Xử Lý:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField layoutX="133.0" layoutY="263.0" prefHeight="25.0" prefWidth="193.0" />
-            <Button alignment="CENTER_RIGHT" layoutX="230.0" layoutY="332.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="82.0" styleClass="btn-export" stylesheets="@../../CSS/fextile.css" text="Xuất" />
+            <TextField fx:id="ngay_xu_ly" layoutX="133.0" layoutY="263.0" prefHeight="25.0" prefWidth="193.0" />
+            <Button fx:id="bt_xuat" alignment="CENTER_RIGHT" layoutX="230.0" layoutY="332.0" mnemonicParsing="false" onAction="#xuat_Excel" prefHeight="32.0" prefWidth="82.0" styleClass="btn-export" stylesheets="@../../CSS/fextile.css" text="Xuất" />
          </children>
       </Pane>
    </children>

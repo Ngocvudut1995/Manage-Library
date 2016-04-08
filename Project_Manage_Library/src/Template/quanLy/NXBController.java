@@ -59,6 +59,14 @@ public class NXBController implements Initializable {
 
     @FXML
     private void focus_CTNXB(MouseEvent event) {
+         int i = TB_NXB.getFocusModel().getFocusedIndex();
+        NXB nxb = data.get(i);
+        tf_maNXB.setText(nxb.getMaNXB());
+        tf_tenNXB.setText(nxb.getTenNXB());
+        tf_namThanhLap.setText(nxb.getNamTL());
+        tf_dc.setText(nxb.getDiaChi());
+        tf_email.setText(nxb.getEmail());
+        tf_sdt.setText(nxb.getSdt());
     }
 
     @FXML
@@ -134,18 +142,7 @@ public class NXBController implements Initializable {
 
     ObservableList<NXB> data = FXCollections.observableArrayList();
 
-    @FXML
-    private void focus_CTTG(ActionEvent e) {
-        int i = TB_NXB.getFocusModel().getFocusedIndex();
-        NXB nxb = data.get(i);
-        tf_maNXB.setText(nxb.getMaNXB());
-        tf_tenNXB.setText(nxb.getTenNXB());
-        tf_namThanhLap.setText(nxb.getNamTL());
-        tf_dc.setText(nxb.getDiaChi());
-        tf_email.setText(nxb.getEmail());
-        tf_sdt.setText(nxb.getSdt());
-    }
-
+  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         TableColumn<NXB, String> maNXB = new TableColumn<>("Mã NXB");
@@ -155,58 +152,56 @@ public class NXBController implements Initializable {
         TableColumn<NXB, String> tenNXB = new TableColumn<>("Tên NXB");
         tenNXB.setCellValueFactory(new PropertyValueFactory<>("tenNXB"));
         TB_NXB.getColumns().add(tenNXB);
-        TableColumn<NXB, String> namTL = new TableColumn<>("Nam TL");
-        namTL.setCellValueFactory(new PropertyValueFactory<>("namTL"));
-        TB_NXB.getColumns().add(namTL);
+//        TableColumn<NXB, String> namTL = new TableColumn<>("Nam TL");
+//        namTL.setCellValueFactory(new PropertyValueFactory<>("namTL"));
+//        TB_NXB.getColumns().add(namTL);
         TableColumn<NXB, String> diachia = new TableColumn<>("Địa Chỉ");
         diachia.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
         TB_NXB.getColumns().add(diachia);
-        TableColumn<NXB, String> email = new TableColumn<>("Email");
-        email.setCellValueFactory(new PropertyValueFactory<>("email"));
-        TB_NXB.getColumns().add(email);
-        TableColumn<NXB, String> sdt = new TableColumn<>("SDT");
-        email.setCellValueFactory(new PropertyValueFactory<>("email"));
-        TB_NXB.getColumns().add(email);
-
-        try {
-            Connection connection = util.Connect_JDBC.getConnection();
-            String queryString = "SELECT * FROM Doc_Gia";
-            Statement statement;
-            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-            ResultSet rsSql = statement.executeQuery(queryString);
-            JdbcRowSet jdbcRowSet;
-            jdbcRowSet = new JdbcRowSetImpl(rsSql);
-            jdbcRowSet.setCommand(queryString);
-            while (jdbcRowSet.next()) {
-                data.add(new NXB(jdbcRowSet.getString(1), jdbcRowSet.getString(2), jdbcRowSet.getString(3), jdbcRowSet.getString(4), jdbcRowSet.getString(5), jdbcRowSet.getString(6)));
-            }
-            jdbcRowSet.close();
-            connection.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        TableColumn<NXB, String> email = new TableColumn<>("Email");
+//        email.setCellValueFactory(new PropertyValueFactory<>("email"));
+//        TB_NXB.getColumns().add(email);
+//        TableColumn<NXB, String> sdt = new TableColumn<>("SDT");
+//        email.setCellValueFactory(new PropertyValueFactory<>("email"));
+//        TB_NXB.getColumns().add(email);
 
 //        try {
-//            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-//            CachedRowSet crs = new CachedRowSetImpl();
-//            crs.setUsername("sa");
-//            crs.setPassword("123456");
-//            crs.setUrl(util.Connect_JDBC.url);
-//            crs.setCommand("select * from NhanVien");
-//            crs.execute();
-//            while(crs.next()){
-//                data.add(new NXB(crs.getString(1), crs.getString(2), crs.getString(3), crs.getString(4), crs.getString(5),crs.getString(6)));
+//            Connection connection = util.Connect_JDBC.getConnection();
+//            String queryString = "SELECT * FROM NhaXB";
+//            Statement statement;
+//            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+//                    ResultSet.CONCUR_UPDATABLE);
+//            ResultSet rsSql = statement.executeQuery(queryString);
+//           
+//            while (rsSql.next()) {
+//                data.add(new NXB(rsSql.getString("MaNXB"), rsSql.getString(2),rsSql.getString(3), rsSql.getString(2), rsSql.getString(3),rsSql.getString(2)));
 //            }
-//            crs.acceptChanges();
-//            crs.close();
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
+//           // jdbcRowSet.close();
+//            connection.close();
 //        } catch (SQLException ex) {
 //            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        //data.add(new NXB("NXB001", "Kim Đồng", null, null, null));
-        TB_NXB.setItems(data);
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            CachedRowSet crs = new CachedRowSetImpl();
+             crs.setUsername(util.Connect_JDBC.userName);
+            crs.setPassword(util.Connect_JDBC.password);
+            crs.setUrl(util.Connect_JDBC.url);
+            crs.setCommand("select * from NhaXB");
+            crs.execute();
+            while(crs.next()){
+                data.add(new NXB(crs.getString("MaNXB"), crs.getString("TenNXB"), crs.getString("DiaChi"), crs.getString(3), crs.getString(3),crs.getString(3)));
+            }
+            crs.acceptChanges();
+            crs.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        data.add(new NXB("NXB001", "Kim Đồng", "", "", "","01227401239"));
+      TB_NXB.setItems(data);
     }
 
     @FXML

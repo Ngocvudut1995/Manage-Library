@@ -50,6 +50,12 @@ public class TacGiaController implements Initializable {
 
     @FXML
     private void focus_CTTG(MouseEvent event) {
+        int i = TB_TG.getFocusModel().getFocusedIndex();
+            tacGia tg = data.get(i);
+            tf_maTG.setText(tg.getMaTG());
+            tf_tenTG.setText(tg.getTenTG());
+            tf_namSinh.setText(tg.getNamSinh());
+            tf_gt.setText(tg.getGioiTinh());
     }
     ObservableList<tacGia> data = FXCollections.observableArrayList();
     @FXML
@@ -76,9 +82,9 @@ public class TacGiaController implements Initializable {
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 CachedRowSet crs = new CachedRowSetImpl();
-                crs.setUsername("admin");
-                crs.setPassword("123456");
-                crs.setUrl(util.Connect_JDBC.url);
+                crs.setUsername(util.Connect_JDBC.userName);
+            crs.setPassword(util.Connect_JDBC.password);
+            crs.setUrl(util.Connect_JDBC.url);
                 crs.setCommand("select * from NhanVien");
                 crs.execute();
                 while (crs.next()) {
@@ -150,20 +156,7 @@ public class TacGiaController implements Initializable {
             this.gioiTinh = gioiTinh;
 
         }
-    
-
-        @FXML
-        private void focus_CTTG(ActionEvent e) {
-            int i = TB_TG.getFocusModel().getFocusedIndex();
-            tacGia tg = data.get(i);
-            tf_maTG.setText(tg.getMaTG());
-            tf_tenTG.setText(tg.getTenTG());
-            tf_namSinh.setText(tg.getNamSinh());
-            tf_gt.setText(tg.getGioiTinh());
-        }
-
-     
-
+   
         @FXML
         public void themTG(ActionEvent e) {
             ObservableList<tacGia> data = FXCollections.observableArrayList();

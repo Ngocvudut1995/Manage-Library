@@ -229,8 +229,8 @@ public class SachController implements Initializable {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             CachedRowSet crs = new CachedRowSetImpl();
-            crs.setUsername("admin");
-            crs.setPassword("123456");
+            crs.setUsername(util.Connect_JDBC.userName);
+            crs.setPassword(util.Connect_JDBC.password);
             crs.setUrl(util.Connect_JDBC.url);
             crs.setCommand("select * from Book");
             crs.execute();
