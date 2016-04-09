@@ -7,7 +7,11 @@ package Template.quanLy;
 
 import com.sun.rowset.CachedRowSetImpl;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -30,6 +35,7 @@ import javax.sql.rowset.CachedRowSet;
  * @author TU
  */
 public class SachController implements Initializable {
+
     @FXML
     private TableView<sach> TB_sach;
     @FXML
@@ -58,24 +64,116 @@ public class SachController implements Initializable {
     private TextField tf_gia;
     @FXML
     private Button btn_luu;
-    ObservableList<sach> data=FXCollections.observableArrayList();
+    ObservableList<sach> data = FXCollections.observableArrayList();
+
     @FXML
     private void focus_CTsach(MouseEvent event) {
-        int i=TB_sach.getFocusModel().getFocusedIndex();
-        sach s=data.get(i);
+
+        int i = TB_sach.getFocusModel().getFocusedIndex();
+        sach s = data.get(i);
         tf_maSach.setText(s.getMaSach());
         tf_tenSach.setText(s.getTenSach());
         tf_TL.setText(s.getTheLoai());
         tf_NXB.setText(s.getNXB());
         tf_TG.setText(s.getTacGia());
         tf_SL.setText(s.getSL());
-        tf_SLcon.setText(s.getSLcon());
+        tf_SLcon.setText((s.getSLcon()));
         tf_ngonNgu.setText(s.getNgonNgu());
         tf_gia.setText(s.gia.toString());
+        tf_maSach.setDisable(true);
+        tf_NXB.setDisable(true);
+        tf_SL.setDisable(true);
+        tf_ngonNgu.setDisable(true);
+        tf_TG.setDisable(true);
+        tf_TL.setDisable(true);
+        btn_luu.setDisable(true);
+        tf_SLcon.setDisable(true);
+        tf_gia.setDisable(true);
+        tf_tenSach.setDisable(true);
     }
-    
-    
-    public class sach{
+
+    @FXML
+    private int newSave(ActionEvent event) {
+        if ((tf_SL.getText()).equals("") || (tf_tenSach.getText()).equals("") || (tf_gia.getText()).equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Thông Báo");
+            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
+            System.out.println("Loi!");
+            alert.showAndWait();
+            return 1;
+        } else {
+            try {
+                cn = util.Connect_JDBC.getConnection();
+                PreparedStatement ps = null;
+                String str = "UPDATE Book SET TieuDe = ? , Gia= ? , SLhientai = ? WHERE MaSach=? ";
+                ps = cn.prepareStatement(str);
+                ps.setNString(1, tf_tenSach.getText());
+                ps.setDouble(2, Double.parseDouble(tf_gia.getText()));
+                ps.setInt(3, Integer.parseInt(tf_SLcon.getText()));
+                ps.setString(4, tf_maSach.getText());
+                ps.executeUpdate();
+                data.clear();
+                Statement st = null;
+                st = cn.createStatement();
+                ResultSet rs = st.executeQuery("SELECT a.MaSach,a.TieuDe,a.MaLoaiSach,c.TenNXB,d.TenTheLoai,b.TenTacGia,a.TongSL,a.SLhientai,e.TenNgonNgu,a.Gia FROM dbo.Book a,dbo.TacGia b,dbo.NhaXB c,dbo.TheLoai d,dbo.NgonNgu e \n"
+                        + "WHERE a.MaTheLoai=d.MaTheLoai AND a.MaTacGia=b.MaTacGia AND a.MaNgonNgu=e.MaNgonNgu AND a.MaNXB=c.MaNXB");
+                while (rs.next()) {
+                    data.add(new sach(rs.getString("MaSach"), rs.getString("TieuDe"), rs.getString("TenNXB"), rs.getString("TenTheLoai"),
+                            rs.getString("TenTacGia"), rs.getString("TongSL"), rs.getString("SLhientai"), rs.getString("MaLoaiSach"), rs.getString("TenNgonNgu"), rs.getDouble("Gia")));
+                }
+                TB_sach.setItems(data);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông Báo");
+                alert.setHeaderText("Lưu thành công");
+                alert.showAndWait();
+            } catch (SQLException ex) {
+                Logger.getLogger(SachController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return 0;
+        }
+    }
+
+    @FXML
+    private void xoa(ActionEvent event) {
+        int i = TB_sach.getFocusModel().getFocusedIndex();
+        sach s = data.get(i);
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Cảnh Báo!");
+        alert.setHeaderText("Bạn chắc chắn muốn xóa ?");
+        Boolean yes = alert.showAndWait().isPresent();
+        if (yes) {
+
+            try {
+                data.remove(i);
+                cn = util.Connect_JDBC.getConnection();
+                PreparedStatement ps = null;
+                String str = "DELETE FROM Book WHERE MaSach= ?";
+
+                ps = cn.prepareStatement(str);
+
+                ps.setString(1, s.getMaSach());
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @FXML
+    private void Edit(ActionEvent event) {
+        tf_NXB.setDisable(false);
+        tf_SL.setDisable(false);
+        tf_ngonNgu.setDisable(false);
+        tf_TG.setDisable(false);
+        tf_TL.setDisable(false);
+        tf_SLcon.setDisable(false);
+        tf_gia.setDisable(false);
+        tf_tenSach.setDisable(false);
+        btn_luu.setDisable(false);
+    }
+
+    public class sach {
+
         private String maSach;
         private String tenSach;
         private String NXB;
@@ -166,10 +264,8 @@ public class SachController implements Initializable {
         public void setGia(Double gia) {
             this.gia = gia;
         }
-        
-        
-        
-        public sach(String maSach, String tenSach, String NXB, String theLoai, String tacGia, String SL, String SLcon,String maLS, String ngonNgu,Double gia) {
+
+        public sach(String maSach, String tenSach, String NXB, String theLoai, String tacGia, String SL, String SLcon, String maLS, String ngonNgu, Double gia) {
             this.maSach = maSach;
             this.tenSach = tenSach;
             this.NXB = NXB;
@@ -177,81 +273,89 @@ public class SachController implements Initializable {
             this.tacGia = tacGia;
             this.SL = SL;
             this.SLcon = SLcon;
-            this.MaLS=maLS;
+            this.MaLS = maLS;
             this.ngonNgu = ngonNgu;
-            this.gia=gia;
+            this.gia = gia;
         }
-        
-        
+
     }
+    Connection cn = null;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        TableColumn<sach,String> maSachcol=new  TableColumn("Ma Sach");
+        TableColumn<sach, String> maSachcol = new TableColumn("Ma Sach");
         maSachcol.setCellValueFactory(new PropertyValueFactory<>("maSach"));
         TB_sach.getColumns().add(maSachcol);
-        
-        TableColumn<sach,String> tenSachcol=new  TableColumn("Tên Sách");
+
+        TableColumn<sach, String> tenSachcol = new TableColumn("Tên Sách");
         tenSachcol.setCellValueFactory(new PropertyValueFactory<>("tenSach"));
         TB_sach.getColumns().add(tenSachcol);
-        
-        TableColumn<sach,String> NXBcol=new  TableColumn("NXB");
+
+        TableColumn<sach, String> NXBcol = new TableColumn("NXB");
         NXBcol.setCellValueFactory(new PropertyValueFactory<>("NXB"));
         TB_sach.getColumns().add(NXBcol);
-        
-        TableColumn<sach,String> TLcol=new  TableColumn("Thể Loại");
+
+        TableColumn<sach, String> TLcol = new TableColumn("Thể Loại");
         TLcol.setCellValueFactory(new PropertyValueFactory<>("theLoai"));
         TB_sach.getColumns().add(TLcol);
-        
-        TableColumn<sach,String> TGcol=new  TableColumn("Tác Giả");
+
+        TableColumn<sach, String> TGcol = new TableColumn("Tác Giả");
         TGcol.setCellValueFactory(new PropertyValueFactory<>("tacGia"));
         TB_sach.getColumns().add(TGcol);
-        
-        TableColumn<sach,String> SLcol=new  TableColumn("Số Lượng");
+
+        TableColumn<sach, String> SLcol = new TableColumn("Số Lượng");
         SLcol.setCellValueFactory(new PropertyValueFactory<>("SL"));
         TB_sach.getColumns().add(SLcol);
-        
-        TableColumn<sach,String> SLconcol=new  TableColumn("Số LƯợng còn");
+
+        TableColumn<sach, String> SLconcol = new TableColumn("Số LƯợng còn");
         SLconcol.setCellValueFactory(new PropertyValueFactory<>("SLcon"));
         TB_sach.getColumns().add(SLconcol);
-        
-        TableColumn<sach,String> maLScol=new  TableColumn("Ma loai sach");
+
+        TableColumn<sach, String> maLScol = new TableColumn("Ma loai sach");
         maLScol.setCellValueFactory(new PropertyValueFactory<>("MaLS"));
         TB_sach.getColumns().add(maLScol);
-        
-        TableColumn<sach,String> NNcol=new  TableColumn("Ngôn Ngữ");
-         NNcol.setCellValueFactory(new PropertyValueFactory<>("ngonNgu"));
+
+        TableColumn<sach, String> NNcol = new TableColumn("Ngôn Ngữ");
+        NNcol.setCellValueFactory(new PropertyValueFactory<>("ngonNgu"));
         TB_sach.getColumns().add(NNcol);
-        
-        TableColumn<sach,Double> giacol=new  TableColumn("Giá");
+
+        TableColumn<sach, Double> giacol = new TableColumn("Giá");
         giacol.setCellValueFactory(new PropertyValueFactory<>("gia"));
         TB_sach.getColumns().add(giacol);
-            
+
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            CachedRowSet crs = new CachedRowSetImpl();
-            crs.setUsername(util.Connect_JDBC.userName);
-            crs.setPassword(util.Connect_JDBC.password);
-            crs.setUrl(util.Connect_JDBC.url);
-            crs.setCommand("select * from Book");
-            crs.execute();
-            while(crs.next()){
-                data.add(new sach(crs.getString(1), crs.getString(2), crs.getString(3), crs.getString(4), crs.getString(5), crs.getString(6), crs.getString(7),crs.getString(8) ,crs.getString(9), crs.getDouble("Gia")));
+
+            cn = util.Connect_JDBC.getConnection();
+            Statement st = null;
+            st = cn.createStatement();
+            ResultSet crs = st.executeQuery("SELECT a.MaSach,a.TieuDe,a.MaLoaiSach,c.TenNXB,d.TenTheLoai,b.TenTacGia,a.TongSL,a.SLhientai,e.TenNgonNgu,a.Gia FROM dbo.Book a,dbo.TacGia b,dbo.NhaXB c,dbo.TheLoai d,dbo.NgonNgu e \n"
+                    + "WHERE a.MaTheLoai=d.MaTheLoai AND a.MaTacGia=b.MaTacGia AND a.MaNgonNgu=e.MaNgonNgu AND a.MaNXB=c.MaNXB");
+            while (crs.next()) {
+                data.add(new sach(crs.getString("MaSach"), crs.getString("TieuDe"), crs.getString("TenNXB"), crs.getString("TenTheLoai"), crs.getString("TenTacGia"), crs.getString("TongSL"), crs.getString("SLhientai"), crs.getString("MaLoaiSach"), crs.getString("TenNgonNgu"), crs.getDouble("Gia")));
             }
-            crs.acceptChanges();
+            // crs.acceptChanges();
             crs.close();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SachController.class.getName()).log(Level.SEVERE, null, ex);
+
         } catch (SQLException ex) {
             Logger.getLogger(SachController.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-        
+
         //data.add(new sach("MHS2", "VU", "Sinh Viên", "ĐH Bách Khoa Đà Nẵng", null, null, null, null, null));
         TB_sach.setItems(data);
-    } 
+    }
+
     @FXML
     public void themSach(ActionEvent e) {
-        ObservableList<sach> data = FXCollections.observableArrayList();
+
+        // tf_maSach.setDisable(false);
+        tf_NXB.setDisable(false);
+        tf_SL.setDisable(false);
+        tf_ngonNgu.setDisable(false);
+        tf_TG.setDisable(false);
+        tf_TL.setDisable(false);
+        tf_SLcon.setDisable(false);
+        tf_gia.setDisable(false);
+        tf_tenSach.setDisable(false);
         tf_maSach.setText("");
         tf_tenSach.setText("");
         tf_NXB.setText("");
@@ -261,9 +365,8 @@ public class SachController implements Initializable {
         tf_SL.setText("");
         tf_SLcon.setText("");
         tf_gia.setText("");
-                     
+        btn_luu.setDisable(false);
+
     }
-    
-    
-    
+
 }

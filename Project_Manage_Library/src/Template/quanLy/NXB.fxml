@@ -28,8 +28,8 @@
       <Pane prefHeight="443.0" prefWidth="157.0">
          <children>
             <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="11.0" layoutY="81.0" mnemonicParsing="false" onAction="#themNXB" prefHeight="30.0" prefWidth="82.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css" text="Thêm" />
-            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="274.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Xóa" />
-            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="175.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="76.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" text="Sửa" />
+            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="274.0" mnemonicParsing="false" onAction="#xoa" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Xóa" />
+            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="175.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="76.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" text="Sửa" />
          </children>
       </Pane>
       <Pane prefHeight="443.0" prefWidth="315.0" GridPane.columnIndex="2">
@@ -46,7 +46,7 @@
             <TextField fx:id="tf_dc" layoutX="117.0" layoutY="270.0" prefHeight="31.0" prefWidth="174.0" />
             <Label layoutX="14.0" layoutY="322.0" text="Email" />
             <TextField fx:id="tf_email" layoutX="117.0" layoutY="317.0" prefHeight="31.0" prefWidth="174.0" />
-            <Button fx:id="btn_luu" layoutX="128.0" layoutY="380.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="60.0" text="Lưu" />
+            <Button fx:id="btn_luu" layoutX="128.0" layoutY="380.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="60.0" text="Lưu" />
          </children>
       </Pane>
    </children>

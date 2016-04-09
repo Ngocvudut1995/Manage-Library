@@ -27,8 +27,8 @@
       </ScrollPane>
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="22.0" layoutY="190.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="76.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" text="Sửa" />
-            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="22.0" layoutY="295.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Xóa" />
+            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="22.0" layoutY="190.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="76.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" text="Sửa" />
+            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="22.0" layoutY="295.0" mnemonicParsing="false" onAction="#xoa" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Xóa" />
             <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="19.0" layoutY="88.0" mnemonicParsing="false" onAction="#themSach" prefHeight="30.0" prefWidth="82.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css" text="Thêm" />
          </children>
       </Pane>
@@ -52,7 +52,7 @@
             <TextField fx:id="tf_SLcon" layoutX="107.0" layoutY="276.0" />
             <TextField fx:id="tf_ngonNgu" layoutX="107.0" layoutY="317.0" />
             <TextField fx:id="tf_gia" layoutX="107.0" layoutY="359.0" />
-            <Button fx:id="btn_luu" layoutX="124.0" layoutY="403.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="60.0" text="Lưu" />
+            <Button fx:id="btn_luu" layoutX="124.0" layoutY="403.0" mnemonicParsing="false" onAction="#newSave" prefHeight="31.0" prefWidth="60.0" text="Lưu" />
          </children>
       </Pane>
    </children>

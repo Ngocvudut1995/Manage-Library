@@ -3,12 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package quanLy;
+package Template.quanLy;
 
 import Template.Bao_Cao.Report_DocGiaController;
 import com.sun.rowset.CachedRowSetImpl;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +23,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.SortEvent;
 import javafx.scene.control.TableColumn;
@@ -33,6 +40,7 @@ import javax.sql.rowset.spi.SyncProvider;
  * @author TU
  */
 public class NhanVienController implements Initializable {
+
     @FXML
     private TableView<nhanvien> TB_NV;
     @FXML
@@ -59,40 +67,141 @@ public class NhanVienController implements Initializable {
     private TextField tf_chucVu;
     @FXML
     private TextField tf_luong;
-    
-    
+
     @FXML
     private Button btn_save;
     ObservableList<nhanvien> data = FXCollections.observableArrayList();
-    
-    
 
     @FXML
     private void focus_ct(MouseEvent event) {
-        int i=TB_NV.getFocusModel().getFocusedIndex();
-        nhanvien nv=data.get(i);
+        int i = TB_NV.getFocusModel().getFocusedIndex();
+        nhanvien nv = data.get(i);
         tf_maNV.setText(nv.getMaNV());
         tf_tenNV.setText(nv.getTenNV());
         tf_cmnd.setText(nv.getCMND());
-        tf_NgaySinh.setText(nv.getNgaySinh());
+        String dateNS = util.date.convertStringToDate(nv.getNgaySinh());
+        tf_NgaySinh.setText(dateNS);
         tf_dc.setText(nv.getDiaChi());
         tf_gt.setText(nv.gioiTinh);
         tf_sdt.setText(nv.getSdt());
         tf_chucVu.setText(nv.getChucVu());
         tf_luong.setText(nv.luong.toString());
+        tf_maNV.setDisable(true);
+        tf_NgaySinh.setDisable(true);
+        tf_sdt.setDisable(true);
+        tf_luong.setDisable(true);
+        tf_gt.setDisable(true);
+        tf_dc.setDisable(true);
+        tf_cmnd.setDisable(true);
+        tf_chucVu.setDisable(true);
+        tf_tenNV.setDisable(true);
+        btn_save.setDisable(true);
+
+    }
+    Connection cn = null;
+
+    @FXML
+    private int saveNew(ActionEvent event) {
+        if ((tf_tenNV.getText()).equals("") || (tf_NgaySinh.getText()).equals("") || (tf_sdt.getText()).equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Thông Báo");
+            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
+            System.out.println("Loi!");
+            alert.showAndWait();
+            return 1;
+        } else {
+            try {
+
+                Date datestr = util.date.convertDatetoString(tf_NgaySinh.getText());
+                //System.out.println(datestr);
+                cn = util.Connect_JDBC.getConnection();
+                PreparedStatement ps = null;
+                String str = "UPDATE NhanVien SET HoVaTen = ? , NgaySinh = ? ,SoDT = ? ,DiaChi=? ,Gioitinh= ? ,Luong= ?, ChucVu= ? WHERE MaNV = ? ";
+                ps = cn.prepareStatement(str);
+                java.sql.Date date = new java.sql.Date(datestr.getTime());
+                ps.setNString(1, tf_tenNV.getText());
+                ps.setDate(2, date);
+                ps.setString(3, tf_sdt.getText());
+                ps.setNString(4, tf_dc.getText());
+                ps.setNString(5, tf_gt.getText());
+                ps.setDouble(6, Double.parseDouble(tf_luong.getText()));
+                ps.setNString(7, tf_chucVu.getText());
+                ps.setNString(8, tf_maNV.getText());
+                ps.executeUpdate();
+
+                data.clear();
+                Statement st = null;
+                st = cn.createStatement();
+                ResultSet rs = st.executeQuery("Select * from NhanVien");
+                while (rs.next()) {
+                    data.add(new nhanvien(rs.getString("MaNV"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"),
+                            rs.getString("Gioitinh"), rs.getString("DiaChi"), rs.getDouble("Luong"), rs.getString("ChucVu")));
+                }
+                TB_NV.setItems(data);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông Báo");
+                alert.setHeaderText("Lưu thành công");
+                alert.showAndWait();
+            } catch (SQLException ex) {
+                Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return 0;
+        }
     }
 
-   
-    public class nhanvien{
-      private  String MaNV;
-      private  String TenNV;
-      private  String ngaySinh;
-      private  String sdt;
-      private  String gioiTinh;
-      private  String diaChi;
-       private  String CMND;
-      private  String ChucVu;
-      private  Double luong;
+    @FXML
+    private void xoa(ActionEvent event) {
+        int i = TB_NV.getFocusModel().getFocusedIndex();
+        nhanvien nv = data.get(i);
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Cảnh Báo!");
+        alert.setHeaderText("Bạn chắc chắn muốn xóa ?");
+        Boolean yes = alert.showAndWait().isPresent();
+        if (yes) {
+
+            try {
+                data.remove(i);
+                cn = util.Connect_JDBC.getConnection();
+                PreparedStatement ps = null;
+                String str = "DELETE FROM NhanVien WHERE MaNV= ?";
+
+                ps = cn.prepareStatement(str);
+
+                ps.setString(1, nv.getMaNV());
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @FXML
+    private void Edit(ActionEvent event) {
+        tf_tenNV.setDisable(false);
+        tf_sdt.setDisable(false);
+        tf_gt.setDisable(false);
+        tf_cmnd.setDisable(false);
+        tf_dc.setDisable(false);
+        tf_NgaySinh.setDisable(false);
+        tf_chucVu.setDisable(false);
+        tf_luong.setDisable(false);
+        btn_save.setDisable(false);
+
+    }
+
+    public class nhanvien {
+
+        private String MaNV;
+        private String TenNV;
+        private Date ngaySinh;
+        private String sdt;
+        private String gioiTinh;
+        private String diaChi;
+        private String CMND;
+        private String ChucVu;
+        private Double luong;
 
         public String getMaNV() {
             return MaNV;
@@ -109,11 +218,12 @@ public class NhanVienController implements Initializable {
         public void setTenNV(String TenNV) {
             this.TenNV = TenNV;
         }
-        public String getNgaySinh() {
+
+        public Date getNgaySinh() {
             return ngaySinh;
         }
 
-        public void setNgaySinh(String ngaySinh) {
+        public void setNgaySinh(Date ngaySinh) {
             this.ngaySinh = ngaySinh;
         }
 
@@ -165,25 +275,27 @@ public class NhanVienController implements Initializable {
             this.luong = luong;
         }
 
-        public nhanvien(String MaNV, String TenNV, String ngaySinh, String sdt, String gioiTinh, String diaChi, Double luong, String ChucVu) {
+        public nhanvien(String MaNV, String TenNV, Date ngaySinh, String sdt, String gioiTinh, String diaChi, Double luong, String ChucVu) {
             this.MaNV = MaNV;
             this.TenNV = TenNV;
             this.ngaySinh = ngaySinh;
             this.sdt = sdt;
             this.gioiTinh = gioiTinh;
             this.diaChi = diaChi;
-           // this.CMND = CMND;
+            // this.CMND = CMND;
             this.ChucVu = ChucVu;
             this.luong = luong;
         }
-      
+
     }
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btn_save.setDisable(true);
+
         TableColumn<nhanvien, String> manvcol = new TableColumn("   Mã Nhân Viên   ");
         manvcol.setCellValueFactory(new PropertyValueFactory<>("MaNV"));
         TB_NV.getColumns().add(manvcol);
@@ -211,9 +323,9 @@ public class NhanVienController implements Initializable {
         TableColumn<nhanvien, Double> luongcol = new TableColumn("   Lương   ");
         luongcol.setCellValueFactory(new PropertyValueFactory<>("luong"));
         TB_NV.getColumns().add(luongcol);
-         
-     //   ObservableList<nhanvien> data = FXCollections.observableArrayList();
-         try {
+
+        //   ObservableList<nhanvien> data = FXCollections.observableArrayList();
+        try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             CachedRowSet crs = new CachedRowSetImpl();
             crs.setUsername(util.Connect_JDBC.userName);
@@ -221,23 +333,26 @@ public class NhanVienController implements Initializable {
             crs.setUrl(util.Connect_JDBC.url);
             crs.setCommand("select * from NhanVien");
             crs.execute();
-            while(crs.next()){
-                data.add(new nhanvien(crs.getString("MaNV"), crs.getString("HoVaTen"),crs.getString("NgaySinh"), crs.getString("SoDT"),crs.getString("Gioitinh") ,crs.getString("Email"),crs.getDouble("Luong"),crs.getString("ChucVu")));
+            while (crs.next()) {
+                data.add(new nhanvien(crs.getString("MaNV"), crs.getString("HoVaTen"), crs.getDate("NgaySinh"), crs.getString("SoDT"), crs.getString("Gioitinh"), crs.getString("Email"), crs.getDouble("Luong"), crs.getString("ChucVu")));
             }
             crs.acceptChanges();
             crs.close();
+
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NhanVienController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NhanVienController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
-         
-         
-         TB_NV.setItems(data);
-    } 
+
+        TB_NV.setItems(data);
+    }
+
     @FXML
     public void themNhanVien(ActionEvent e) {
-        ObservableList<nhanvien> data = FXCollections.observableArrayList();
+
         tf_maNV.setText("");
         tf_tenNV.setText("");
         tf_NgaySinh.setText("");
@@ -247,12 +362,16 @@ public class NhanVienController implements Initializable {
         tf_sdt.setText("");
         tf_chucVu.setText("");
         tf_luong.setText("");
-        
-              
+        tf_tenNV.setDisable(false);
+        tf_sdt.setDisable(false);
+        tf_gt.setDisable(false);
+        tf_cmnd.setDisable(false);
+        tf_dc.setDisable(false);
+        tf_NgaySinh.setDisable(false);
+        tf_chucVu.setDisable(false);
+        tf_luong.setDisable(false);
+        btn_save.setDisable(false);
+
     }
-  
-        
-        
-    
-    
+
 }

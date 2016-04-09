@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="quanLy.NhanVienController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Template.quanLy.NhanVienController">
    <columnConstraints>
       <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" maxWidth="283.0" minWidth="10.0" prefWidth="112.0" />
       <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" maxWidth="711.0" minWidth="10.0" prefWidth="550.0" />
@@ -27,8 +27,8 @@
       </ScrollPane>
       <Pane prefHeight="443.0" prefWidth="144.0">
          <children>
-            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="23.0" layoutY="318.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Xóa" />
-            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="23.0" layoutY="206.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="76.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" text="Sửa" />
+            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="23.0" layoutY="318.0" mnemonicParsing="false" onAction="#xoa" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Xóa" />
+            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="23.0" layoutY="206.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="76.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" text="Sửa" />
             <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="23.0" layoutY="98.0" mnemonicParsing="false" onAction="#themNhanVien" prefHeight="32.0" prefWidth="76.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css" text="Thêm" />
          </children>
       </Pane>
@@ -52,7 +52,7 @@
             <TextField fx:id="tf_cmnd" layoutX="105.0" layoutY="283.0" />
             <TextField fx:id="tf_chucVu" layoutX="105.0" layoutY="323.0" />
             <TextField fx:id="tf_luong" layoutX="105.0" layoutY="362.0" />
-            <Button fx:id="btn_save" layoutX="129.0" layoutY="406.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="59.0" text="Lưu" />
+            <Button fx:id="btn_save" layoutX="129.0" layoutY="406.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="59.0" text="Lưu" />
          </children>
       </Pane>
    </children>

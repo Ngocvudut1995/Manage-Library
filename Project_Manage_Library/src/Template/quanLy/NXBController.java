@@ -9,6 +9,7 @@ import com.sun.rowset.CachedRowSetImpl;
 import com.sun.rowset.JdbcRowSetImpl;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -56,10 +58,12 @@ public class NXBController implements Initializable {
     private TextField tf_dc;
     @FXML
     private TextField tf_email;
+    ObservableList<NXB> data = FXCollections.observableArrayList();
+    Connection cn = null;
 
     @FXML
     private void focus_CTNXB(MouseEvent event) {
-         int i = TB_NXB.getFocusModel().getFocusedIndex();
+        int i = TB_NXB.getFocusModel().getFocusedIndex();
         NXB nxb = data.get(i);
         tf_maNXB.setText(nxb.getMaNXB());
         tf_tenNXB.setText(nxb.getTenNXB());
@@ -67,10 +71,90 @@ public class NXBController implements Initializable {
         tf_dc.setText(nxb.getDiaChi());
         tf_email.setText(nxb.getEmail());
         tf_sdt.setText(nxb.getSdt());
+        tf_maNXB.setDisable(true);
+        tf_tenNXB.setDisable(true);
+        tf_dc.setDisable(true);
+        tf_email.setDisable(true);
+        tf_namThanhLap.setDisable(true);
+        tf_sdt.setDisable(true);
+        btn_luu.setDisable(true);
     }
 
     @FXML
     private Button btn_luu;
+
+    @FXML
+    private int saveNew(ActionEvent event) {
+        if ((tf_tenNXB.getText()).equals("") || (tf_dc.getText()).equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Thông Báo");
+            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
+            System.out.println("Loi!");
+            alert.showAndWait();
+            return 1;
+        } else {
+            try {
+                cn = util.Connect_JDBC.getConnection();
+                PreparedStatement ps = null;
+                String str = "UPDATE NhaXB SET TenNXB = ? , DiaChi = ? WHERE MaNXB = ? ";
+                ps = cn.prepareStatement(str);
+                ps.setNString(1, tf_tenNXB.getText());
+                ps.setNString(2, tf_dc.getText());
+                ps.setString(3, tf_maNXB.getText());
+                ps.executeUpdate();
+                data.clear();
+                Statement st = null;
+                st = cn.createStatement();
+                ResultSet rs = st.executeQuery("Select * from NhaXB");
+                while (rs.next()) {
+                    data.add(new NXB(rs.getString("MaNXB"), rs.getString("TenNXB"), rs.getString("DiaChi"), rs.getString(3), rs.getString(3), rs.getString(3)));
+                }
+                TB_NXB.setItems(data);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông Báo");
+                alert.setHeaderText("Lưu thành công");
+                alert.showAndWait();
+            } catch (SQLException ex) {
+                Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return 0;
+        }
+    }
+
+    @FXML
+    private void xoa(ActionEvent event) {
+        int i = TB_NXB.getFocusModel().getFocusedIndex();
+        NXB nxb = data.get(i);
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Cảnh Báo!");
+        alert.setHeaderText("Bạn chắc chắn muốn xóa ?");
+        Boolean yes = alert.showAndWait().isPresent();
+        if (yes) {
+
+            try {
+                data.remove(i);
+                cn = util.Connect_JDBC.getConnection();
+                PreparedStatement ps = null;
+                String str = "DELETE FROM nHaXB WHERE MaNXB= ?";
+                ps = cn.prepareStatement(str);
+
+                ps.setString(1, nxb.getMaNXB());
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @FXML
+    private void Edit(ActionEvent event) {
+        tf_tenNXB.setDisable(false);
+        tf_dc.setDisable(false);
+        tf_email.setDisable(false);
+        tf_namThanhLap.setDisable(false);
+        tf_sdt.setDisable(false);
+        btn_luu.setDisable(false);
+    }
 
     public class NXB {
 
@@ -140,11 +224,9 @@ public class NXBController implements Initializable {
 
     }
 
-    ObservableList<NXB> data = FXCollections.observableArrayList();
-
-  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btn_luu.setDisable(true);
         TableColumn<NXB, String> maNXB = new TableColumn<>("Mã NXB");
         maNXB.setCellValueFactory(new PropertyValueFactory<>("maNXB"));
         TB_NXB.getColumns().add(maNXB);
@@ -165,33 +247,16 @@ public class NXBController implements Initializable {
 //        email.setCellValueFactory(new PropertyValueFactory<>("email"));
 //        TB_NXB.getColumns().add(email);
 
-//        try {
-//            Connection connection = util.Connect_JDBC.getConnection();
-//            String queryString = "SELECT * FROM NhaXB";
-//            Statement statement;
-//            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-//                    ResultSet.CONCUR_UPDATABLE);
-//            ResultSet rsSql = statement.executeQuery(queryString);
-//           
-//            while (rsSql.next()) {
-//                data.add(new NXB(rsSql.getString("MaNXB"), rsSql.getString(2),rsSql.getString(3), rsSql.getString(2), rsSql.getString(3),rsSql.getString(2)));
-//            }
-//           // jdbcRowSet.close();
-//            connection.close();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             CachedRowSet crs = new CachedRowSetImpl();
-             crs.setUsername(util.Connect_JDBC.userName);
+            crs.setUsername(util.Connect_JDBC.userName);
             crs.setPassword(util.Connect_JDBC.password);
             crs.setUrl(util.Connect_JDBC.url);
             crs.setCommand("select * from NhaXB");
             crs.execute();
-            while(crs.next()){
-                data.add(new NXB(crs.getString("MaNXB"), crs.getString("TenNXB"), crs.getString("DiaChi"), crs.getString(3), crs.getString(3),crs.getString(3)));
+            while (crs.next()) {
+                data.add(new NXB(crs.getString("MaNXB"), crs.getString("TenNXB"), crs.getString("DiaChi"), crs.getString(3), crs.getString(3), crs.getString(3)));
             }
             crs.acceptChanges();
             crs.close();
@@ -200,8 +265,8 @@ public class NXBController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        data.add(new NXB("NXB001", "Kim Đồng", "", "", "","01227401239"));
-      TB_NXB.setItems(data);
+        data.add(new NXB("NXB001", "Kim Đồng", "", "", "", "01227401239"));
+        TB_NXB.setItems(data);
     }
 
     @FXML
@@ -213,6 +278,13 @@ public class NXBController implements Initializable {
         tf_dc.setText("");
         tf_email.setText("");
         tf_sdt.setText("");
+        tf_maNXB.setDisable(true);
+        tf_tenNXB.setDisable(false);
+        tf_dc.setDisable(false);
+        tf_email.setDisable(false);
+        tf_namThanhLap.setDisable(false);
+        tf_sdt.setDisable(false);
+        btn_luu.setDisable(false);
 
     }
 }

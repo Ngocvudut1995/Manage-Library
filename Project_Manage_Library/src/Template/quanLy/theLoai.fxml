@@ -22,8 +22,8 @@
    <children>
       <Pane prefHeight="443.0" prefWidth="170.0">
          <children>
-            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="206.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="76.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" text="Sửa" />
-            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="303.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Xóa" />
+            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="206.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="76.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" text="Sửa" />
+            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="303.0" mnemonicParsing="false" onAction="#xoa" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Xóa" />
             <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="25.0" layoutY="101.0" mnemonicParsing="false" onAction="#themTL" prefHeight="30.0" prefWidth="82.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css" text="Thêm" />
          </children>
       </Pane>
