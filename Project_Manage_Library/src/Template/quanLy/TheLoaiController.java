@@ -48,6 +48,8 @@ public class TheLoaiController implements Initializable {
     private TextField tf_maTL;
     @FXML
     private TextField tf_tenTl;
+    @FXML
+    private Button btn_add;
 
     @FXML
     private void focus_CTTL(MouseEvent event) {
@@ -58,6 +60,8 @@ public class TheLoaiController implements Initializable {
         tf_maTL.setDisable(true);
         tf_tenTl.setDisable(true);
         btn_save.setDisable(true);
+        btn_add.setOpacity(0);
+        btn_add.setDisable(true);
     }
     Connection cn = null;
     @FXML
@@ -130,6 +134,45 @@ public class TheLoaiController implements Initializable {
     private void Edit(ActionEvent event) {
         tf_tenTl.setDisable(false);
         btn_save.setDisable(false);
+        btn_add.setOpacity(0);
+        btn_add.setDisable(true);
+    }
+
+    @FXML
+    private int ThemThongTin(ActionEvent event) {
+        if ((tf_tenTl.getText()).equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Thông Báo");
+            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
+            System.out.println("Loi!");
+            alert.showAndWait();
+            return 1;
+        } else {
+            try {
+                cn = util.Connect_JDBC.getConnection();
+                PreparedStatement ps = null;
+                String str = "INSERT INTO dbo.TheLoai( MaTheLoai, TenTheLoai, MaPhong ) VALUES  ('TL',?,null )";
+                ps = cn.prepareStatement(str);
+                ps.setNString(1, tf_tenTl.getText());
+                
+                ps.executeUpdate();
+                data.clear();
+                Statement st = null;
+                st = cn.createStatement();
+                ResultSet rs = st.executeQuery("Select * from TheLoai");
+                while (rs.next()) {
+                    data.add(new theloai(rs.getString(1), rs.getString(2)));
+                }
+                TB_Theloai.setItems(data);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông Báo");
+                alert.setHeaderText("Lưu thành công");
+                alert.showAndWait();
+            } catch (SQLException ex) {
+                Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return 0;
+        }
     }
 
     /**
@@ -169,6 +212,8 @@ public class TheLoaiController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         btn_save.setDisable(true);
+        btn_add.setOpacity(0);
+        btn_add.setDisable(true);
         TableColumn<theloai, String> maTL = new TableColumn<>("Mã Thể Loại");
         maTL.setCellValueFactory(new PropertyValueFactory<>("maTL"));
         TB_Theloai.getColumns().add(maTL);
@@ -203,7 +248,10 @@ public class TheLoaiController implements Initializable {
         tf_maTL.setText("");
         tf_tenTl.setText("");
         tf_tenTl.setDisable(false);
-        btn_save.setDisable(false);
+        
+        btn_save.setDisable(true);
+        btn_add.setOpacity(1);
+        btn_add.setDisable(false);
 
     }
 }

@@ -22,7 +22,7 @@
    <children>
       <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="549.0" GridPane.columnIndex="1">
          <content>
-            <TableView fx:id="TB_NV" onMousePressed="#focus_ct" prefHeight="426.0" prefWidth="925.0" />
+            <TableView fx:id="TB_NV" onMousePressed="#focus_ct" prefHeight="426.0" prefWidth="970.0" />
          </content>
       </ScrollPane>
       <Pane prefHeight="443.0" prefWidth="144.0">
@@ -34,25 +34,26 @@
       </Pane>
       <Pane prefHeight="443.0" prefWidth="316.0" GridPane.columnIndex="2">
          <children>
-            <Label layoutX="14.0" layoutY="52.0" text="Mã NV" />
-            <TextField fx:id="tf_maNV" layoutX="105.0" layoutY="47.0" />
-            <Label layoutX="14.0" layoutY="94.0" text="Tên NV" />
-            <TextField fx:id="tf_tenNV" layoutX="105.0" layoutY="89.0" />
-            <Label layoutX="14.0" layoutY="134.0" text="Ngày sinh" />
-            <Label layoutX="14.0" layoutY="173.0" text="SĐT" />
-            <Label layoutX="14.0" layoutY="211.0" text="GT" />
-            <Label layoutX="14.0" layoutY="249.0" text="ĐC" />
-            <Label layoutX="14.0" layoutY="288.0" text="CMND" />
-            <Label layoutX="14.0" layoutY="328.0" text="Chức vụ" />
-            <Label layoutX="14.0" layoutY="367.0" text="Lương" />
-            <TextField fx:id="tf_NgaySinh" layoutX="105.0" layoutY="129.0" />
-            <TextField fx:id="tf_sdt" layoutX="105.0" layoutY="168.0" />
-            <TextField fx:id="tf_gt" layoutX="105.0" layoutY="206.0" />
-            <TextField fx:id="tf_dc" layoutX="105.0" layoutY="244.0" />
-            <TextField fx:id="tf_cmnd" layoutX="105.0" layoutY="283.0" />
-            <TextField fx:id="tf_chucVu" layoutX="105.0" layoutY="323.0" />
-            <TextField fx:id="tf_luong" layoutX="105.0" layoutY="362.0" />
-            <Button fx:id="btn_save" layoutX="129.0" layoutY="406.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="59.0" text="Lưu" />
+            <Label layoutX="16.0" layoutY="34.0" text="Mã NV" />
+            <TextField fx:id="tf_maNV" layoutX="107.0" layoutY="29.0" />
+            <Label layoutX="16.0" layoutY="76.0" text="Tên NV" />
+            <TextField fx:id="tf_tenNV" layoutX="107.0" layoutY="71.0" />
+            <Label layoutX="16.0" layoutY="116.0" text="Ngày sinh" />
+            <Label layoutX="16.0" layoutY="155.0" text="SĐT" />
+            <Label layoutX="16.0" layoutY="193.0" text="GT" />
+            <Label layoutX="16.0" layoutY="231.0" text="ĐC" />
+            <Label layoutX="16.0" layoutY="270.0" text="Email" />
+            <Label layoutX="16.0" layoutY="310.0" text="Chức vụ" />
+            <Label layoutX="16.0" layoutY="349.0" text="Lương" />
+            <TextField fx:id="tf_NgaySinh" layoutX="107.0" layoutY="111.0" />
+            <TextField fx:id="tf_sdt" layoutX="107.0" layoutY="150.0" />
+            <TextField fx:id="tf_gt" layoutX="107.0" layoutY="188.0" />
+            <TextField fx:id="tf_dc" layoutX="107.0" layoutY="226.0" />
+            <TextField fx:id="tf_cmnd" layoutX="107.0" layoutY="265.0" />
+            <TextField fx:id="tf_chucVu" layoutX="107.0" layoutY="305.0" />
+            <TextField fx:id="tf_luong" layoutX="107.0" layoutY="344.0" />
+            <Button fx:id="btn_save" layoutX="126.0" layoutY="391.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="59.0" text="Lưu" />
+            <Button fx:id="btn_add" layoutX="126.0" layoutY="391.0" mnemonicParsing="false" onAction="#ThemThongTin" prefHeight="31.0" prefWidth="59.0" text="Thêm" />
          </children>
       </Pane>
    </children>

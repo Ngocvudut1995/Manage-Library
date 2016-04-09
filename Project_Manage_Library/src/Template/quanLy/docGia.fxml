@@ -53,7 +53,7 @@
             <TextField fx:id="tf_cmnd" layoutX="99.0" layoutY="244.0" prefHeight="31.0" prefWidth="200.0" />
             <TextField fx:id="tf_email" layoutX="99.0" layoutY="322.0" prefHeight="31.0" prefWidth="200.0" />
             <TextField fx:id="tf_TT" layoutX="99.0" layoutY="361.0" prefHeight="31.0" prefWidth="200.0" />
-            <Button fx:id="btn_save" layoutX="123.0" layoutY="404.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="60.0" text="Lưu" />
+            <Button fx:id="btn_save" layoutX="122.0" layoutY="404.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="60.0" text="Lưu" />
             <Label layoutX="3.0" layoutY="288.0" text="Ngày làm/hết" />
             <TextField fx:id="tf_ngayDK" layoutX="99.0" layoutY="283.0" prefHeight="31.0" prefWidth="95.0" />
             <Label layoutX="194.0" layoutY="285.0" prefHeight="21.0" prefWidth="11.0" text="/">
@@ -62,6 +62,7 @@
                </font>
             </Label>
             <TextField fx:id="tf_ngayHet" layoutX="205.0" layoutY="283.0" prefHeight="31.0" prefWidth="95.0" />
+            <Button fx:id="btn_add" layoutX="122.0" layoutY="404.0" mnemonicParsing="false" onAction="#ThemThongTin" prefHeight="31.0" prefWidth="60.0" text="Thêm" />
          </children>
       </Pane>
    </children>

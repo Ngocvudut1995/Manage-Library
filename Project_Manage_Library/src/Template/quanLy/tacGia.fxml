@@ -38,6 +38,7 @@
             <TextField fx:id="tf_gt" layoutX="105.0" layoutY="275.0" />
             <TextField fx:id="tf_namSinh" layoutX="105.0" layoutY="215.0" />
             <Button fx:id="btn_save" layoutX="121.0" layoutY="371.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="64.0" text="Lưu" />
+            <Button fx:id="btn_add" layoutX="121.0" layoutY="371.0" mnemonicParsing="false" onAction="#ThemThongTin" prefHeight="31.0" prefWidth="64.0" text="Thêm" />
          </children>
       </Pane>
       <AnchorPane prefHeight="443.0" prefWidth="565.0" GridPane.columnIndex="1">

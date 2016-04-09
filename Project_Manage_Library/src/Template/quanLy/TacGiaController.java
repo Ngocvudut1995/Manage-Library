@@ -54,6 +54,8 @@ public class TacGiaController implements Initializable {
     private TextField tf_gt;
     @FXML
     private TextField tf_namSinh;
+    @FXML
+    private Button btn_add;
 
     @FXML
     private void focus_CTTG(MouseEvent event) {
@@ -69,6 +71,9 @@ public class TacGiaController implements Initializable {
         tf_namSinh.setDisable(true);
         tf_tenTG.setDisable(true);
         btn_save.setDisable(true);
+        btn_save.setDisable(true);
+        btn_add.setOpacity(0);
+        btn_add.setDisable(true);
 
     }
     ObservableList<tacGia> data = FXCollections.observableArrayList();
@@ -78,6 +83,9 @@ public class TacGiaController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btn_save.setDisable(true);
+
+        btn_add.setOpacity(0);
+        btn_add.setDisable(true);
         TableColumn<tacGia, String> maTGcol = new TableColumn(" Mã Tác Giả");
         maTGcol.setCellValueFactory(new PropertyValueFactory<>("maTG"));
         TB_TG.getColumns().add(maTGcol);
@@ -124,10 +132,13 @@ public class TacGiaController implements Initializable {
         tf_namSinh.setText("");
         tf_gt.setText("");
         //tf_maTG.setDisable(false);
+        tf_maTG.setDisable(true);
         tf_gt.setDisable(false);
         tf_namSinh.setDisable(false);
         tf_tenTG.setDisable(false);
-        btn_save.setDisable(false);
+        btn_save.setDisable(true);
+        btn_add.setOpacity(1);
+        btn_add.setDisable(false);
     }
     Connection cn = null;
 
@@ -210,6 +221,52 @@ public class TacGiaController implements Initializable {
         tf_namSinh.setDisable(false);
         tf_tenTG.setDisable(false);
         btn_save.setDisable(false);
+        btn_add.setOpacity(0);
+        btn_add.setDisable(true);
+    }
+
+    @FXML
+    private int ThemThongTin(ActionEvent event) {
+        String ten = tf_tenTG.getText();
+
+        if (ten.equals("") || (tf_namSinh.getText()).equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Thông Báo");
+            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
+            System.out.println("Loi!");
+            alert.showAndWait();
+            return 1;
+        } else {
+            try {
+                Date datestr = util.date.convertDatetoString(tf_namSinh.getText());        
+                cn = util.Connect_JDBC.getConnection();
+                PreparedStatement ps = null;
+                String str = "INSERT INTO dbo.TacGia( MaTacGia, TenTacGia, NgaySinh ) VALUES  ( 'TG',?,?) ";
+                ps = cn.prepareStatement(str);
+                java.sql.Date date = new java.sql.Date(datestr.getTime());
+                ps.setNString(1, tf_tenTG.getText());
+                ps.setDate(2, date);
+                
+                ps.executeUpdate();
+                data.clear();
+                Statement st = null;
+                st = cn.createStatement();
+                ResultSet rs = st.executeQuery("Select * from TacGia");
+                while (rs.next()) {
+                    data.add(new tacGia(rs.getString("MaTacGia"), rs.getString("TenTacGia"), rs.getDate("NgaySinh"), null));
+                }
+                TB_TG.setItems(data);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông Báo");
+                alert.setHeaderText("Lưu thành công");
+                alert.showAndWait();
+            } catch (SQLException ex) {
+                Logger.getLogger(TacGiaController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(TacGiaController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return 0;
+        }
     }
 
     /**

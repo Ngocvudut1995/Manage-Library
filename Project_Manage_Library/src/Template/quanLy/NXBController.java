@@ -60,6 +60,8 @@ public class NXBController implements Initializable {
     private TextField tf_email;
     ObservableList<NXB> data = FXCollections.observableArrayList();
     Connection cn = null;
+    @FXML
+    private Button btn_add;
 
     @FXML
     private void focus_CTNXB(MouseEvent event) {
@@ -78,6 +80,8 @@ public class NXBController implements Initializable {
         tf_namThanhLap.setDisable(true);
         tf_sdt.setDisable(true);
         btn_luu.setDisable(true);
+        btn_add.setDisable(true);
+        btn_add.setOpacity(0);
     }
 
     @FXML
@@ -154,6 +158,46 @@ public class NXBController implements Initializable {
         tf_namThanhLap.setDisable(false);
         tf_sdt.setDisable(false);
         btn_luu.setDisable(false);
+        btn_add.setDisable(true);
+        btn_add.setOpacity(0);
+    }
+
+    @FXML
+    private int ThemThongTin(ActionEvent event) {
+        if ((tf_tenNXB.getText()).equals("") || (tf_dc.getText()).equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Thông Báo");
+            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
+            System.out.println("Loi!");
+            alert.showAndWait();
+            return 1;
+        } else {
+            try {
+                cn = util.Connect_JDBC.getConnection();
+                PreparedStatement ps = null;
+                String str = "INSERT dbo.NhaXB( MaNXB, TenNXB, DiaChi )VALUES  ('NXB',?,? ) ";
+                ps = cn.prepareStatement(str);
+                ps.setNString(1, tf_tenNXB.getText());
+                ps.setNString(2, tf_dc.getText());
+                
+                ps.executeUpdate();
+                data.clear();
+                Statement st = null;
+                st = cn.createStatement();
+                ResultSet rs = st.executeQuery("Select * from NhaXB");
+                while (rs.next()) {
+                    data.add(new NXB(rs.getString("MaNXB"), rs.getString("TenNXB"), rs.getString("DiaChi"), rs.getString(3), rs.getString(3), rs.getString(3)));
+                }
+                TB_NXB.setItems(data);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông Báo");
+                alert.setHeaderText("Lưu thành công");
+                alert.showAndWait();
+            } catch (SQLException ex) {
+                Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return 0;
+        }
     }
 
     public class NXB {
@@ -227,6 +271,8 @@ public class NXBController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btn_luu.setDisable(true);
+        btn_add.setDisable(true);
+        btn_add.setOpacity(0);
         TableColumn<NXB, String> maNXB = new TableColumn<>("Mã NXB");
         maNXB.setCellValueFactory(new PropertyValueFactory<>("maNXB"));
         TB_NXB.getColumns().add(maNXB);
@@ -284,7 +330,9 @@ public class NXBController implements Initializable {
         tf_email.setDisable(false);
         tf_namThanhLap.setDisable(false);
         tf_sdt.setDisable(false);
-        btn_luu.setDisable(false);
+        btn_luu.setDisable(true);
+        btn_add.setDisable(false);
+        btn_add.setOpacity(1);
 
     }
 }
