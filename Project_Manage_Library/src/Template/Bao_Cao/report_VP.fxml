@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -31,14 +33,26 @@
             <RowConstraints maxHeight="440.0" minHeight="10.0" prefHeight="310.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <ScrollPane prefHeight="340.0" prefWidth="625.0" GridPane.rowIndex="1">
-               <content>
-                  <TableView fx:id="table_VP" onMousePressed="#focus_ct" prefHeight="322.0" prefWidth="816.0" />
-               </content>
-            </ScrollPane>
+            <SplitPane dividerPositions="0.5162337662337663" orientation="VERTICAL" prefHeight="297.0" prefWidth="598.0" GridPane.rowIndex="1">
+               <items>
+                  <ScrollPane prefHeight="121.0" prefWidth="596.0">
+                     <content>
+                        <TableView fx:id="table_VP" onMousePressed="#focus_ct" prefHeight="240.0" prefWidth="816.0" />
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane prefHeight="340.0" prefWidth="625.0">
+                     <content>
+                        <TableView fx:id="table_VP1" onMousePressed="#focus_ct2" prefHeight="244.0" prefWidth="816.0" />
+                     </content>
+                  </ScrollPane>
+               </items>
+            </SplitPane>
             <Pane prefHeight="127.0" prefWidth="611.0">
                <children>
-                  <Button fx:id="bt_search" alignment="TOP_RIGHT" layoutX="503.0" layoutY="46.0" mnemonicParsing="false" onAction="#Load_data" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css" />
+                  <Button fx:id="bt_search" alignment="TOP_RIGHT" layoutX="503.0" layoutY="46.0" mnemonicParsing="false" onAction="#Load_data" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Label layoutX="121.0" layoutY="16.0" text="Từ Ngày:">
                      <font>
                         <Font name="System Bold" size="12.0" />

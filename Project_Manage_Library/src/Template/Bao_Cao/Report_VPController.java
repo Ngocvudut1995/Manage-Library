@@ -5,7 +5,6 @@
  */
 package Template.Bao_Cao;
 
-import Template.Muon_Tra.Chi_tiet_muonController;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -35,7 +34,14 @@ import javafx.scene.input.MouseEvent;
  * @author Vu Dang
  */
 public class Report_VPController implements Initializable {
+    @FXML
+    private TableView<viphamkhac> table_VP1;
 
+    @FXML
+    private void xuat_Excel(ActionEvent event) {
+    }
+
+  
     public class vipham {
 
         private Integer stt;
@@ -44,7 +50,7 @@ public class Report_VPController implements Initializable {
         private String masach;
         private String tensach;
         private Date ngaymuon;
-       
+
         private Date hantra;
         private Date ngaytra;
         private String tinhtrang;
@@ -53,7 +59,7 @@ public class Report_VPController implements Initializable {
         private String lydo;
         private String htxuphat;
         private Date ngayxuly;
-
+        
         public Integer getStt() {
             return stt;
         }
@@ -165,9 +171,15 @@ public class Report_VPController implements Initializable {
         public void setNgaytra(Date ngaytra) {
             this.ngaytra = ngaytra;
         }
-
-        public vipham(Integer stt, String mamuon, String masach, String tensach, Date ngaymuon, 
-                Date hantra,Date ngaytra, String tinhtrang,String madocgia,String tendocgia) {
+        public vipham(){
+            
+        }
+        public  vipham(String mamuon,String madocgia){
+            this.mamuon = mamuon;
+            this.madocgia = madocgia;
+        }
+        public vipham(Integer stt, String mamuon, String masach, String tensach, Date ngaymuon,
+                Date hantra, Date ngaytra, String tinhtrang, String madocgia, String tendocgia) {
             this.stt = stt;
             this.mamuon = mamuon;
             this.masach = masach;
@@ -201,9 +213,94 @@ public class Report_VPController implements Initializable {
     @FXML
     private Button bt_xuat;
     ObservableList<vipham> data_load = FXCollections.observableArrayList();
+    ObservableList<viphamkhac> data_load_vp = FXCollections.observableArrayList();
     Connection cn = null;
     Date today = new Date();
+    public class viphamkhac{
+        private Integer stt;
+        private String Mavp;
+        private String madocgia;
+        private String lydo;
+        private String htxuly;
+        private Date ngayxuly;
+        private Date ngayvipham;
+        private String tendocgia;
 
+        public String getTendocgia() {
+            return tendocgia;
+        }
+
+        public void setTendocgia(String tendocgia) {
+            this.tendocgia = tendocgia;
+        }
+
+        public String getMavp() {
+            return Mavp;
+        }
+
+        public void setMavp(String Mavp) {
+            this.Mavp = Mavp;
+        }
+
+        public String getMadocgia() {
+            return madocgia;
+        }
+
+        public void setMadocgia(String madocgia) {
+            this.madocgia = madocgia;
+        }
+
+        public String getLydo() {
+            return lydo;
+        }
+
+        public void setLydo(String lydo) {
+            this.lydo = lydo;
+        }
+
+        public String getHtxuly() {
+            return htxuly;
+        }
+
+        public Integer getStt() {
+            return stt;
+        }
+
+        public void setStt(Integer stt) {
+            this.stt = stt;
+        }
+
+        public void setHtxuly(String htxuly) {
+            this.htxuly = htxuly;
+        }
+
+        public Date getNgayxuly() {
+            return ngayxuly;
+        }
+
+        public void setNgayxuly(Date ngayxuly) {
+            this.ngayxuly = ngayxuly;
+        }
+
+        public Date getNgayvipham() {
+            return ngayvipham;
+        }
+
+        public void setNgayvipham(Date ngayvipham) {
+            this.ngayvipham = ngayvipham;
+        }
+
+        public viphamkhac(Integer stt,String Mavp, String madocgia, String lydo, String htxuly, Date ngayxuly, Date ngayvipham,String tendocgia) {
+            this.Mavp = Mavp;
+            this.stt = stt;
+            this.madocgia = madocgia;
+            this.lydo = lydo;
+            this.htxuly = htxuly;
+            this.ngayxuly = ngayxuly;
+            this.ngayvipham = ngayvipham;
+            this.tendocgia = tendocgia;
+        }
+    }
     /**
      * Initializes the controller class.
      */
@@ -231,21 +328,53 @@ public class Report_VPController implements Initializable {
         TableColumn<vipham, Date> coltinhtrang = new TableColumn<>("Tình Trạng");
         coltinhtrang.setCellValueFactory(new PropertyValueFactory<>("tinhtrang"));
         table_VP.getColumns().add(coltinhtrang);
+        TableColumn<viphamkhac,Integer> stt = new TableColumn<>("STT");
+        stt.setCellValueFactory(new PropertyValueFactory<>("stt"));
+        table_VP1.getColumns().add(stt);
+         TableColumn<viphamkhac,String> maVP = new TableColumn<>("Mã Vi Phạm");
+        maVP.setCellValueFactory(new PropertyValueFactory<>("Mavp"));
+        table_VP1.getColumns().add(maVP);
+         TableColumn<viphamkhac,String> madocgia = new TableColumn<>("Mã Đọc Giả");
+        madocgia.setCellValueFactory(new PropertyValueFactory<>("madocgia"));
+        table_VP1.getColumns().add(madocgia);
+          TableColumn<viphamkhac,Date> ngayvipham = new TableColumn<>("Ngày Vi Phạm");
+        ngayvipham.setCellValueFactory(new PropertyValueFactory<>("ngayvipham"));
+        table_VP1.getColumns().add(ngayvipham);
+         TableColumn<viphamkhac,String> lydo = new TableColumn<>("  Lý Do  ");
+        lydo.setCellValueFactory(new PropertyValueFactory<>("lydo"));
+        table_VP1.getColumns().add(lydo);
+          TableColumn<viphamkhac,String> htxuly = new TableColumn<>("Hình Thức Xử Lý");
+        htxuly.setCellValueFactory(new PropertyValueFactory<>("htxuly"));
+        table_VP1.getColumns().add(htxuly);
+         TableColumn<viphamkhac,Date> ngayxuly = new TableColumn<>("Ngày Xử Lý");
+        ngayxuly.setCellValueFactory(new PropertyValueFactory<>("ngayxuly"));
+        table_VP1.getColumns().add(ngayxuly);
+       
         cn = util.Connect_JDBC.getConnection();
         Statement st = null;
         try {
             st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            String str = "SELECT a.*,b.TieuDe,c.HoVaTen FROM dbo.MuonSach a ,dbo.Book b, dbo.Doc_Gia c \n" +
-"				WHERE a.TinhTrang = N'Quá Hạn'  AND a.MaSach = b.MaSach AND a.MaDocGia = c.MaDocGia";
+            String str = "SELECT a.*,b.TieuDe,c.HoVaTen FROM dbo.MuonSach a ,dbo.Book b, dbo.Doc_Gia c \n"
+                    + "				WHERE a.TinhTrang = N'Quá Hạn'  AND a.MaSach = b.MaSach AND a.MaDocGia = c.MaDocGia";
             ResultSet rs = st.executeQuery(str);
-            while(rs.next()){
-                data_load.add(new vipham(data_load.size()+1,rs.getString("MaMuon"), rs.getString("MaSach"), 
-                        rs.getString("TieuDe"), rs.getDate("NgayMuon"), rs.getDate("HanTra"),rs.getDate("NgayTra"), 
-                        rs.getString("TinhTrang"),rs.getString("MaDocGia"),rs.getString("HoVaTen")));
-                
+            while (rs.next()) {
+                data_load.add(new vipham(data_load.size() + 1, rs.getString("MaMuon"), rs.getString("MaSach"),
+                        rs.getString("TieuDe"), rs.getDate("NgayMuon"), rs.getDate("HanTra"), rs.getDate("NgayTra"),
+                        rs.getString("TinhTrang"), rs.getString("MaDocGia"), rs.getString("HoVaTen")));
+
+            }
+            ResultSet rs2 = null;
+            String str2 = "SELECT a.*,b.HoVaTen FROM dbo.ViPham a,dbo.Doc_Gia b WHERE a.MaDocGia = b.MaDocGia ";
+            rs2 = st.executeQuery(str2);
+            while(rs2.next()){
+                data_load_vp.add(new viphamkhac(data_load_vp.size()+1, rs2.getString("MaVP"), 
+                        rs2.getString("MaDocGia"), rs2.getNString("LyDo"), 
+                        rs2.getNString("HinhThucXuLy"), rs2.getDate("NgayXuLy"), rs2.getDate("NgayViPham"),
+                        rs2.getNString("HoVaten")));
             }
             table_VP.setItems(data_load);
+            table_VP1.setItems(data_load_vp);
         } catch (SQLException ex) {
             Logger.getLogger(Report_VPController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -253,30 +382,76 @@ public class Report_VPController implements Initializable {
 
     @FXML
     private void focus_ct(MouseEvent event) {
-         int i = table_VP.getFocusModel().getFocusedIndex();
+        int i = table_VP.getFocusModel().getFocusedIndex();
         vipham vp = data_load.get(i);
         ct_maDG.setText(vp.getMadocgia());
         ten_DG.setText(vp.getTendocgia());
         Ly_do.setText("Quá Hạn Trả Sách");
         ht_xu_ly.setText("Phạt Tiền");
-        
-        
+
+    }
+    
+  @FXML
+    private void focus_ct2(MouseEvent event) {
+          int i = table_VP1.getFocusModel().getFocusedIndex();
+        viphamkhac vp = data_load_vp.get(i);
+       
+        ct_maDG.setText(vp.getMadocgia());
+        ten_DG.setText(vp.getTendocgia());
+        Ly_do.setText(vp.getLydo());
+        ht_xu_ly.setText(vp.getHtxuly());
+        String ngxuly = util.date.convertStringToDate(vp.getNgayxuly());
+        ngay_xu_ly.setText(ngxuly);
     }
 
     @FXML
     private void Load_data(ActionEvent event) {
 
-        LocalDate tungay = text_tungay.getValue();
-        java.sql.Date From_date = java.sql.Date.valueOf(tungay);
-        LocalDate denngay = text_denngay.getValue();
-        java.sql.Date To_date = java.sql.Date.valueOf(denngay);
+//        text_denngay.toString();
+//        if (!text_tungay.getEditor().getText().equals("") && text_denngay.getEditor().getText().equals("")) {
+        //  System.out.println(text_denngay.getEditor().getText().equals(""));
+        try {
+            LocalDate tungay = text_tungay.getValue();
 
-        //  date.valueOf(gt);
-        // System.out.println(date);
-    }
+            LocalDate denngay = text_denngay.getValue();
+            if (!tungay.equals(null) && !denngay.equals(null)) {
+                data_load.clear();
+                data_load_vp.clear();
+                java.sql.Date From_date = java.sql.Date.valueOf(tungay);
+              //  System.out.println(From_date);
+                java.sql.Date To_date = java.sql.Date.valueOf(denngay);
+              //  System.out.println(To_date);
+                Statement st = null;
+                st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE);
+                String str = "SELECT a.*,b.TieuDe,c.HoVaTen FROM dbo.MuonSach a ,dbo.Book b, dbo.Doc_Gia c \n"
+                        + "	WHERE a.TinhTrang = N'Quá Hạn' AND a.MaSach = b.MaSach AND a.MaDocGia = c.MaDocGia AND (a.HanTra BETWEEN '" + From_date + "' AND '" + To_date + "') ";
+                ResultSet rs = st.executeQuery(str);
+                while (rs.next()) {
+                    data_load.add(new vipham(data_load.size() + 1, rs.getString("MaMuon"), rs.getString("MaSach"),
+                            rs.getString("TieuDe"), rs.getDate("NgayMuon"), rs.getDate("HanTra"), rs.getDate("NgayTra"),
+                            rs.getString("TinhTrang"), rs.getString("MaDocGia"), rs.getString("HoVaTen")));
 
-    @FXML
-    private void xuat_Excel(ActionEvent event) {
+                }
+                ResultSet rs2 = null;
+            String str2 = "SELECT a.*,b.HoVaTen FROM dbo.ViPham a,dbo.Doc_Gia b WHERE a.MaDocGia = b.MaDocGia AND a.NgayViPham BETWEEN '"+From_date+"' and '"+To_date+"'";
+            rs2 = st.executeQuery(str2);
+            while(rs2.next()){
+                data_load_vp.add(new viphamkhac(data_load_vp.size()+1, rs2.getString("MaVP"), 
+                        rs2.getString("MaDocGia"), rs2.getNString("LyDo"), 
+                        rs2.getNString("HinhThucXuLy"), rs2.getDate("NgayXuLy"), rs2.getDate("NgayViPham"),
+                        rs2.getNString("HoVaten")));
+            }
+            table_VP.setItems(data_load);
+            table_VP1.setItems(data_load_vp);
+            }
+            //  date.valueOf(gt);
+            // System.out.println(date);
+        } catch (Exception ex) {
+            // Logger.getLogger(Report_VPController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Thong Tin Khong Dung!");
+        }
+
     }
 
 }

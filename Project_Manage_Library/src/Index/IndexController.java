@@ -6,14 +6,17 @@
 package Index;
 
 import Template.Bao_Cao.Report_MuonSachController;
+import Template.Bao_Cao.Report_VPController;
 import com.sun.rowset.CachedRowSetImpl;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +55,7 @@ import javax.sql.rowset.CachedRowSet;
  *
  * @author Vu Dang
  */
-public class IndexController implements Initializable {
+public class IndexController  implements Initializable {
     Connection cn = null;
     /**
      * Initializes the controller class.
@@ -355,8 +358,45 @@ public class IndexController implements Initializable {
         }
         selectionModel = tabPane.getSelectionModel();
         selectionModel.select(tab_DKTK);
+    }       
+    public class viphamquahan{
+        private String mamuon;
+        private String madocgia;
+        private Date hantra;
+
+        public viphamquahan(String mamuon, String madocgia,Date hantra) {
+            this.mamuon = mamuon;
+            this.madocgia = madocgia;
+            this.hantra = hantra;
+        }
+
+        public Date getHantra() {
+            return hantra;
+        }
+
+        public void setHantra(Date hantra) {
+            this.hantra = hantra;
+        }
+
+        public String getMamuon() {
+            return mamuon;
+        }
+
+        public void setMamuon(String mamuon) {
+            this.mamuon = mamuon;
+        }
+
+        public String getMadocgia() {
+            return madocgia;
+        }
+
+        public void setMadocgia(String madocgia) {
+            this.madocgia = madocgia;
+        }
+        
     }
-ObservableList<String> data = FXCollections.observableArrayList();
+    
+ObservableList<viphamquahan> data = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -498,21 +538,26 @@ ObservableList<String> data = FXCollections.observableArrayList();
            st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_UPDATABLE);
        
-          String str = "SELECT MaMuon FROM dbo.MuonSach WHERE NgayTra IS NULL AND HanTra < GETDATE() "
+          String str = "SELECT MaMuon,MaDocGia,HanTra FROM dbo.MuonSach WHERE NgayTra IS NULL AND HanTra < GETDATE() "
                   + " AND TinhTrang NOT LIKE N'Quá Hạn'";
            ResultSet rs = st.executeQuery(str);
            while(rs.next()){
-               data.add(rs.getString("MaMuon"));
+               data.add(new viphamquahan(rs.getString("MaMuon"), rs.getString("MaDocGia"),rs.getDate("HanTra")));
            }
            st.close();
                           
-
+           
            for(int i = 0;i<data.size();i++){
+               CallableStatement cs = null;
+               cs = cn.prepareCall("{call Load_vp(?,?,?)}");
+               cs.setString(1, data.get(i).getMamuon());
+               cs.setString(2,data.get(i).getMadocgia());
+               java.sql.Date datetra = new java.sql.Date(data.get(i).getHantra().getTime());
+               cs.setDate(3, datetra);
                
-               String up = "UPDATE dbo.MuonSach SET TinhTrang = N'Quá Hạn' WHERE MaMuon = ?";
-               ps = cn.prepareStatement(up);
-               ps.setNString(1, data.get(i));
-               ps.executeUpdate();
+              
+               cs.executeUpdate();
+               cs.close();
            }
               // crs.moveToCurrentRow();
 //                ps.close();

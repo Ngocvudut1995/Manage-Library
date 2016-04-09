@@ -50,8 +50,14 @@
   -fx-border-radius: 4px;
   -fx-background-radius: 4px;
   -fx-padding: 6px 12px 6px 12px;
+  -fx-background-color: transparent;
 }
-
+.button:hover{
+    -fx-background-size:  102%,102%;
+    -fx-width: 102%;
+    -fx-height: 102%
+      
+}
 /**
  * Style
  */
