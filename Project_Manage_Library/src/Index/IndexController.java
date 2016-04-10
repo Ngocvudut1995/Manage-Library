@@ -5,9 +5,6 @@
  */
 package Index;
 
-import Template.Bao_Cao.Report_MuonSachController;
-import Template.Bao_Cao.Report_VPController;
-import com.sun.rowset.CachedRowSetImpl;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.CallableStatement;
@@ -20,8 +17,6 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,9 +25,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Side;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -41,13 +33,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javax.sql.rowset.CachedRowSet;
 //import quanLy.TacGiaController;
 
 /**
@@ -75,6 +63,8 @@ public class IndexController  implements Initializable {
     @FXML
     private Button reportVP;
     PreparedStatement ps = null;
+    @FXML
+    private Button vipham;
     @FXML
     private void logout(ActionEvent e) throws IOException {
         Stage stage = (Stage) bt_logout.getScene().getWindow();
@@ -148,6 +138,7 @@ public class IndexController  implements Initializable {
     Tab tab_muon = new Tab();
     Tab tab_chitietmuon = new Tab();
     Tab tab_chitiettra = new Tab();
+    Tab tab_vipham = new Tab();
 
     @FXML
     private void traSach(ActionEvent event) throws IOException {
@@ -359,6 +350,15 @@ public class IndexController  implements Initializable {
         selectionModel = tabPane.getSelectionModel();
         selectionModel.select(tab_DKTK);
     }       
+
+    @FXML
+    private void xulyVP(ActionEvent event) {
+         if (tabPane.getTabs().lastIndexOf(tab_vipham) < 0) {
+            tabPane.getTabs().add(tab_vipham);
+        }
+        selectionModel = tabPane.getSelectionModel();
+        selectionModel.select(tab_vipham);
+    }
     public class viphamquahan{
         private String mamuon;
         private String madocgia;
@@ -411,6 +411,17 @@ ObservableList<viphamquahan> data = FXCollections.observableArrayList();
                 }
             });
             //
+            tab_vipham.setText("  Vi Phạm  ");
+             root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/vipham.fxml"));
+            tab_vipham.setContent(root);
+            tab_vipham.setOnClosed(new EventHandler<Event>() {
+
+                @Override
+                public void handle(Event event) {
+                    tabPane.getTabs().remove(tab_vipham);
+                }
+            });
+                    //
             tab_muon.setText("    Mượn Sách    ");
             root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/phieumuon.fxml"));
             tab_muon.setContent(root);

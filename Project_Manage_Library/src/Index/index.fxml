@@ -205,6 +205,16 @@
                                        </font>
                                     </Label>
                                  </children></Pane>
+                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
+                                 <children>
+                                    <Button fx:id="vipham" layoutX="68.0" layoutY="9.0" mnemonicParsing="false" onAction="#xulyVP" prefHeight="50.0" prefWidth="50.0" styleClass="btn-phat" stylesheets="@../CSS/fextile.css" />
+                                    <Label layoutX="50.0" layoutY="59.0" text="Xử Lý Vi Phạm">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </Pane>
                            </children>
                         </GridPane>
                      </content>

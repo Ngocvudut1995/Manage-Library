@@ -71,8 +71,6 @@ public class NhanVienController implements Initializable {
     @FXML
     private Button btn_save;
     ObservableList<nhanvien> data = FXCollections.observableArrayList();
-    @FXML
-    private Button btn_add;
 
     @FXML
     private void focus_ct(MouseEvent event) {
@@ -98,9 +96,6 @@ public class NhanVienController implements Initializable {
         tf_chucVu.setDisable(true);
         tf_tenNV.setDisable(true);
         btn_save.setDisable(true);
-        //btn_save.setOpacity(1);
-        btn_add.setOpacity(0);
-        btn_add.setDisable(true);
 
     }
     Connection cn = null;
@@ -116,7 +111,9 @@ public class NhanVienController implements Initializable {
             return 1;
         } else {
             try {
-                Date datestr = util.date.convertDatetoString(tf_NgaySinh.getText());               
+
+                Date datestr = util.date.convertDatetoString(tf_NgaySinh.getText());
+                //System.out.println(datestr);
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
                 String str = "UPDATE NhanVien SET HoVaTen = ? , NgaySinh = ? ,SoDT = ? ,DiaChi=? ,Gioitinh= ? ,Luong= ?, ChucVu= ? WHERE MaNV = ? ";
@@ -163,12 +160,15 @@ public class NhanVienController implements Initializable {
         alert.setHeaderText("Bạn chắc chắn muốn xóa ?");
         Boolean yes = alert.showAndWait().isPresent();
         if (yes) {
+
             try {
                 data.remove(i);
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
                 String str = "DELETE FROM NhanVien WHERE MaNV= ?";
+
                 ps = cn.prepareStatement(str);
+
                 ps.setString(1, nv.getMaNV());
                 ps.executeUpdate();
             } catch (SQLException ex) {
@@ -188,60 +188,7 @@ public class NhanVienController implements Initializable {
         tf_chucVu.setDisable(false);
         tf_luong.setDisable(false);
         btn_save.setDisable(false);
-        //btn_save.setOpacity(1);
-        btn_add.setOpacity(0);
-        btn_add.setDisable(true);
-    }
 
-    @FXML
-    private int ThemThongTin(ActionEvent event) {
-        
-        if ((tf_tenNV.getText()).equals("") || (tf_NgaySinh.getText()).equals("") || (tf_sdt.getText()).equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Thông Báo");
-            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
-            System.out.println("Loi!");
-            alert.showAndWait();
-            return 1;
-        } else {
-            try {
-                Date datestr = util.date.convertDatetoString(tf_NgaySinh.getText());
-                //System.out.println(datestr);
-                cn = util.Connect_JDBC.getConnection();
-                PreparedStatement ps = null;
-                String str = "INSERT INTO dbo.NhanVien( MaNV ,HoVaTen ,SoDT ,Gioitinh ,NgaySinh ,Email ,Luong ,ChucVu ,DiaChi)"
-                        + "VALUES  ( 'NV' , ? ,? ,? ,? ,? ,? ,? ,? )";
-                ps = cn.prepareStatement(str);
-                java.sql.Date date = new java.sql.Date(datestr.getTime());
-                ps.setNString(1, tf_tenNV.getText());
-                ps.setString(2, tf_sdt.getText());
-                ps.setNString(3, tf_gt.getText());
-                ps.setDate(4, date);
-                ps.setNString(5, tf_cmnd.getText());
-                ps.setDouble(6, Double.parseDouble(tf_luong.getText()));
-                ps.setNString(7, tf_chucVu.getText());
-                ps.setNString(8, tf_dc.getText());
-                ps.executeUpdate();
-                data.clear();
-                Statement st = null;
-                st = cn.createStatement();
-                ResultSet rs = st.executeQuery("Select * from NhanVien");
-                while (rs.next()) {
-                    data.add(new nhanvien(rs.getString("MaNV"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"),
-                            rs.getString("Gioitinh"), rs.getString("DiaChi"), rs.getDouble("Luong"), rs.getString("ChucVu")));
-                }
-                TB_NV.setItems(data);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông Báo");
-                alert.setHeaderText("Thêm thành công");
-                alert.showAndWait();
-            } catch (SQLException ex) {
-                Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
-                Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return 0;
-        }
     }
 
     public class nhanvien {
@@ -348,9 +295,7 @@ public class NhanVienController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btn_save.setDisable(true);
-       // btn_save.setOpacity(1);
-        btn_add.setOpacity(0);
-        btn_add.setDisable(true);
+
         TableColumn<nhanvien, String> manvcol = new TableColumn("   Mã Nhân Viên   ");
         manvcol.setCellValueFactory(new PropertyValueFactory<>("MaNV"));
         TB_NV.getColumns().add(manvcol);
@@ -379,6 +324,7 @@ public class NhanVienController implements Initializable {
         luongcol.setCellValueFactory(new PropertyValueFactory<>("luong"));
         TB_NV.getColumns().add(luongcol);
 
+        //   ObservableList<nhanvien> data = FXCollections.observableArrayList();
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             CachedRowSet crs = new CachedRowSetImpl();
@@ -392,6 +338,7 @@ public class NhanVienController implements Initializable {
             }
             crs.acceptChanges();
             crs.close();
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(NhanVienController.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -399,11 +346,13 @@ public class NhanVienController implements Initializable {
             Logger.getLogger(NhanVienController.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
+
         TB_NV.setItems(data);
     }
 
     @FXML
     public void themNhanVien(ActionEvent e) {
+
         tf_maNV.setText("");
         tf_tenNV.setText("");
         tf_NgaySinh.setText("");
@@ -413,7 +362,6 @@ public class NhanVienController implements Initializable {
         tf_sdt.setText("");
         tf_chucVu.setText("");
         tf_luong.setText("");
-        tf_maNV.setDisable(true);
         tf_tenNV.setDisable(false);
         tf_sdt.setDisable(false);
         tf_gt.setDisable(false);
@@ -422,11 +370,7 @@ public class NhanVienController implements Initializable {
         tf_NgaySinh.setDisable(false);
         tf_chucVu.setDisable(false);
         tf_luong.setDisable(false);
-        btn_save.setOpacity(1);
-        btn_save.setDisable(true);
-        btn_add.setOpacity(1);
-        btn_add.setDisable(false);
-        
+        btn_save.setDisable(false);
 
     }
 

@@ -18,7 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -79,8 +78,6 @@ public class DocGiaController implements Initializable {
     private TextField tf_ngayHet;
     ObservableList<docGia> data = FXCollections.observableArrayList();
     //ObservableList<docGia> data_luu= FXCollections.observableArrayList();
-    @FXML
-    private Button btn_add;
 
     @FXML
     private void focus_CTDG(MouseEvent event) {
@@ -112,15 +109,17 @@ public class DocGiaController implements Initializable {
         tf_sdt.setDisable(true);
         tf_tenDG.setDisable(true);
         btn_save.setDisable(true);
-       
-        btn_add.setOpacity(0);
-        btn_add.setDisable(true);
     }
     Connection cn = null;
 
     @FXML
     private int saveNew(ActionEvent event) {
-
+        String Ma = tf_maDG.getText();
+        String ten = tf_tenDG.getText();
+        String sdt = tf_sdt.getText();
+        String email = tf_email.getText();
+        String dc = tf_dc.getText();
+        //docGia dg=data.get(i);
         if ((tf_tenDG.getText()).equals("") || (tf_ngaySinh.getText()).equals("") || (tf_ngayHet.getText()).equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Thông Báo");
@@ -211,72 +210,6 @@ public class DocGiaController implements Initializable {
         tf_sdt.setDisable(false);
         tf_tenDG.setDisable(false);
         btn_save.setDisable(false);
-        
-        btn_add.setOpacity(0);
-        btn_add.setDisable(true);
-    }
-
-    @FXML
-    private int ThemThongTin(ActionEvent event) {
-        Date today = new Date(System.currentTimeMillis());
-        SimpleDateFormat timeFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String s = timeFormat.format(today.getTime());
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(calendar.DAY_OF_MONTH, 60);
-        String s1 = timeFormat.format(calendar.getTime());
-        System.out.println(s);
-        if ((tf_tenDG.getText()).equals("") || (tf_ngaySinh.getText()).equals("") || (tf_dc.getText()).equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Thông Báo");
-            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
-            System.out.println("Loi!");
-            alert.showAndWait();
-            return 1;
-        } else {
-            try {
-                Date datestr = util.date.convertDatetoString(tf_ngaySinh.getText());
-                Date datestr1 = util.date.convertDatetoString(s1);
-                java.sql.Date date = new java.sql.Date(datestr.getTime());
-                java.sql.Date date1 = new java.sql.Date(datestr1.getTime());
-                Date datestr2 = util.date.convertDatetoString(s);
-
-                java.sql.Date date2 = new java.sql.Date(datestr2.getTime());
-
-                cn = util.Connect_JDBC.getConnection();
-                PreparedStatement ps = null;
-                String str = "INSERT INTO dbo.Doc_Gia( MaDocGia , HoVaTen ,NgheNghiep ,CoQuan ,SoDT ,DiaChi ,NgaySinh ,GioiTinh ,Email ,NgayLamThe ,HanSD ,AnhThe)"
-                        + "VALUES  ( 'MDG', ? , '' , '' , ? , ? , ? , ? , ? , ? , ? ,NULL  )";
-
-                ps = cn.prepareStatement(str);
-                ps.setNString(1, tf_tenDG.getText());
-                ps.setNString(2, tf_sdt.getText());
-                ps.setNString(3, tf_dc.getText());
-                ps.setDate(4, date);
-                ps.setNString(5, tf_gt.getText());
-                ps.setNString(6, tf_email.getText());
-                ps.setDate(7, date2);
-                ps.setDate(8, date1);
-                ps.executeUpdate();
-                data.clear();
-                Statement st = null;
-                st = cn.createStatement();
-                ResultSet rs = st.executeQuery("Select * from Doc_Gia");
-                while (rs.next()) {
-                    data.add(new docGia(rs.getString("MaDocGia"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"), rs.getString("GioiTinh"), rs.getString("DiaChi"),
-                            rs.getDate("NgayLamThe"), rs.getDate("HanSD"), rs.getString("Email"), rs.getString(10)));
-                }
-                TB_DG.setItems(data);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông Báo");
-                alert.setHeaderText("Lưu thành công");
-                alert.showAndWait();
-            } catch (SQLException ex) {
-                Logger.getLogger(DocGiaController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
-                Logger.getLogger(DocGiaController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return 0;
-        }
     }
 
     public class docGia {
@@ -400,10 +333,6 @@ public class DocGiaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btn_save.setDisable(true);
-       
-        btn_add.setOpacity(0);
-        btn_add.setDisable(true);
-
         TableColumn<docGia, String> maDGcol = new TableColumn<>(" Ma DG ");
         maDGcol.setCellValueFactory(new PropertyValueFactory<>("maDG"));
         TB_DG.getColumns().add(maDGcol);
@@ -491,15 +420,11 @@ public class DocGiaController implements Initializable {
         tf_dc.setDisable(false);
         tf_email.setDisable(false);
         tf_gt.setDisable(false);
-        tf_ngayDK.setDisable(true);
-        tf_ngayHet.setDisable(true);
+        tf_ngayHet.setDisable(false);
         tf_ngaySinh.setDisable(false);
         tf_sdt.setDisable(false);
         tf_tenDG.setDisable(false);
-        btn_save.setDisable(true);
-
-        btn_add.setOpacity(1);
-        btn_add.setDisable(false);
+        btn_save.setDisable(false);
 
     }
 }

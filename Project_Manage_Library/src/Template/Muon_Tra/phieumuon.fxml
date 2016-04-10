@@ -24,10 +24,30 @@
    <children>
       <Pane prefHeight="443.0" prefWidth="216.0" style="-fx-border-color: black; -fx-border-radius: 4px; -fx-border-width: 2px;">
          <children>
-            <Button fx:id="bt_them" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" onAction="#them_sach" prefHeight="30.0" prefWidth="82.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css" text="Thêm" />
-            <Button fx:id="bt_huy" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="287.0" mnemonicParsing="false" onAction="#huy_toan_bo" prefHeight="32.0" prefWidth="82.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Hủy" />
-            <Button fx:id="bt_luu" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="117.0" mnemonicParsing="false" onAction="#luu_vaoDB" prefHeight="32.0" prefWidth="82.0" styleClass="btn-save" stylesheets="@../../CSS/fextile.css" text="Lưu" />
-            <Button fx:id="bt_xuat" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="206.0" mnemonicParsing="false" onAction="#xuat_excel" prefHeight="32.0" prefWidth="82.0" styleClass="btn-export" stylesheets="@../../CSS/fextile.css" text="Xuất" />
+            <Button fx:id="bt_them" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" onAction="#them_sach" prefHeight="40.0" prefWidth="38.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css" />
+            <Button fx:id="bt_huy" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="287.0" mnemonicParsing="false" onAction="#huy_toan_bo" prefHeight="40.0" prefWidth="38.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" />
+            <Button fx:id="bt_luu" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="117.0" mnemonicParsing="false" onAction="#luu_vaoDB" prefHeight="40.0" prefWidth="38.0" styleClass="btn-save" stylesheets="@../../CSS/fextile.css" />
+            <Button fx:id="bt_xuat" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="206.0" mnemonicParsing="false" onAction="#xuat_excel" prefHeight="40.0" prefWidth="38.0" styleClass="btn-export" stylesheets="@../../CSS/fextile.css" />
+            <Label layoutX="56.0" layoutY="49.0" text="Thêm">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="56.0" layoutY="122.0" text="Lưu">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="56.0" layoutY="215.0" text="Xuất">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="56.0" layoutY="292.0" text="Hủy">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <GridPane prefHeight="443.0" prefWidth="611.0" style="-fx-border-color: Black; -fx-border-radius: 4px; -fx-border-width: 2px;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">

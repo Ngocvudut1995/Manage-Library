@@ -5,7 +5,8 @@
  */
 package Template.Muon_Tra;
 
-import com.sun.rowset.JdbcRowSetImpl;
+import java.awt.Desktop;
+import java.io.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -16,10 +17,8 @@ import java.sql.Statement;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -28,11 +27,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -40,12 +35,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-import static util.Connect_JDBC.password;
-import static util.Connect_JDBC.url;
-import static util.Connect_JDBC.userName;
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 
 /**
  * FXML Controller class
@@ -382,7 +377,27 @@ public class PhieumuonController implements Initializable {
     }
 
     @FXML
-    private void xuat_excel(ActionEvent event) {
+    private void xuat_excel(ActionEvent event) throws IOException {
+        File file = new File("F:\\Document\\JAVA\\Project_Manage_Library\\src\\DB\\table1.xls");
+        File temp = File.createTempFile("table2",".xls");
+        System.out.println(temp.getAbsolutePath());
+        String fileName = "F:\\Document\\JAVA\\Project_Manage_Library\\src\\DB\\table.xls";
+        WritableWorkbook workbook;
+        try {
+            workbook = Workbook.createWorkbook(temp);
+            WritableSheet sheet1 = workbook.createSheet("Demo", 0);
+            sheet1.addCell(new Label(0, 0, "Danh Sách Sinh Viên"));
+            workbook.write();
+            workbook.close();
+        } catch (IOException ex) {
+            Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (WriteException ex) {
+            Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Desktop desktop  = null;
+        desktop = Desktop.getDesktop();
+        desktop.open(temp);
+        temp.deleteOnExit();
     }
 
     @FXML

@@ -264,8 +264,8 @@ public class Report_DocGiaController implements Initializable {
     public void getDocGia_Thang(ActionEvent e) {
         data_new.clear();
         data_old.clear();
-        lable_themmoi.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Thêm Mới Trong Tuần");
-        label_hethan.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Hết Hạn Trong Tuần");
+        lable_themmoi.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Thêm Mới Trong Tháng");
+        label_hethan.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Hết Hạn Trong Tháng");
         Date today = new Date();
         SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
@@ -312,8 +312,8 @@ public class Report_DocGiaController implements Initializable {
     private void getDocGia_Qui(ActionEvent event) {
         data_new.clear();
         data_old.clear();
-        lable_themmoi.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Thêm Mới Trong Tuần");
-        label_hethan.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Hết Hạn Trong Tuần");
+        lable_themmoi.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Thêm Mới Trong Quí");
+        label_hethan.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Hết Hạn Trong Quí");
         Date today = new Date();
         SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
@@ -360,8 +360,8 @@ public class Report_DocGiaController implements Initializable {
     public void getDocGia_Nam(ActionEvent e) {
         data_new.clear();
         data_old.clear();
-        lable_themmoi.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Thêm Mới Trong Tuần");
-        label_hethan.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Hết Hạn Trong Tuần");
+        lable_themmoi.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Thêm Mới Trong Năm");
+        label_hethan.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Hết Hạn Trong Năm");
         Date today = new Date();
         SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
