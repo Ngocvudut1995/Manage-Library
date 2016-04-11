@@ -111,7 +111,7 @@
             <Button fx:id="bt_thang" alignment="CENTER_RIGHT" layoutX="8.0" layoutY="128.0" mnemonicParsing="false" onAction="#TK_Thang" prefHeight="32.0" prefWidth="87.0" styleClass="btn-month" stylesheets="@../../CSS/fextile.css" text="Tháng" />
             <Button fx:id="bt_qui" alignment="CENTER_RIGHT" layoutX="8.0" layoutY="206.0" mnemonicParsing="false" onAction="#TK_qui" prefHeight="32.0" prefWidth="87.0" styleClass="btn-qui" stylesheets="@../../CSS/fextile.css" text="Quí" />
             <Button fx:id="bt_nam" alignment="CENTER_RIGHT" layoutX="7.0" layoutY="283.0" mnemonicParsing="false" onAction="#TK_nam" prefHeight="32.0" prefWidth="87.0" styleClass="btn-year" stylesheets="@../../CSS/fextile.css" text="Năm" />
-            <Button alignment="CENTER_RIGHT" layoutX="8.0" layoutY="349.0" mnemonicParsing="false" styleClass="btn-export" stylesheets="@../../CSS/fextile.css" text="Xuất Excel" fx:id="xuat_excel" />
+            <Button alignment="CENTER_RIGHT" layoutX="8.0" layoutY="349.0" mnemonicParsing="false" onAction="#xuat_file" styleClass="btn-export" stylesheets="@../../CSS/fextile.css" text="Xuất Excel" fx:id="xuat_excel" />
          </children>
       </Pane>
    </children>

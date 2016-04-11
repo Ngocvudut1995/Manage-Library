@@ -8,9 +8,11 @@ package Template.Muon_Tra;
 import Template.Bao_Cao.Report_VPController;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -21,7 +23,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -39,10 +43,7 @@ public class ViphamController implements Initializable {
 
     @FXML
     private Button bt_search;
-    @FXML
-    private DatePicker text_tungay;
-    @FXML
-    private DatePicker text_denngay;
+
     @FXML
     private TableView<viphamkhac> table_VP;
     @FXML
@@ -53,28 +54,42 @@ public class ViphamController implements Initializable {
     private TextField Ly_do;
     @FXML
     private TextField ht_xu_ly;
-    @FXML
-    private TextField ngay_xu_ly;
+
     @FXML
     private Button bt_them;
     @FXML
     private Button bt_huy;
     @FXML
     private Button bt_luu;
-    @FXML
-    private Button bt_them1;
 
     ObservableList<viphamkhac> data_load = FXCollections.observableArrayList();
+    ObservableList<viphamkhac> data_luu_DB = FXCollections.observableArrayList();
     Connection cn = null;
     @FXML
     private Button bt_ok;
     @FXML
     private Button bt_cancel;
+    @FXML
+    private Button bt_xuly;
+    @FXML
+    private TextField ngay_vi_pham;
+    @FXML
+    private TextField text_maDG;
 
     @FXML
     private void hien_nut_ok(KeyEvent event) {
         bt_ok.setVisible(true);
+        bt_ok.setDisable(false);
         bt_cancel.setVisible(true);
+
+    }
+
+    @FXML
+    private void xu_ly_vp(ActionEvent event) {
+        int i = table_VP.getFocusModel().getFocusedIndex();
+        data_luu_DB.add(data_load.get(i));
+        data_load.remove(i);
+        table_VP.setItems(data_load);
 
     }
 
@@ -170,6 +185,8 @@ public class ViphamController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        table_VP.setEditable(true);
+        
         TableColumn<viphamkhac, Integer> stt = new TableColumn<>("STT");
         stt.setCellValueFactory(new PropertyValueFactory<>("stt"));
         table_VP.getColumns().add(stt);
@@ -182,6 +199,7 @@ public class ViphamController implements Initializable {
         TableColumn<viphamkhac, Date> ngayvipham = new TableColumn<>("Ngày Vi Phạm");
         ngayvipham.setCellValueFactory(new PropertyValueFactory<>("ngayvipham"));
         table_VP.getColumns().add(ngayvipham);
+        
         TableColumn<viphamkhac, String> lydo = new TableColumn<>("  Lý Do  ");
         lydo.setCellValueFactory(new PropertyValueFactory<>("lydo"));
         table_VP.getColumns().add(lydo);
@@ -192,6 +210,8 @@ public class ViphamController implements Initializable {
         ngayxuly.setCellValueFactory(new PropertyValueFactory<>("ngayxuly"));
         table_VP.getColumns().add(ngayxuly);
         load_bandau();
+        
+        
 
     }
 
@@ -203,7 +223,8 @@ public class ViphamController implements Initializable {
                     ResultSet.CONCUR_UPDATABLE);
 
             ResultSet rs2 = null;
-            String str2 = "SELECT a.*,b.HoVaTen FROM dbo.ViPham a,dbo.Doc_Gia b WHERE a.MaDocGia = b.MaDocGia ";
+            String str2 = "SELECT a.*,b.HoVaTen FROM dbo.ViPham a,dbo.Doc_Gia b"
+                    + " WHERE a.MaDocGia = b.MaDocGia  and NgayXuLy is null";
             rs2 = st.executeQuery(str2);
             while (rs2.next()) {
                 data_load.add(new viphamkhac(data_load.size() + 1, rs2.getString("MaVP"),
@@ -218,12 +239,38 @@ public class ViphamController implements Initializable {
         }
     }
 
-    @FXML
-    private void Load_data(ActionEvent event) {
+    
+    private int Load_data() {
+        
+        try {
+            Statement st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+
+            ResultSet rs2 = null;
+            String str2 = "SELECT a.*,b.HoVaTen FROM dbo.ViPham a,dbo.Doc_Gia b"
+                    + " WHERE a.MaDocGia = b.MaDocGia  and NgayXuLy is null and "
+                    + "(a.MaDocGia like '%" + text_maDG.getText() + "' "
+                    + "or a.MaDocGia like '%" + text_maDG.getText() + "%' "
+                    + "or a.MaDocGia like '" + text_maDG.getText() + "%' )";
+            rs2 = st.executeQuery(str2);
+            while (rs2.next()) {
+                data_load.add(new viphamkhac(data_load.size() + 1, rs2.getString("MaVP"),
+                        rs2.getString("MaDocGia"), rs2.getNString("LyDo"),
+                        rs2.getNString("HinhThucXuLy"), rs2.getDate("NgayXuLy"), rs2.getDate("NgayViPham"),
+                        rs2.getNString("HoVaten")));
+            }
+            table_VP.setItems(data_load);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Report_VPController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
     @FXML
     private void focus_ct(MouseEvent event) {
+        bt_ok.setVisible(false);
+        bt_cancel.setVisible(false);
         int i = table_VP.getFocusModel().getFocusedIndex();
         viphamkhac vp = data_load.get(i);
 
@@ -231,8 +278,8 @@ public class ViphamController implements Initializable {
         ten_DG.setText(vp.getTendocgia());
         Ly_do.setText(vp.getLydo());
         ht_xu_ly.setText(vp.getHtxuly());
-        String ngxuly = util.date.convertStringToDate(vp.getNgayxuly());
-        ngay_xu_ly.setText(ngxuly);
+        String ngvipham = util.date.convertStringToDate(vp.getNgayvipham());
+        ngay_vi_pham.setText(ngvipham);
     }
 
     @FXML
@@ -244,29 +291,78 @@ public class ViphamController implements Initializable {
         ten_DG.setText("");
         Ly_do.setText("");
         ht_xu_ly.setText("");
-        ngay_xu_ly.setText("");
+        Date today = new Date();
+
+        ngay_vi_pham.setText(util.date.convertStringToDate(today));
     }
 
     @FXML
     private void huy_toan_bo(ActionEvent event) {
         data_load.clear();
-        LocalDate tungay = text_tungay.getValue();
-
-        LocalDate denngay = text_denngay.getValue();
-        if (!tungay.equals(null) && !denngay.equals(null)) {
+       
+        if (text_maDG.getText().equals("")) {
             load_bandau();
         } else {
-            Load_data(event);
+            Load_data();
         }
 
     }
 
     @FXML
     private void luu_vaoDB(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Thông Báo");
+        alert.setHeaderText("Bạn Chắc Chắn Lưu Dữ Liệu ");
+        //alert.setContentText("Thêm Thành Công!");
+        alert.showAndWait();
+        ButtonType result = alert.getResult();
+        if (result.getText().equals("OK")) {
+            for (int i = 0; i < data_luu_DB.size(); i++) {
+                try {
+                    PreparedStatement ps = null;
+                    ps = cn.prepareStatement("UPDATE dbo.ViPham SET NgayXuLy = GETDATE() WHERE MaVP = ?");
+                    ps.setString(1, data_luu_DB.get(i).getMavp());
+                    ps.executeUpdate();
+                    ps.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ViphamController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            huy_toan_bo(event);
+        }
     }
 
     @FXML
-    private void luu_moi(ActionEvent event) {
-        
+    private void luu_moi(ActionEvent event) throws ParseException {
+        try {
+            PreparedStatement ps = null;
+            ps = cn.prepareStatement("Insert Into ViPham Values (?,?,?,?,?,?) ");
+            ps.setString(1, "VP");
+            ps.setString(2, ct_maDG.getText());
+            ps.setNString(3, Ly_do.getText());
+            ps.setNString(4, ht_xu_ly.getText());
+
+            ps.setDate(5, null);
+
+            Date today = new Date();
+            java.sql.Date ngayvp = new java.sql.Date(today.getTime());
+            ps.setDate(6, ngayvp);
+            ps.executeUpdate();
+            them_sach(event);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Thông Báo");
+            alert.setHeaderText("Thêm Vi Phạm Thành Công");
+            //alert.setContentText("Thêm Thành Công!");
+            alert.showAndWait();
+            load_bandau();
+        } catch (SQLException ex) {
+            Logger.getLogger(ViphamController.class.getName()).log(Level.SEVERE, null, ex);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Thông Báo");
+            alert.setHeaderText("Thông Tin Không Đầy Đủ");
+            //alert.setContentText("Thêm Thành Công!");
+            alert.showAndWait();
+        }
     }
 }

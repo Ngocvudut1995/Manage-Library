@@ -46,11 +46,13 @@ public class LoginController implements Initializable {
 
     @FXML
     public void Enter(KeyEvent ke) throws IOException {
+        tb.setText("");
         if (ke.getCode().equals(KeyCode.ENTER)) {
             tb.setText("");
             String user = textuser.getText();
             String pass = textpass.getText();
             if (user.equals("admin") && (pass.equals("admin"))) {
+                tb.setText("Loading......");
                 Parent root = FXMLLoader.load(getClass().getResource("/Index/index.fxml"));
                 Scene scene = new Scene(root);
                 stage = new Stage();
@@ -74,6 +76,7 @@ public class LoginController implements Initializable {
         String user = textuser.getText();
         String pass = textpass.getText();
         if (user.equals("admin") && (pass.equals("admin"))) {
+              tb.setText("Loading......");
             Parent root = FXMLLoader.load(getClass().getResource("/Index/index.fxml"));
             Scene scene = new Scene(root);
             stage = new Stage();

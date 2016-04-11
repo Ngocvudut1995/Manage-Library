@@ -425,7 +425,8 @@ public class Report_VPController implements Initializable {
                 st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_UPDATABLE);
                 String str = "SELECT a.*,b.TieuDe,c.HoVaTen FROM dbo.MuonSach a ,dbo.Book b, dbo.Doc_Gia c \n"
-                        + "	WHERE a.TinhTrang = N'Quá Hạn' AND a.MaSach = b.MaSach AND a.MaDocGia = c.MaDocGia AND (a.HanTra BETWEEN '" + From_date + "' AND '" + To_date + "') ";
+                        + "	WHERE a.TinhTrang = N'Quá Hạn' AND a.MaSach = b.MaSach AND a.MaDocGia = c.MaDocGia AND"
+                        + " (a.HanTra BETWEEN '" + From_date + "' AND '" + To_date + "') ";
                 ResultSet rs = st.executeQuery(str);
                 while (rs.next()) {
                     data_load.add(new vipham(data_load.size() + 1, rs.getString("MaMuon"), rs.getString("MaSach"),

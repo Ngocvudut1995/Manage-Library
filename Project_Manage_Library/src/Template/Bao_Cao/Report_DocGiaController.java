@@ -497,11 +497,12 @@ public class Report_DocGiaController implements Initializable {
             TBdocgia_moi.getColumns().add(imageCol);
             TBdocgia_hethan.getColumns().add(imageCol);
              Date today = new Date();
+             java.sql.Date hansd= new java.sql.Date(today.getTime());
             cn = util.Connect_JDBC.getConnection();
             Statement st = null;
             st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            String str = "Select * From Doc_Gia Where HanSD > '"+today+"'";
+            String str = "Select * From Doc_Gia Where HanSD > '"+hansd+"'";
             ResultSet rs = st.executeQuery(str);
             while (rs.next()) {
                 data_new.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
@@ -512,7 +513,7 @@ public class Report_DocGiaController implements Initializable {
             
             st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            String str2 = "Select * From Doc_Gia Where HanSD < '"+today+"'";
+            String str2 = "Select * From Doc_Gia Where HanSD < '"+hansd+"'";
             rs = st.executeQuery(str);
             while (rs.next()) {
                 data_old.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),

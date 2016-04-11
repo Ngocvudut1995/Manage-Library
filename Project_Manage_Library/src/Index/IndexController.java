@@ -408,6 +408,7 @@ ObservableList<viphamquahan> data = FXCollections.observableArrayList();
                 @Override
                 public void handle(Event event) {
                     tabPane.getTabs().remove(tab_tra);
+                    
                 }
             });
             //
@@ -419,6 +420,7 @@ ObservableList<viphamquahan> data = FXCollections.observableArrayList();
                 @Override
                 public void handle(Event event) {
                     tabPane.getTabs().remove(tab_vipham);
+                   
                 }
             });
                     //

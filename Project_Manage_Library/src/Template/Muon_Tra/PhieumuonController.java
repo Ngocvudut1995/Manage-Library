@@ -36,8 +36,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import static javax.swing.text.StyleConstants.Alignment;
+import jxl.Sheet;
 import jxl.Workbook;
+import jxl.format.CellFormat;
 import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
@@ -348,6 +353,11 @@ public class PhieumuonController implements Initializable {
                     cs.setString(7, pm.getTinhTrang());
 
                     cs.executeUpdate();
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Thông Báo");
+                    alert.setHeaderText("Đã Lưu Thành Công");
+                    //alert.setContentText("Thêm Thành Công!");
+                    alert.showAndWait();
 
                 } catch (SQLException ex) {
                     Alert alert = new Alert(AlertType.ERROR);
@@ -379,14 +389,47 @@ public class PhieumuonController implements Initializable {
     @FXML
     private void xuat_excel(ActionEvent event) throws IOException {
         File file = new File("F:\\Document\\JAVA\\Project_Manage_Library\\src\\DB\\table1.xls");
-        File temp = File.createTempFile("table2",".xls");
+        File temp = File.createTempFile("table2", ".xls");
         System.out.println(temp.getAbsolutePath());
-        String fileName = "F:\\Document\\JAVA\\Project_Manage_Library\\src\\DB\\table.xls";
+        String fileName = "/DB/phieumuon.xls";
         WritableWorkbook workbook;
+
         try {
             workbook = Workbook.createWorkbook(temp);
             WritableSheet sheet1 = workbook.createSheet("Demo", 0);
-            sheet1.addCell(new Label(0, 0, "Danh Sách Sinh Viên"));
+            //    WritableSheet sheet1 = workbook.getSheet(0);
+            WritableFont tahomaboldpt = new WritableFont(WritableFont.TAHOMA, 14, WritableFont.BOLD);
+//            WritableCellFormat tahomaBold = new WritableCellFormat(tahomaboldpt);
+//            tahomaBold.setAlignment(Alignment.CENTRE);
+            WritableCellFormat cf = new WritableCellFormat();
+            cf.setFont(tahomaboldpt);
+           
+            sheet1.addCell(new Label(5, 1, "Phiếu Mượn Sách", cf));
+            sheet1.addCell(new Label(3, 3, "Mã Phiếu Mượn:"));
+            sheet1.addCell(new Label(4, 3, text_PM.getText()));
+            sheet1.addCell(new Label(3, 4, "Mã Đọc Giả:"));
+            sheet1.addCell(new Label(4, 4, Ma_DG.getText()));
+            sheet1.addCell(new Label(3, 5, "Mã Nhân Viên:"));
+            sheet1.addCell(new Label(4, 5, ""));
+            sheet1.addCell(new Label(2, 7, "STT"));
+            sheet1.addCell(new Label(3, 7, "Mã Sách"));
+            sheet1.addCell(new Label(4, 7, "Ngày Mượn"));
+            sheet1.addCell(new Label(5, 7, "Hạn Trả"));
+            sheet1.addCell(new Label(6, 7, "Tình Trạng"));
+            for (int i = 8; i < data.size() + 8; i++) {
+                //   String ngaymuon = util.date.
+                sheet1.addCell(new jxl.write.Number(2, i, data.get(i - 8).getStt()));
+                sheet1.addCell(new Label(3, i, data.get(i - 8).getMaSach()));
+                sheet1.addCell(new Label(4, i, data.get(i - 8).getNgayMuon()));
+                sheet1.addCell(new Label(5, i, data.get(i - 8).getHanTra()));
+                sheet1.addCell(new Label(6, i, data.get(i - 8).getTinhTrang()));
+
+            }
+
+//            for(int i = 2;i<7;i++){
+//                 
+//            }
+           // for(int i = 2;i<data.size();i++)
             workbook.write();
             workbook.close();
         } catch (IOException ex) {
@@ -394,7 +437,7 @@ public class PhieumuonController implements Initializable {
         } catch (WriteException ex) {
             Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Desktop desktop  = null;
+        Desktop desktop = null;
         desktop = Desktop.getDesktop();
         desktop.open(temp);
         temp.deleteOnExit();
@@ -412,6 +455,7 @@ public class PhieumuonController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        text_PM.setDisable(true);
         TableColumn<phieumuonsach, Integer> colstt = new TableColumn<>("STT");
         colstt.setCellValueFactory(new PropertyValueFactory<>("stt"));
         TB_Muon.getColumns().add(colstt);
