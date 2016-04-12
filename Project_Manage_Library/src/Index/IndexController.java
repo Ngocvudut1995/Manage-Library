@@ -43,7 +43,7 @@ import javafx.stage.Stage;
  *
  * @author Vu Dang
  */
-public class IndexController  implements Initializable {
+public class IndexController extends Login.LoginController implements Initializable {
     Connection cn = null;
     /**
      * Initializes the controller class.
@@ -65,6 +65,8 @@ public class IndexController  implements Initializable {
     PreparedStatement ps = null;
     @FXML
     private Button vipham;
+    @FXML
+    private Button bt_qlnhanvien;
     @FXML
     private void logout(ActionEvent e) throws IOException {
         Stage stage = (Stage) bt_logout.getScene().getWindow();
@@ -399,7 +401,24 @@ public class IndexController  implements Initializable {
 ObservableList<viphamquahan> data = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        cn = util.Connect_JDBC.getConnection();
+        Statement st = null;
+        String sql = "select ChucVu From NhanVien where MaNV = '"+MaNhanVien+"'";
         try {
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            String chucvu = rs.getNString(1);
+            if(chucvu.equalsIgnoreCase("Nhân Viên")){
+                bt_qlnhanvien.setDisable(true);
+                reportNV.setDisable(true);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            
             Parent root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/trasach.fxml"));
             tab_tra.setContent(root);
             tab_tra.setText("    Trả Sách    ");
@@ -514,7 +533,7 @@ ObservableList<viphamquahan> data = FXCollections.observableArrayList();
                 }
             });
             //Quan Ly NXB
-            tab_QLNXB.setText("    Quan ly NXB    ");
+            tab_QLNXB.setText("    Quản lý NXB    ");
             root = FXMLLoader.load(getClass().getResource("/Template/quanLy/NXB.fxml"));
             tab_QLNXB.setContent(root);
             tab_QLNXB.setOnClosed(new EventHandler<Event>() {
@@ -547,7 +566,7 @@ ObservableList<viphamquahan> data = FXCollections.observableArrayList();
                 }
             });
             cn = util.Connect_JDBC.getConnection();
-              Statement st = null;
+             
            st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_UPDATABLE);
        

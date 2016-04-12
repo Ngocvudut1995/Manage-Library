@@ -99,7 +99,7 @@
                      </opaqueInsets>
                   </TextField>
                   <PasswordField fx:id="textpass" alignment="CENTER" layoutX="6.0" layoutY="66.0" onKeyPressed="#Enter" prefHeight="30.0" prefWidth="309.0" />
-                  <CheckBox layoutX="6.0" layoutY="110.0" mnemonicParsing="false" text="Nhớ mật khẩu" />
+                  <CheckBox fx:id="check_mk" layoutX="6.0" layoutY="110.0" mnemonicParsing="false" onAction="#save_mk" text="Nhớ mật khẩu" />
                </children>
             </Pane>
          </children>

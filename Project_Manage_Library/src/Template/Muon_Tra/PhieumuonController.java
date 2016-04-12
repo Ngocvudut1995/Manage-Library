@@ -5,6 +5,7 @@
  */
 package Template.Muon_Tra;
 
+import Login.LoginController;
 import java.awt.Desktop;
 import java.io.*;
 import java.io.IOException;
@@ -37,9 +38,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import static javax.swing.text.StyleConstants.Alignment;
-import jxl.Sheet;
 import jxl.Workbook;
-import jxl.format.CellFormat;
+import jxl.format.Alignment;
 import jxl.write.Label;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
@@ -53,6 +53,8 @@ import jxl.write.WriteException;
  * @author Vu Dang
  */
 public class PhieumuonController implements Initializable {
+
+    Login.LoginController lg = new LoginController();
 
     @FXML
     private TextField text_PM;
@@ -399,14 +401,17 @@ public class PhieumuonController implements Initializable {
             WritableSheet sheet1 = workbook.createSheet("Demo", 0);
             //    WritableSheet sheet1 = workbook.getSheet(0);
             WritableFont tahomaboldpt = new WritableFont(WritableFont.TAHOMA, 14, WritableFont.BOLD);
-//            WritableCellFormat tahomaBold = new WritableCellFormat(tahomaboldpt);
-//            tahomaBold.setAlignment(Alignment.CENTRE);
+
             WritableCellFormat cf = new WritableCellFormat();
             cf.setFont(tahomaboldpt);
-           
+            
+            WritableCellFormat cf4 = new WritableCellFormat();
+            
             sheet1.addCell(new Label(5, 1, "Phiếu Mượn Sách", cf));
             sheet1.addCell(new Label(3, 3, "Mã Phiếu Mượn:"));
+            sheet1.setColumnView(3, 15);
             sheet1.addCell(new Label(4, 3, text_PM.getText()));
+            sheet1.setColumnView(4, 15);
             sheet1.addCell(new Label(3, 4, "Mã Đọc Giả:"));
             sheet1.addCell(new Label(4, 4, Ma_DG.getText()));
             sheet1.addCell(new Label(3, 5, "Mã Nhân Viên:"));
@@ -415,7 +420,9 @@ public class PhieumuonController implements Initializable {
             sheet1.addCell(new Label(3, 7, "Mã Sách"));
             sheet1.addCell(new Label(4, 7, "Ngày Mượn"));
             sheet1.addCell(new Label(5, 7, "Hạn Trả"));
+            sheet1.setColumnView(5, 15);
             sheet1.addCell(new Label(6, 7, "Tình Trạng"));
+            sheet1.setColumnView(6, 15);
             for (int i = 8; i < data.size() + 8; i++) {
                 //   String ngaymuon = util.date.
                 sheet1.addCell(new jxl.write.Number(2, i, data.get(i - 8).getStt()));
@@ -429,7 +436,7 @@ public class PhieumuonController implements Initializable {
 //            for(int i = 2;i<7;i++){
 //                 
 //            }
-           // for(int i = 2;i<data.size();i++)
+            // for(int i = 2;i<data.size();i++)
             workbook.write();
             workbook.close();
         } catch (IOException ex) {
@@ -455,6 +462,8 @@ public class PhieumuonController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        MaNV.setText(lg.MaNhanVien);
+        MaNV.setDisable(true);
         text_PM.setDisable(true);
         TableColumn<phieumuonsach, Integer> colstt = new TableColumn<>("STT");
         colstt.setCellValueFactory(new PropertyValueFactory<>("stt"));

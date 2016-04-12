@@ -51,8 +51,6 @@ public class NXBController implements Initializable {
     @FXML
     private TextField tf_tenNXB;
     @FXML
-    private TextField tf_namThanhLap;
-    @FXML
     private TextField tf_sdt;
     @FXML
     private TextField tf_dc;
@@ -248,8 +246,8 @@ public class NXBController implements Initializable {
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
         TB_NXB.getColumns().add(email);
         TableColumn<NXB, String> sdt = new TableColumn<>("SDT");
-        email.setCellValueFactory(new PropertyValueFactory<>("email"));
-        TB_NXB.getColumns().add(email);
+        sdt.setCellValueFactory(new PropertyValueFactory<>("sdt"));
+        TB_NXB.getColumns().add(sdt);
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableView?>
@@ -13,9 +15,9 @@
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Template.quanLy.DocGiaController">
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="112.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="723.0" minWidth="10.0" prefWidth="580.0" />
-      <ColumnConstraints fillWidth="false" hgrow="ALWAYS" maxWidth="331.0" minWidth="10.0" prefWidth="306.0" />
+      <ColumnConstraints fillWidth="false" hgrow="ALWAYS" maxWidth="331.0" minWidth="10.0" prefWidth="318.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
@@ -28,40 +30,40 @@
       </ScrollPane>
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="206.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="76.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" text="Sửa" />
-            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="323.0" mnemonicParsing="false" onAction="#xoa" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Xóa" />
-            <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="92.0" mnemonicParsing="false" onAction="#themDG" prefHeight="30.0" prefWidth="82.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css" text="Thêm" />
+            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="11.0" layoutY="206.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="76.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" text="Sửa" />
+            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="11.0" layoutY="325.0" mnemonicParsing="false" onAction="#xoa" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Xóa" />
+            <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="8.0" layoutY="92.0" mnemonicParsing="false" onAction="#themDG" prefHeight="30.0" prefWidth="82.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css" text="Thêm" />
          </children>
       </Pane>
       <Pane prefHeight="443.0" prefWidth="312.0" GridPane.columnIndex="2">
          <children>
-            <Label layoutX="15.0" layoutY="23.0" text="Mã ĐG" />
-            <TextField fx:id="tf_maDG" layoutX="99.0" layoutY="18.0" prefHeight="31.0" prefWidth="200.0" />
-            <Label layoutX="14.0" layoutY="60.0" text="Tên ĐG" />
-            <TextField fx:id="tf_tenDG" layoutX="99.0" layoutY="55.0" prefHeight="31.0" prefWidth="200.0" />
-            <Label layoutX="15.0" layoutY="97.0" text="Ngày sinh" />
-            <Label layoutX="16.0" layoutY="134.0" text="SĐT" />
-            <Label layoutX="20.0" layoutY="172.0" text="GT" />
-            <Label layoutX="19.0" layoutY="210.0" text="ĐC" />
-            <Label layoutX="15.0" layoutY="249.0" text="CMND" />
-            <Label layoutX="17.0" layoutY="327.0" text="Email" />
-            <Label layoutX="16.0" layoutY="366.0" text="Trạng thái" />
-            <TextField fx:id="tf_ngaySinh" layoutX="99.0" layoutY="92.0" prefHeight="31.0" prefWidth="200.0" />
-            <TextField fx:id="tf_sdt" layoutX="99.0" layoutY="129.0" prefHeight="31.0" prefWidth="200.0" />
-            <TextField fx:id="tf_gt" layoutX="99.0" layoutY="167.0" prefHeight="31.0" prefWidth="200.0" />
-            <TextField fx:id="tf_dc" layoutX="99.0" layoutY="205.0" prefHeight="31.0" prefWidth="200.0" />
-            <TextField fx:id="tf_cmnd" layoutX="99.0" layoutY="244.0" prefHeight="31.0" prefWidth="200.0" />
-            <TextField fx:id="tf_email" layoutX="99.0" layoutY="322.0" prefHeight="31.0" prefWidth="200.0" />
-            <TextField fx:id="tf_TT" layoutX="99.0" layoutY="361.0" prefHeight="31.0" prefWidth="200.0" />
-            <Button fx:id="btn_save" layoutX="123.0" layoutY="404.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="60.0" text="Lưu" />
-            <Label layoutX="3.0" layoutY="288.0" text="Ngày làm/hết" />
-            <TextField fx:id="tf_ngayDK" layoutX="99.0" layoutY="283.0" prefHeight="31.0" prefWidth="95.0" />
-            <Label layoutX="194.0" layoutY="285.0" prefHeight="21.0" prefWidth="11.0" text="/">
+            <Label layoutX="12.0" layoutY="23.0" text="Mã ĐG" />
+            <TextField fx:id="tf_maDG" layoutX="106.0" layoutY="18.0" prefHeight="31.0" prefWidth="200.0" />
+            <Label layoutX="11.0" layoutY="60.0" text="Tên ĐG" />
+            <TextField fx:id="tf_tenDG" layoutX="106.0" layoutY="55.0" prefHeight="31.0" prefWidth="200.0" />
+            <Label layoutX="12.0" layoutY="97.0" text="Ngày sinh" />
+            <Label layoutX="12.0" layoutY="134.0" text="SĐT" />
+            <Label layoutX="14.0" layoutY="172.0" text="GT" />
+            <Label layoutX="13.0" layoutY="248.0" text="ĐC" />
+            <Label layoutX="12.0" layoutY="287.0" text="CMND" />
+            <Label layoutX="12.0" layoutY="365.0" text="Email" />
+            <TextField fx:id="tf_sdt" layoutX="106.0" layoutY="129.0" prefHeight="31.0" prefWidth="200.0" />
+            <TextField fx:id="tf_dc" layoutX="106.0" layoutY="243.0" prefHeight="31.0" prefWidth="200.0" />
+            <TextField fx:id="tf_cmnd" layoutX="106.0" layoutY="282.0" prefHeight="31.0" prefWidth="200.0" />
+            <TextField fx:id="tf_email" layoutX="106.0" layoutY="360.0" prefHeight="31.0" prefWidth="200.0" />
+            <Button fx:id="btn_save" layoutX="126.0" layoutY="402.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="60.0" text="Lưu" />
+            <Label layoutX="10.0" layoutY="326.0" text="Ngày làm/hết" />
+            <TextField fx:id="tf_ngayDK" layoutX="106.0" layoutY="321.0" prefHeight="31.0" prefWidth="95.0" />
+            <Label layoutX="203.0" layoutY="323.0" prefHeight="21.0" prefWidth="11.0" text="/">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="tf_ngayHet" layoutX="205.0" layoutY="283.0" prefHeight="31.0" prefWidth="95.0" />
+            <TextField fx:id="tf_ngayHet" layoutX="212.0" layoutY="321.0" prefHeight="31.0" prefWidth="95.0" />
+            <DatePicker fx:id="cb_ngaySinh" layoutX="106.0" layoutY="92.0" prefHeight="31.0" prefWidth="200.0" />
+            <ComboBox fx:id="cb_GT" layoutX="106.0" layoutY="167.0" prefHeight="31.0" prefWidth="200.0" promptText="Nam" />
+            <Label layoutX="12.0" layoutY="211.0" text="Nghề Nghiệp" />
+            <TextField fx:id="tf_NN" layoutX="106.0" layoutY="206.0" prefHeight="31.0" prefWidth="200.0" />
          </children>
       </Pane>
    </children>
