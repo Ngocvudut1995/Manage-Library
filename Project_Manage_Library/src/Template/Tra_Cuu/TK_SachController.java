@@ -199,6 +199,8 @@ public class TK_SachController implements Initializable {
         ObservableList cursors = FXCollections.observableArrayList("Mã Sách",
                 "Tên Sách", "Thể Loại", "Ngôn Ngữ", "Nhà Xuất Bản"
         );
+       
+        
         //  search.setOpacity(0);
         tracuu.setItems(cursors);
         TableColumn<tksach, Integer> colstt = new TableColumn<>("STT");

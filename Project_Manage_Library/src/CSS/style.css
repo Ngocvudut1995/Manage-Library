@@ -26,6 +26,7 @@ and open the template in the editor.
 }
 
 .border{
+    -fx-border-width: 0px;
     -fx-border-color: black;
     -fx-border-width: 0.5px;
     -fx-border-radius: 4px;

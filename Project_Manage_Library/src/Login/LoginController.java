@@ -62,6 +62,11 @@ public class LoginController implements Initializable {
 
     @FXML
     public int Enter(KeyEvent ke) throws IOException, SQLException {
+        if(!(textpass.getText().equals("")||textuser.getText().equals("")))
+        check_mk.setDisable(false);
+        else{
+            check_mk.setDisable(true);
+        }
         cn = util.Connect_JDBC.getConnection();
         tb.setText("");
         if (ke.getCode().equals(KeyCode.ENTER)) {
@@ -152,6 +157,7 @@ public class LoginController implements Initializable {
     @Override
 
     public void initialize(URL url, ResourceBundle rb) {
+          
         BufferedReader bf = null;
         System.out.println("asdasd");
         try {
@@ -182,13 +188,18 @@ public class LoginController implements Initializable {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        if(!(textpass.getText().equals("")||textuser.getText().equals("")))
+             check_mk.setDisable(false);
+          else{
+              check_mk.setDisable(true);
+          }
     }
 
     @FXML
     private void save_mk(ActionEvent event) throws FileNotFoundException {
         
         PrintWriter pw = null;
-        if (check_mk.isSelected()) {
+        if (check_mk.isSelected()&&!textuser.equals("")&&!textpass.equals("")) {
             try {
                 System.out.println("Check");
                 
