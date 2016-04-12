@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -25,12 +27,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.SortEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.util.StringConverter;
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.spi.SyncProvider;
 
@@ -53,11 +58,9 @@ public class NhanVienController implements Initializable {
     private TextField tf_maNV;
     @FXML
     private TextField tf_tenNV;
-    @FXML
     private TextField tf_NgaySinh;
     @FXML
     private TextField tf_sdt;
-    @FXML
     private TextField tf_gt;
     @FXML
     private TextField tf_dc;
@@ -71,6 +74,10 @@ public class NhanVienController implements Initializable {
     @FXML
     private Button btn_save;
     ObservableList<nhanvien> data = FXCollections.observableArrayList();
+    @FXML
+    private DatePicker db_ngaysinh;
+    @FXML
+    private ComboBox<?> cb_GT;
 
     @FXML
     private void focus_ct(MouseEvent event) {
@@ -80,21 +87,13 @@ public class NhanVienController implements Initializable {
         tf_tenNV.setText(nv.getTenNV());
         tf_cmnd.setText(nv.getCMND());
         String dateNS = util.date.convertStringToDate(nv.getNgaySinh());
-        tf_NgaySinh.setText(dateNS);
+        db_ngaysinh.getEditor().setText(dateNS);
         tf_dc.setText(nv.getDiaChi());
-        tf_gt.setText(nv.gioiTinh);
+        cb_GT.getEditor().setText(nv.gioiTinh);
         tf_sdt.setText(nv.getSdt());
         tf_chucVu.setText(nv.getChucVu());
         tf_luong.setText(nv.luong.toString());
-        tf_maNV.setDisable(true);
-        tf_NgaySinh.setDisable(true);
-        tf_sdt.setDisable(true);
-        tf_luong.setDisable(true);
-        tf_gt.setDisable(true);
-        tf_dc.setDisable(true);
-        tf_cmnd.setDisable(true);
-        tf_chucVu.setDisable(true);
-        tf_tenNV.setDisable(true);
+
         btn_save.setDisable(true);
 
     }
@@ -102,7 +101,12 @@ public class NhanVienController implements Initializable {
 
     @FXML
     private int saveNew(ActionEvent event) {
-        if ((tf_tenNV.getText()).equals("") || (tf_NgaySinh.getText()).equals("") || (tf_sdt.getText()).equals("")) {
+//        boolean match;
+//        if(tf_tenNV.getText().matches("*\s\D")){
+//            System.out.println("ten k dc chua so");
+//        }
+
+        if ((tf_tenNV.getText()).equals("") || (db_ngaysinh.getEditor().getText()).equals("") || (tf_sdt.getText()).equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Thông Báo");
             alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
@@ -112,10 +116,41 @@ public class NhanVienController implements Initializable {
         } else {
             try {
 
-                Date datestr = util.date.convertDatetoString(tf_NgaySinh.getText());
+                Date datestr = util.date.convertDatetoString(db_ngaysinh.getEditor().getText());
                 //System.out.println(datestr);
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
+                if (tf_maNV.getText().equals("")) {
+                    String str = "INSERT INTO dbo.NhanVien( MaNV ,HoVaTen ,SoDT ,Gioitinh ,NgaySinh ,Email ,Luong ,ChucVu ,DiaChi)"
+                            + "VALUES  ( 'NV' , ? ,? ,? ,? ,? ,? ,? ,? )";
+                    ps = cn.prepareStatement(str);
+                    java.sql.Date date = new java.sql.Date(datestr.getTime());
+                    ps.setNString(1, tf_tenNV.getText());
+                    ps.setString(2, tf_sdt.getText());
+                    ps.setNString(3, "nam");
+                    ps.setDate(4, date);
+                    ps.setString(5, tf_cmnd.getText());
+                    ps.setDouble(6, Double.parseDouble(tf_luong.getText()));
+                    ps.setNString(7, tf_chucVu.getText());
+                    ps.setNString(8, tf_dc.getText());
+                    ps.executeUpdate();
+                    data.clear();
+                    Statement st = null;
+                    st = cn.createStatement();
+                    ResultSet rs = st.executeQuery("Select * from NhanVien");
+                    while (rs.next()) {
+                        data.add(new nhanvien(rs.getString("MaNV"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"),
+                                rs.getString("Gioitinh"), rs.getString("DiaChi"), rs.getDouble("Luong"), rs.getString("ChucVu")));
+                    }
+                    TB_NV.setItems(data);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Thông Báo");
+                    alert.setHeaderText("Thêm thành công");
+                    alert.showAndWait();
+                    return 0;
+                }
+
+                
                 String str = "UPDATE NhanVien SET HoVaTen = ? , NgaySinh = ? ,SoDT = ? ,DiaChi=? ,Gioitinh= ? ,Luong= ?, ChucVu= ? WHERE MaNV = ? ";
                 ps = cn.prepareStatement(str);
                 java.sql.Date date = new java.sql.Date(datestr.getTime());
@@ -123,10 +158,10 @@ public class NhanVienController implements Initializable {
                 ps.setDate(2, date);
                 ps.setString(3, tf_sdt.getText());
                 ps.setNString(4, tf_dc.getText());
-                ps.setNString(5, tf_gt.getText());
+                ps.setNString(5, "nam");
                 ps.setDouble(6, Double.parseDouble(tf_luong.getText()));
                 ps.setNString(7, tf_chucVu.getText());
-                ps.setNString(8, tf_maNV.getText());
+                ps.setString(8, tf_maNV.getText());
                 ps.executeUpdate();
 
                 data.clear();
@@ -179,14 +214,8 @@ public class NhanVienController implements Initializable {
 
     @FXML
     private void Edit(ActionEvent event) {
-        tf_tenNV.setDisable(false);
-        tf_sdt.setDisable(false);
-        tf_gt.setDisable(false);
-        tf_cmnd.setDisable(false);
-        tf_dc.setDisable(false);
-        tf_NgaySinh.setDisable(false);
-        tf_chucVu.setDisable(false);
-        tf_luong.setDisable(false);
+        tf_maNV.setDisable(true);
+
         btn_save.setDisable(false);
 
     }
@@ -295,7 +324,36 @@ public class NhanVienController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btn_save.setDisable(true);
+        ObservableList cursors = FXCollections.observableArrayList(
+                "Nam", "Nữ", "Khác"
+        );
+        cb_GT.setItems(cursors);
+        
+        String pattern = "dd/MM/yyyy";
 
+        db_ngaysinh.setPromptText(pattern.toLowerCase());
+
+        db_ngaysinh.setConverter(new StringConverter<LocalDate>() {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        });
         TableColumn<nhanvien, String> manvcol = new TableColumn("   Mã Nhân Viên   ");
         manvcol.setCellValueFactory(new PropertyValueFactory<>("MaNV"));
         TB_NV.getColumns().add(manvcol);
@@ -355,21 +413,14 @@ public class NhanVienController implements Initializable {
 
         tf_maNV.setText("");
         tf_tenNV.setText("");
-        tf_NgaySinh.setText("");
+        db_ngaysinh.getEditor().setText("");
         tf_dc.setText("");
-        tf_gt.setText("");
+        cb_GT.getEditor().setText("");
         tf_cmnd.setText("");
         tf_sdt.setText("");
         tf_chucVu.setText("");
         tf_luong.setText("");
-        tf_tenNV.setDisable(false);
-        tf_sdt.setDisable(false);
-        tf_gt.setDisable(false);
-        tf_cmnd.setDisable(false);
-        tf_dc.setDisable(false);
-        tf_NgaySinh.setDisable(false);
-        tf_chucVu.setDisable(false);
-        tf_luong.setDisable(false);
+        tf_maNV.setDisable(true);
         btn_save.setDisable(false);
 
     }

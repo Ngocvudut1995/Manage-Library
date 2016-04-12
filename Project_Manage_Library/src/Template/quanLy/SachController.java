@@ -80,16 +80,7 @@ public class SachController implements Initializable {
         tf_SLcon.setText((s.getSLcon()));
         tf_ngonNgu.setText(s.getNgonNgu());
         tf_gia.setText(s.gia.toString());
-        tf_maSach.setDisable(true);
-        tf_NXB.setDisable(true);
-        tf_SL.setDisable(true);
-        tf_ngonNgu.setDisable(true);
-        tf_TG.setDisable(true);
-        tf_TL.setDisable(true);
         btn_luu.setDisable(true);
-        tf_SLcon.setDisable(true);
-        tf_gia.setDisable(true);
-        tf_tenSach.setDisable(true);
     }
 
     @FXML
@@ -105,6 +96,12 @@ public class SachController implements Initializable {
             try {
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
+                if(tf_maSach.getText().equals("")){
+                    
+                    //them zo nge :v 
+                
+                
+                }
                 String str = "UPDATE Book SET TieuDe = ? , Gia= ? , SLhientai = ? WHERE MaSach=? ";
                 ps = cn.prepareStatement(str);
                 ps.setNString(1, tf_tenSach.getText());
@@ -161,14 +158,8 @@ public class SachController implements Initializable {
 
     @FXML
     private void Edit(ActionEvent event) {
-        tf_NXB.setDisable(false);
-        tf_SL.setDisable(false);
-        tf_ngonNgu.setDisable(false);
-        tf_TG.setDisable(false);
-        tf_TL.setDisable(false);
-        tf_SLcon.setDisable(false);
-        tf_gia.setDisable(false);
-        tf_tenSach.setDisable(false);
+        tf_maSach.setDisable(true);
+        
         btn_luu.setDisable(false);
     }
 
@@ -348,14 +339,7 @@ public class SachController implements Initializable {
     public void themSach(ActionEvent e) {
 
         // tf_maSach.setDisable(false);
-        tf_NXB.setDisable(false);
-        tf_SL.setDisable(false);
-        tf_ngonNgu.setDisable(false);
-        tf_TG.setDisable(false);
-        tf_TL.setDisable(false);
-        tf_SLcon.setDisable(false);
-        tf_gia.setDisable(false);
-        tf_tenSach.setDisable(false);
+        tf_maSach.setDisable(true);
         tf_maSach.setText("");
         tf_tenSach.setText("");
         tf_NXB.setText("");

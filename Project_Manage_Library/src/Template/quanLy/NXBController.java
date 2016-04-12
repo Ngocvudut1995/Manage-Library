@@ -67,16 +67,11 @@ public class NXBController implements Initializable {
         NXB nxb = data.get(i);
         tf_maNXB.setText(nxb.getMaNXB());
         tf_tenNXB.setText(nxb.getTenNXB());
-        tf_namThanhLap.setText(nxb.getNamTL());
+
         tf_dc.setText(nxb.getDiaChi());
         tf_email.setText(nxb.getEmail());
         tf_sdt.setText(nxb.getSdt());
-        tf_maNXB.setDisable(true);
-        tf_tenNXB.setDisable(true);
-        tf_dc.setDisable(true);
-        tf_email.setDisable(true);
-        tf_namThanhLap.setDisable(true);
-        tf_sdt.setDisable(true);
+
         btn_luu.setDisable(true);
     }
 
@@ -96,6 +91,27 @@ public class NXBController implements Initializable {
             try {
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
+                if (tf_maNXB.getText().equals("")) {
+                    String str = "INSERT dbo.NhaXB( MaNXB, TenNXB, DiaChi )VALUES  ('NXB',?,? ) ";
+                    ps = cn.prepareStatement(str);
+                    ps.setNString(1, tf_tenNXB.getText());
+                    ps.setNString(2, tf_dc.getText());
+
+                    ps.executeUpdate();
+                    data.clear();
+                    Statement st = null;
+                    st = cn.createStatement();
+                    ResultSet rs = st.executeQuery("Select * from NhaXB");
+                    while (rs.next()) {
+                        data.add(new NXB(rs.getString("MaNXB"), rs.getString("TenNXB"), rs.getString("DiaChi"), rs.getString("Email"), rs.getString("SoDT")));
+                    }
+                    TB_NXB.setItems(data);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Thông Báo");
+                    alert.setHeaderText("Lưu thành công");
+                    alert.showAndWait();
+                    return 1;
+                }
                 String str = "UPDATE NhaXB SET TenNXB = ? , DiaChi = ? WHERE MaNXB = ? ";
                 ps = cn.prepareStatement(str);
                 ps.setNString(1, tf_tenNXB.getText());
@@ -107,7 +123,7 @@ public class NXBController implements Initializable {
                 st = cn.createStatement();
                 ResultSet rs = st.executeQuery("Select * from NhaXB");
                 while (rs.next()) {
-                    data.add(new NXB(rs.getString("MaNXB"), rs.getString("TenNXB"), rs.getString("DiaChi"), rs.getString(3), rs.getString(3), rs.getString(3)));
+                    data.add(new NXB(rs.getString("MaNXB"), rs.getString("TenNXB"), rs.getString("DiaChi"), rs.getString("Email"), rs.getString("SoDT")));
                 }
                 TB_NXB.setItems(data);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -148,11 +164,7 @@ public class NXBController implements Initializable {
 
     @FXML
     private void Edit(ActionEvent event) {
-        tf_tenNXB.setDisable(false);
-        tf_dc.setDisable(false);
-        tf_email.setDisable(false);
-        tf_namThanhLap.setDisable(false);
-        tf_sdt.setDisable(false);
+        tf_maNXB.setDisable(true);
         btn_luu.setDisable(false);
     }
 
@@ -160,7 +172,7 @@ public class NXBController implements Initializable {
 
         private String maNXB;
         private String tenNXB;
-        private String namTL;
+
         private String sdt;
         private String diaChi;
         private String email;
@@ -179,14 +191,6 @@ public class NXBController implements Initializable {
 
         public void setTenNXB(String tenNXB) {
             this.tenNXB = tenNXB;
-        }
-
-        public String getNamTL() {
-            return namTL;
-        }
-
-        public void setNamTL(String namTL) {
-            this.namTL = namTL;
         }
 
         public String getSdt() {
@@ -213,10 +217,10 @@ public class NXBController implements Initializable {
             this.email = email;
         }
 
-        public NXB(String maNXB, String tenNXB, String namTL, String diaChi, String email, String sdt) {
+        public NXB(String maNXB, String tenNXB, String diaChi, String email, String sdt) {
             this.maNXB = maNXB;
             this.tenNXB = tenNXB;
-            this.namTL = namTL;
+
             this.diaChi = diaChi;
             this.email = email;
             this.sdt = sdt;
@@ -230,7 +234,7 @@ public class NXBController implements Initializable {
         TableColumn<NXB, String> maNXB = new TableColumn<>("Mã NXB");
         maNXB.setCellValueFactory(new PropertyValueFactory<>("maNXB"));
         TB_NXB.getColumns().add(maNXB);
-        // TODO
+
         TableColumn<NXB, String> tenNXB = new TableColumn<>("Tên NXB");
         tenNXB.setCellValueFactory(new PropertyValueFactory<>("tenNXB"));
         TB_NXB.getColumns().add(tenNXB);
@@ -240,12 +244,12 @@ public class NXBController implements Initializable {
         TableColumn<NXB, String> diachia = new TableColumn<>("Địa Chỉ");
         diachia.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
         TB_NXB.getColumns().add(diachia);
-//        TableColumn<NXB, String> email = new TableColumn<>("Email");
-//        email.setCellValueFactory(new PropertyValueFactory<>("email"));
-//        TB_NXB.getColumns().add(email);
-//        TableColumn<NXB, String> sdt = new TableColumn<>("SDT");
-//        email.setCellValueFactory(new PropertyValueFactory<>("email"));
-//        TB_NXB.getColumns().add(email);
+        TableColumn<NXB, String> email = new TableColumn<>("Email");
+        email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        TB_NXB.getColumns().add(email);
+        TableColumn<NXB, String> sdt = new TableColumn<>("SDT");
+        email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        TB_NXB.getColumns().add(email);
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -256,7 +260,7 @@ public class NXBController implements Initializable {
             crs.setCommand("select * from NhaXB");
             crs.execute();
             while (crs.next()) {
-                data.add(new NXB(crs.getString("MaNXB"), crs.getString("TenNXB"), crs.getString("DiaChi"), crs.getString(3), crs.getString(3), crs.getString(3)));
+                data.add(new NXB(crs.getString("MaNXB"), crs.getString("TenNXB"), crs.getString("DiaChi"), crs.getString("Email"), crs.getString("SoDT")));
             }
             crs.acceptChanges();
             crs.close();
@@ -265,7 +269,7 @@ public class NXBController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        data.add(new NXB("NXB001", "Kim Đồng", "", "", "", "01227401239"));
+
         TB_NXB.setItems(data);
     }
 
@@ -274,16 +278,12 @@ public class NXBController implements Initializable {
 
         tf_maNXB.setText("");
         tf_tenNXB.setText("");
-        tf_namThanhLap.setText("");
+
         tf_dc.setText("");
         tf_email.setText("");
         tf_sdt.setText("");
         tf_maNXB.setDisable(true);
-        tf_tenNXB.setDisable(false);
-        tf_dc.setDisable(false);
-        tf_email.setDisable(false);
-        tf_namThanhLap.setDisable(false);
-        tf_sdt.setDisable(false);
+
         btn_luu.setDisable(false);
 
     }

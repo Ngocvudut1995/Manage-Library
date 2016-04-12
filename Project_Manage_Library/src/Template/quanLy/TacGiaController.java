@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,11 +26,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.util.StringConverter;
 import javax.sql.rowset.CachedRowSet;
 
 /**
@@ -53,7 +57,8 @@ public class TacGiaController implements Initializable {
     @FXML
     private TextField tf_gt;
     @FXML
-    private TextField tf_namSinh;
+    private DatePicker tf_namSinh;
+    
 
     @FXML
     private void focus_CTTG(MouseEvent event) {
@@ -62,12 +67,9 @@ public class TacGiaController implements Initializable {
         tf_maTG.setText(tg.getMaTG());
         tf_tenTG.setText(tg.getTenTG());
         String dateNS = util.date.convertStringToDate(tg.getNamSinh());
-        tf_namSinh.setText(dateNS);
+        tf_namSinh.getEditor().setText(dateNS);
         tf_gt.setText(tg.getGioiTinh());
-        tf_maTG.setDisable(true);
-        tf_gt.setDisable(true);
-        tf_namSinh.setDisable(true);
-        tf_tenTG.setDisable(true);
+        
         btn_save.setDisable(true);
 
     }
@@ -78,6 +80,32 @@ public class TacGiaController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btn_save.setDisable(true);
+        
+        String pattern = "dd/MM/yyyy";
+
+        tf_namSinh.setPromptText(pattern.toLowerCase());
+
+        tf_namSinh.setConverter(new StringConverter<LocalDate>() {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        });
         TableColumn<tacGia, String> maTGcol = new TableColumn(" Mã Tác Giả");
         maTGcol.setCellValueFactory(new PropertyValueFactory<>("maTG"));
         TB_TG.getColumns().add(maTGcol);
@@ -121,12 +149,11 @@ public class TacGiaController implements Initializable {
     private void themTG(ActionEvent event) {
         tf_maTG.setText("");
         tf_tenTG.setText("");
-        tf_namSinh.setText("");
+        tf_namSinh.getEditor().setText("");
         tf_gt.setText("");
         //tf_maTG.setDisable(false);
-        tf_gt.setDisable(false);
-        tf_namSinh.setDisable(false);
-        tf_tenTG.setDisable(false);
+        tf_maTG.setDisable(true);
+        
         btn_save.setDisable(false);
     }
     Connection cn = null;
@@ -135,7 +162,7 @@ public class TacGiaController implements Initializable {
     private int saveNew(ActionEvent event) {
         String ten = tf_tenTG.getText();
 
-        if (ten.equals("") || (tf_namSinh.getText()).equals("")) {
+        if (ten.equals("") || (tf_namSinh.getEditor().getText()).equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Thông Báo");
             alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
@@ -146,10 +173,32 @@ public class TacGiaController implements Initializable {
 
             try {
 
-                Date datestr = util.date.convertDatetoString(tf_namSinh.getText());
+                Date datestr = util.date.convertDatetoString(tf_namSinh.getEditor().getText());
                 //System.out.println(datestr);
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
+                if(tf_maTG.getText().equals("")){
+                    String str = "INSERT INTO dbo.TacGia( MaTacGia, TenTacGia, NgaySinh ) VALUES  ( 'TG',?,?) ";
+                ps = cn.prepareStatement(str);
+                java.sql.Date date = new java.sql.Date(datestr.getTime());
+                ps.setNString(1, tf_tenTG.getText());
+                ps.setDate(2, date);
+                
+                ps.executeUpdate();
+                data.clear();
+                Statement st = null;
+                st = cn.createStatement();
+                ResultSet rs = st.executeQuery("Select * from TacGia");
+                while (rs.next()) {
+                    data.add(new tacGia(rs.getString("MaTacGia"), rs.getString("TenTacGia"), rs.getDate("NgaySinh"), null));
+                }
+                TB_TG.setItems(data);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông Báo");
+                alert.setHeaderText("Lưu thành công");
+                alert.showAndWait();
+                return 1;
+                }
                 String str = "UPDATE TacGia SET TenTacGia = ? , NgaySinh = ? WHERE MaTacGia= ? ";
                 ps = cn.prepareStatement(str);
                 java.sql.Date date = new java.sql.Date(datestr.getTime());
@@ -206,9 +255,7 @@ public class TacGiaController implements Initializable {
 
     @FXML
     private void Edit(ActionEvent event) {
-        tf_gt.setDisable(false);
-        tf_namSinh.setDisable(false);
-        tf_tenTG.setDisable(false);
+        tf_maTG.setDisable(true);
         btn_save.setDisable(false);
     }
 

@@ -38,15 +38,13 @@
             <TextField fx:id="tf_maNXB" layoutX="117.0" layoutY="93.0" prefHeight="31.0" prefWidth="174.0" />
             <Label layoutX="12.0" layoutY="142.0" text="Tên NXB" />
             <TextField fx:id="tf_tenNXB" layoutX="117.0" layoutY="137.0" prefHeight="31.0" prefWidth="174.0" />
-            <Label layoutX="14.0" layoutY="187.0" text="Năm thành lập" />
-            <Label layoutX="14.0" layoutY="230.0" text="SĐT" />
-            <Label layoutX="14.0" layoutY="275.0" text="Địa chỉ" />
-            <TextField fx:id="tf_namThanhLap" layoutX="117.0" layoutY="182.0" prefHeight="31.0" prefWidth="174.0" />
-            <TextField fx:id="tf_sdt" layoutX="117.0" layoutY="225.0" prefHeight="31.0" prefWidth="174.0" />
-            <TextField fx:id="tf_dc" layoutX="117.0" layoutY="270.0" prefHeight="31.0" prefWidth="174.0" />
-            <Label layoutX="14.0" layoutY="322.0" text="Email" />
-            <TextField fx:id="tf_email" layoutX="117.0" layoutY="317.0" prefHeight="31.0" prefWidth="174.0" />
-            <Button fx:id="btn_luu" layoutX="128.0" layoutY="380.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="60.0" text="Lưu" />
+            <Label layoutX="16.0" layoutY="187.0" text="SĐT" />
+            <Label layoutX="16.0" layoutY="233.0" text="Địa chỉ" />
+            <TextField fx:id="tf_sdt" layoutX="119.0" layoutY="182.0" prefHeight="31.0" prefWidth="174.0" />
+            <TextField fx:id="tf_dc" layoutX="119.0" layoutY="228.0" prefHeight="31.0" prefWidth="174.0" />
+            <Label layoutX="16.0" layoutY="279.0" text="Email" />
+            <TextField fx:id="tf_email" layoutX="119.0" layoutY="274.0" prefHeight="31.0" prefWidth="174.0" />
+            <Button fx:id="btn_luu" layoutX="124.0" layoutY="364.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="60.0" text="Lưu" />
          </children>
       </Pane>
    </children>
