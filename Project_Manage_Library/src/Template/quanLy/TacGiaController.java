@@ -54,11 +54,9 @@ public class TacGiaController implements Initializable {
     private TextField tf_maTG;
     @FXML
     private TextField tf_tenTG;
-    @FXML
-    private TextField tf_gt;
+   
     @FXML
     private DatePicker tf_namSinh;
-    
 
     @FXML
     private void focus_CTTG(MouseEvent event) {
@@ -68,8 +66,8 @@ public class TacGiaController implements Initializable {
         tf_tenTG.setText(tg.getTenTG());
         String dateNS = util.date.convertStringToDate(tg.getNamSinh());
         tf_namSinh.getEditor().setText(dateNS);
-        tf_gt.setText(tg.getGioiTinh());
         
+        tf_maTG.setDisable(false);
         btn_save.setDisable(true);
 
     }
@@ -80,7 +78,7 @@ public class TacGiaController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btn_save.setDisable(true);
-        
+
         String pattern = "dd/MM/yyyy";
 
         tf_namSinh.setPromptText(pattern.toLowerCase());
@@ -118,9 +116,7 @@ public class TacGiaController implements Initializable {
         namSinhcol.setCellValueFactory(new PropertyValueFactory<>("namSinh"));
         TB_TG.getColumns().add(namSinhcol);
 
-        TableColumn<tacGia, String> gioiTinhcol = new TableColumn(" Gioi Tinh");
-        gioiTinhcol.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
-        TB_TG.getColumns().add(gioiTinhcol);
+        
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -150,10 +146,10 @@ public class TacGiaController implements Initializable {
         tf_maTG.setText("");
         tf_tenTG.setText("");
         tf_namSinh.getEditor().setText("");
-        tf_gt.setText("");
+        
         //tf_maTG.setDisable(false);
         tf_maTG.setDisable(true);
-        
+
         btn_save.setDisable(false);
     }
     Connection cn = null;
@@ -161,70 +157,90 @@ public class TacGiaController implements Initializable {
     @FXML
     private int saveNew(ActionEvent event) {
         String ten = tf_tenTG.getText();
+        boolean test =  true;
+        TextField[] mangTF = {tf_tenTG};
+        
+            if (mangTF[0].getText().equals("")) {
+                mangTF[0].setStyle("-fx-border-color:red");
+                test = false;
+            }
+        
+        if (test==true) {
 
-        if (ten.equals("") || (tf_namSinh.getEditor().getText()).equals("")) {
+//            if (ten.equals("") || (tf_namSinh.getEditor().getText()).equals("")) {
+//                Alert alert = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("Thông Báo");
+//                alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
+//                System.out.println("Loi!");
+//                alert.showAndWait();
+//                return 1;
+//            } 
+
+                try {
+
+                    Date datestr = util.date.convertDatetoString(tf_namSinh.getEditor().getText());
+                    //System.out.println(datestr);
+                    cn = util.Connect_JDBC.getConnection();
+                    PreparedStatement ps = null;
+                    if (tf_maTG.getText().equals("")) {
+                        String str = "INSERT INTO dbo.TacGia( MaTacGia, TenTacGia, NgaySinh ) VALUES  ( 'TG',?,?) ";
+                        ps = cn.prepareStatement(str);
+                        java.sql.Date date = new java.sql.Date(datestr.getTime());
+                        ps.setNString(1, tf_tenTG.getText());
+                        ps.setDate(2, date);
+
+                        ps.executeUpdate();
+                        data.clear();
+                        Statement st = null;
+                        st = cn.createStatement();
+                        ResultSet rs = st.executeQuery("Select * from TacGia");
+                        while (rs.next()) {
+                            data.add(new tacGia(rs.getString("MaTacGia"), rs.getString("TenTacGia"), rs.getDate("NgaySinh"), null));
+                        }
+                        TB_TG.setItems(data);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Thông Báo");
+                        alert.setHeaderText("Lưu thành công");
+                        alert.showAndWait();
+                        return 1;
+                    } else {
+                        String str = "UPDATE TacGia SET TenTacGia = ? , NgaySinh = ? WHERE MaTacGia= ? ";
+                        ps = cn.prepareStatement(str);
+                        java.sql.Date date = new java.sql.Date(datestr.getTime());
+                        ps.setNString(1, tf_tenTG.getText());
+                        ps.setDate(2, date);
+                        ps.setString(3, tf_maTG.getText());
+                        ps.executeUpdate();
+                        data.clear();
+                        Statement st = null;
+                        st = cn.createStatement();
+                        ResultSet rs = st.executeQuery("Select * from TacGia");
+                        while (rs.next()) {
+                            data.add(new tacGia(rs.getString("MaTacGia"), rs.getString("TenTacGia"), rs.getDate("NgaySinh"), null));
+                        }
+                        TB_TG.setItems(data);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Thông Báo");
+                        alert.setHeaderText("Lưu thành công");
+                        alert.showAndWait();
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(TacGiaController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(TacGiaController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Thông Báo");
-            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
+            alert.setHeaderText("Bạn cần nhập đầy đủ và chính xác thông tin");
             System.out.println("Loi!");
-            alert.showAndWait();
-            return 1;
-        } else {
-
-            try {
-
-                Date datestr = util.date.convertDatetoString(tf_namSinh.getEditor().getText());
-                //System.out.println(datestr);
-                cn = util.Connect_JDBC.getConnection();
-                PreparedStatement ps = null;
-                if(tf_maTG.getText().equals("")){
-                    String str = "INSERT INTO dbo.TacGia( MaTacGia, TenTacGia, NgaySinh ) VALUES  ( 'TG',?,?) ";
-                ps = cn.prepareStatement(str);
-                java.sql.Date date = new java.sql.Date(datestr.getTime());
-                ps.setNString(1, tf_tenTG.getText());
-                ps.setDate(2, date);
-                
-                ps.executeUpdate();
-                data.clear();
-                Statement st = null;
-                st = cn.createStatement();
-                ResultSet rs = st.executeQuery("Select * from TacGia");
-                while (rs.next()) {
-                    data.add(new tacGia(rs.getString("MaTacGia"), rs.getString("TenTacGia"), rs.getDate("NgaySinh"), null));
-                }
-                TB_TG.setItems(data);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông Báo");
-                alert.setHeaderText("Lưu thành công");
-                alert.showAndWait();
-                return 1;
-                }
-                String str = "UPDATE TacGia SET TenTacGia = ? , NgaySinh = ? WHERE MaTacGia= ? ";
-                ps = cn.prepareStatement(str);
-                java.sql.Date date = new java.sql.Date(datestr.getTime());
-                ps.setNString(1, tf_tenTG.getText());
-                ps.setDate(2, date);
-                ps.setString(3, tf_maTG.getText());
-                ps.executeUpdate();
-                data.clear();
-                Statement st = null;
-                st = cn.createStatement();
-                ResultSet rs = st.executeQuery("Select * from TacGia");
-                while (rs.next()) {
-                    data.add(new tacGia(rs.getString("MaTacGia"), rs.getString("TenTacGia"), rs.getDate("NgaySinh"), null));
-                }
-                TB_TG.setItems(data);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông Báo");
-                alert.setHeaderText("Lưu thành công");
-                alert.showAndWait();
-            } catch (SQLException ex) {
-                Logger.getLogger(TacGiaController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
-                Logger.getLogger(TacGiaController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return 0;
+              alert.showAndWait();
         }
+        
+        return 0;
     }
 
     @FXML
@@ -238,7 +254,7 @@ public class TacGiaController implements Initializable {
         Boolean yes = alert.showAndWait().isPresent();
         if (yes) {
             try {
-                data.remove(i);
+                
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
                 String str = "DELETE FROM TacGia WHERE MaTacGia= ?";
@@ -247,6 +263,7 @@ public class TacGiaController implements Initializable {
 
                 ps.setString(1, tg.getMaTG());
                 ps.executeUpdate();
+                data.remove(i);
             } catch (SQLException ex) {
                 Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
             }

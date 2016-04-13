@@ -105,7 +105,9 @@ public class DocGiaController implements Initializable {
         String dateHH = util.date.convertStringToDate(dg.getNgayHet());
         tf_ngayHet.setText(dateHH);
         tf_NN.setText(dg.getTrangThai());
-
+        tf_maDG.setDisable(false);
+        tf_ngayHet.setDisable(false);
+        tf_ngayDK.setDisable(false);
         btn_save.setDisable(true);
     }
     Connection cn = null;
@@ -117,21 +119,40 @@ public class DocGiaController implements Initializable {
         String sdt = tf_sdt.getText();
         String email = tf_email.getText();
         String dc = tf_dc.getText();
-        //docGia dg=data.get(i);
-        if ((tf_tenDG.getText()).equals("") || (cb_ngaySinh.getEditor().getText()).equals("") || (tf_ngayHet.getText()).equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Thông Báo");
-            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
-            System.out.println("Loi!");
-            alert.showAndWait();
-            return 1;
-        } else {
+        boolean match = true;
+        boolean test = true;
+        TextField[] mangTF = {tf_tenDG, tf_sdt, tf_NN, tf_dc, tf_cmnd, tf_email};
+        for (int i = 0; i < 6; i++) {
+            if (mangTF[i].getText().equals("")) {
+                mangTF[i].setStyle("-fx-border-color:red;-fx-border-width: 2px ;");
+                test = false;
+            }
+        }
+        match = (tf_email.getText()).matches("[a-zA-Z0-9_]+@[a-zA-Z]+\\.[a-zA-Z]+(\\.[a-zA-Z]+)*");
+        if (match == false) {
+            System.out.println("Email k dung");
+            test = false;
+
+        }
+        if (tf_tenDG.getText().matches("(([a-zA-Z]+)(\\s)*)+")) {
+            System.out.println("dung");
+        }
+
+        if (test == true) {
+//            if ((tf_tenDG.getText()).equals("") || (cb_ngaySinh.getEditor().getText()).equals("") || (tf_ngayHet.getText()).equals("")) {
+//                Alert alert = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("Thông Báo");
+//                alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
+//                System.out.println("Loi!");
+//                alert.showAndWait();
+//                return 1;
+//            } 
             try {
                 Date datestr = util.date.convertDatetoString(cb_ngaySinh.getEditor().getText());
                 Date datestr1 = util.date.convertDatetoString(tf_ngayHet.getText());
                 java.sql.Date date = new java.sql.Date(datestr.getTime());
                 java.sql.Date date1 = new java.sql.Date(datestr1.getTime());
- 
+
                 Date datedk = util.date.convertDatetoString(tf_ngayDK.getText());
                 java.sql.Date date2 = new java.sql.Date(datedk.getTime());
                 //System.out.println(datestr);
@@ -139,8 +160,8 @@ public class DocGiaController implements Initializable {
                 PreparedStatement ps = null;
                 if (tf_maDG.getText().equals("")) {
                     String str = "INSERT INTO dbo.Doc_Gia( MaDocGia , HoVaTen ,NgheNghiep ,SoDT ,DiaChi "
-                            + ",NgaySinh ,GioiTinh ,Email ,NgayLamThe ,HanSD ,AnhThe)"
-                            + "VALUES  ( 'MDG', ? ,? , ? , ? , ? , ? , ? , ? , ? ,NULL  )";
+                            + ",NgaySinh ,GioiTinh ,Email ,NgayLamThe ,HanSD ,AnhThe,CMND)"
+                            + "VALUES  ( 'MDG', ? ,? , ? , ? , ? , ? , ? , ? , ? ,NULL ,? )";
 
                     ps = cn.prepareStatement(str);
                     ps.setNString(1, tf_tenDG.getText());
@@ -148,10 +169,11 @@ public class DocGiaController implements Initializable {
                     ps.setString(3, tf_sdt.getText());
                     ps.setNString(4, tf_dc.getText());
                     ps.setDate(5, date);
-                    ps.setNString(6,"");
+                    ps.setNString(6, cb_GT.getEditor().getText());
                     ps.setString(7, tf_email.getText());
                     ps.setDate(8, date2);
                     ps.setDate(9, date1);
+                    ps.setString(10, tf_cmnd.getText());
                     ps.executeUpdate();
                     data.clear();
                     Statement st = null;
@@ -159,7 +181,7 @@ public class DocGiaController implements Initializable {
                     ResultSet rs = st.executeQuery("Select * from Doc_Gia");
                     while (rs.next()) {
                         data.add(new docGia(rs.getString("MaDocGia"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"), rs.getString("GioiTinh"), rs.getString("DiaChi"),
-                                rs.getDate("NgayLamThe"), rs.getDate("HanSD"), rs.getString("Email"), rs.getString(10)));
+                                rs.getDate("NgayLamThe"), rs.getDate("HanSD"), rs.getString("Email"), rs.getString("NgheNghiep"), rs.getString("CMND")));
                     }
                     TB_DG.setItems(data);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -167,41 +189,51 @@ public class DocGiaController implements Initializable {
                     alert.setHeaderText("Lưu thành công");
                     alert.showAndWait();
                     return 2;
+                } else {
+                    String str = "UPDATE Doc_Gia SET HoVaTen= ? ,SoDT= ? ,Email= ? ,DiaChi= ? ,HanSD= ? ,NgaySinh= ?,NgheNghiep= ? , CMND = ?,GioiTinh =? WHERE MaDocGia= ? ";
+
+                    ps = cn.prepareStatement(str);
+
+                    ps.setNString(1, tf_tenDG.getText());
+                    ps.setNString(2, tf_sdt.getText());
+                    ps.setNString(3, tf_email.getText());
+                    ps.setNString(4, tf_dc.getText());
+                    ps.setDate(5, date1);
+                    ps.setDate(6, date);
+                    ps.setNString(7, tf_NN.getText());
+                    ps.setString(8, tf_cmnd.getText());
+                    ps.setNString(9,cb_GT.getEditor().getText());
+                    ps.setNString(10, tf_maDG.getText());
+                    ps.executeUpdate();
+                    data.clear();
+                    Statement st = null;
+                    st = cn.createStatement();
+                    ResultSet rs = st.executeQuery("Select * from Doc_Gia");
+                    while (rs.next()) {
+                        data.add(new docGia(rs.getString("MaDocGia"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"), rs.getString("GioiTinh"), rs.getString("DiaChi"),
+                                rs.getDate("NgayLamThe"), rs.getDate("HanSD"), rs.getString("Email"), rs.getString("NgheNghiep"), rs.getString("CMND")));
+                    }
+                    TB_DG.setItems(data);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Thông Báo");
+                    alert.setHeaderText("Lưu thành công");
+                    alert.showAndWait();
                 }
 
-                String str = "UPDATE Doc_Gia SET HoVaTen= ? ,SoDT= ? ,Email= ? ,DiaChi= ? ,HanSD= ? ,NgaySinh= ? WHERE MaDocGia= ? ";
-
-                ps = cn.prepareStatement(str);
-
-                ps.setNString(1, tf_tenDG.getText());
-                ps.setNString(2, tf_sdt.getText());
-                ps.setNString(3, tf_email.getText());
-                ps.setNString(4, tf_dc.getText());
-                ps.setDate(5, date1);
-                ps.setDate(6, date);
-
-                ps.setNString(7, tf_maDG.getText());
-                ps.executeUpdate();
-                data.clear();
-                Statement st = null;
-                st = cn.createStatement();
-                ResultSet rs = st.executeQuery("Select * from Doc_Gia");
-                while (rs.next()) {
-                    data.add(new docGia(rs.getString("MaDocGia"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"), rs.getString("GioiTinh"), rs.getString("DiaChi"),
-                            rs.getDate("NgayLamThe"), rs.getDate("HanSD"), rs.getString("Email"), rs.getString(10)));
-                }
-                TB_DG.setItems(data);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông Báo");
-                alert.setHeaderText("Lưu thành công");
-                alert.showAndWait();
             } catch (SQLException ex) {
                 Logger.getLogger(DocGiaController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
                 Logger.getLogger(DocGiaController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return 0;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Thông Báo");
+            alert.setHeaderText("Bạn cần nhập đầy đủ và chính xác thông tin");
+            System.out.println("Loi!");
+            alert.showAndWait();
         }
+
+        return 0;
     }
 
     @FXML
@@ -215,16 +247,24 @@ public class DocGiaController implements Initializable {
         Boolean yes = alert.showAndWait().isPresent();
         if (yes) {
             try {
-                data.remove(i);
 
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
-                String str = "DELETE FROM Doc_Gia WHERE MaDocGia= ?";
+                String str = "UPDATE dbo.Doc_Gia SET HanSD=NgayLamThe WHERE MaDocGia=?";
 
                 ps = cn.prepareStatement(str);
 
                 ps.setString(1, dg.getMaDG());
                 ps.executeUpdate();
+                  data.clear();
+                    Statement st = null;
+                    st = cn.createStatement();
+                    ResultSet rs = st.executeQuery("Select * from Doc_Gia");
+                    while (rs.next()) {
+                        data.add(new docGia(rs.getString("MaDocGia"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"), rs.getString("GioiTinh"), rs.getString("DiaChi"),
+                                rs.getDate("NgayLamThe"), rs.getDate("HanSD"), rs.getString("Email"), rs.getString("NgheNghiep"), rs.getString("CMND")));
+                    }
+                    TB_DG.setItems(data);
             } catch (SQLException ex) {
                 Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -233,7 +273,8 @@ public class DocGiaController implements Initializable {
 
     @FXML
     private void Edit(ActionEvent event) {
-
+        tf_ngayDK.setDisable(true);
+        tf_ngayHet.setDisable(false);
         btn_save.setDisable(false);
     }
 
@@ -339,14 +380,14 @@ public class DocGiaController implements Initializable {
             this.trangThai = trangThai;
         }
 
-        public docGia(String maDG, String tenDG, Date ngaySinh, String sdt, String gioiTinh, String diaChi, Date ngayDK, Date ngayHet, String email, String trangThai) {
+        public docGia(String maDG, String tenDG, Date ngaySinh, String sdt, String gioiTinh, String diaChi, Date ngayDK, Date ngayHet, String email, String trangThai, String CMND) {
             this.maDG = maDG;
             this.tenDG = tenDG;
             this.ngaySinh = ngaySinh;
             this.sdt = sdt;
             this.gioiTinh = gioiTinh;
             this.diaChi = diaChi;
-            //this.CMND=CMND;
+            this.CMND = CMND;
             this.ngayDK = ngayDK;
             this.ngayHet = ngayHet;
             this.email = email;
@@ -361,7 +402,7 @@ public class DocGiaController implements Initializable {
                 "Nam", "Nữ", "Khác"
         );
         cb_GT.setItems(cursors);
-      //  cb_GT.setSelectionModel(null);
+        //  cb_GT.setSelectionModel(null);
         String pattern = "dd/MM/yyyy";
 
         cb_ngaySinh.setPromptText(pattern.toLowerCase());
@@ -412,9 +453,9 @@ public class DocGiaController implements Initializable {
         dccol.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
         TB_DG.getColumns().add(dccol);
 
-//            TableColumn<docGia,String> cmndcol=new TableColumn("    Số CMND    ");
-//            cmndcol.setCellValueFactory(new PropertyValueFactory<>("CMND"));
-//            TB_DG.getColumns().add(cmndcol);
+        TableColumn<docGia, String> cmndcol = new TableColumn("    Số CMND    ");
+        cmndcol.setCellValueFactory(new PropertyValueFactory<>("CMND"));
+        TB_DG.getColumns().add(cmndcol);
         TableColumn<docGia, String> ngayDKcol = new TableColumn<>("Ngày đăng kí");
         ngayDKcol.setCellValueFactory(new PropertyValueFactory<>("ngayDK"));
         TB_DG.getColumns().add(ngayDKcol);
@@ -442,7 +483,7 @@ public class DocGiaController implements Initializable {
             jdbcRowSet.setCommand(queryString);
             while (jdbcRowSet.next()) {
                 data.add(new docGia(jdbcRowSet.getString("MaDocGia"), jdbcRowSet.getString("HoVaTen"), jdbcRowSet.getDate("NgaySinh"), jdbcRowSet.getString("SoDT"), jdbcRowSet.getString("GioiTinh"), jdbcRowSet.getString("DiaChi"),
-                        jdbcRowSet.getDate("NgayLamThe"), jdbcRowSet.getDate("HanSD"), jdbcRowSet.getString("Email"), jdbcRowSet.getString("NgheNghiep")));
+                        jdbcRowSet.getDate("NgayLamThe"), jdbcRowSet.getDate("HanSD"), jdbcRowSet.getString("Email"), jdbcRowSet.getString("NgheNghiep"), jdbcRowSet.getString("CMND")));
             }
 
             jdbcRowSet.close();
@@ -472,9 +513,9 @@ public class DocGiaController implements Initializable {
         tf_maDG.setDisable(true);
         tf_ngayDK.setDisable(true);
         tf_ngayHet.setDisable(true);
-       // Date toDate = new Date();
+        // Date toDate = new Date();
         Calendar todate = Calendar.getInstance();
-        
+
         tf_ngayDK.setText(util.date.convertStringToDate(todate.getTime()));
         todate.add(Calendar.MONTH, 9);
         tf_ngayHet.setText(util.date.convertStringToDate(todate.getTime()));

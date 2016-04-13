@@ -89,11 +89,11 @@ public class NhanVienController implements Initializable {
         String dateNS = util.date.convertStringToDate(nv.getNgaySinh());
         db_ngaysinh.getEditor().setText(dateNS);
         tf_dc.setText(nv.getDiaChi());
-        cb_GT.getEditor().setText(nv.gioiTinh);
+        cb_GT.getEditor().setText(nv.getGioiTinh());
         tf_sdt.setText(nv.getSdt());
         tf_chucVu.setText(nv.getChucVu());
         tf_luong.setText(nv.luong.toString());
-
+        tf_maNV.setDisable(false);
         btn_save.setDisable(true);
 
     }
@@ -101,19 +101,25 @@ public class NhanVienController implements Initializable {
 
     @FXML
     private int saveNew(ActionEvent event) {
-//        boolean match;
-//        if(tf_tenNV.getText().matches("*\s\D")){
-//            System.out.println("ten k dc chua so");
-//        }
+        boolean match;
+        boolean test = true;
+        TextField[] mangTF = {tf_tenNV, tf_sdt, tf_dc, tf_cmnd, tf_chucVu, tf_luong};
+        for (int i = 0; i < 6; i++) {
+            if (mangTF[i].getText().equals("")) {
+                mangTF[i].setStyle("-fx-border-color:red;-fx-border-width: 2px ;");
+                test = false;
+            }
+        }
 
-        if ((tf_tenNV.getText()).equals("") || (db_ngaysinh.getEditor().getText()).equals("") || (tf_sdt.getText()).equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Thông Báo");
-            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
-            System.out.println("Loi!");
-            alert.showAndWait();
-            return 1;
-        } else {
+        if (test == true) {
+//            if ((tf_tenNV.getText()).equals("") || (db_ngaysinh.getEditor().getText()).equals("") || (tf_sdt.getText()).equals("")) {
+//                Alert alert = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("Thông Báo");
+//                alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
+//                System.out.println("Loi!");
+//                alert.showAndWait();
+//                return 1;
+//            } 
             try {
 
                 Date datestr = util.date.convertDatetoString(db_ngaysinh.getEditor().getText());
@@ -121,8 +127,8 @@ public class NhanVienController implements Initializable {
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
                 if (tf_maNV.getText().equals("")) {
-                    String str = "INSERT INTO dbo.NhanVien( MaNV ,HoVaTen ,SoDT ,Gioitinh ,NgaySinh ,Email ,Luong ,ChucVu ,DiaChi)"
-                            + "VALUES  ( 'NV' , ? ,? ,? ,? ,? ,? ,? ,? )";
+                    String str = "INSERT INTO dbo.NhanVien( MaNV ,HoVaTen ,SoDT ,Gioitinh ,NgaySinh ,Email ,Luong ,ChucVu ,DiaChi,CMND)"
+                            + "VALUES  ( 'NV' , ? ,? ,? ,? ,? ,? ,? ,?, ? )";
                     ps = cn.prepareStatement(str);
                     java.sql.Date date = new java.sql.Date(datestr.getTime());
                     ps.setNString(1, tf_tenNV.getText());
@@ -133,6 +139,7 @@ public class NhanVienController implements Initializable {
                     ps.setDouble(6, Double.parseDouble(tf_luong.getText()));
                     ps.setNString(7, tf_chucVu.getText());
                     ps.setNString(8, tf_dc.getText());
+                    ps.setString(9, tf_cmnd.getText());
                     ps.executeUpdate();
                     data.clear();
                     Statement st = null;
@@ -140,7 +147,7 @@ public class NhanVienController implements Initializable {
                     ResultSet rs = st.executeQuery("Select * from NhanVien");
                     while (rs.next()) {
                         data.add(new nhanvien(rs.getString("MaNV"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"),
-                                rs.getString("Gioitinh"), rs.getString("DiaChi"), rs.getDouble("Luong"), rs.getString("ChucVu")));
+                                rs.getString("Gioitinh"), rs.getString("DiaChi"), rs.getDouble("Luong"), rs.getString("ChucVu"),rs.getString("CMND")));
                     }
                     TB_NV.setItems(data);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -148,42 +155,50 @@ public class NhanVienController implements Initializable {
                     alert.setHeaderText("Thêm thành công");
                     alert.showAndWait();
                     return 0;
+                } else {
+                    String str = "UPDATE NhanVien SET HoVaTen = ? , NgaySinh = ? ,SoDT = ? ,DiaChi=? ,Gioitinh= ? ,Luong= ?, ChucVu= ?,CMND=? WHERE MaNV = ? ";
+                    ps = cn.prepareStatement(str);
+                    java.sql.Date date = new java.sql.Date(datestr.getTime());
+                    ps.setNString(1, tf_tenNV.getText());
+                    ps.setDate(2, date);
+                    ps.setString(3, tf_sdt.getText());
+                    ps.setNString(4, tf_dc.getText());
+                    ps.setNString(5, "nam");
+                    ps.setDouble(6, Double.parseDouble(tf_luong.getText()));
+                    ps.setNString(7, tf_chucVu.getText());
+                    ps.setString(8, tf_cmnd.getText());
+                    ps.setString(9, tf_maNV.getText());
+                    ps.executeUpdate();
+
+                    data.clear();
+                    Statement st = null;
+                    st = cn.createStatement();
+                    ResultSet rs = st.executeQuery("Select * from NhanVien");
+                    while (rs.next()) {
+                        data.add(new nhanvien(rs.getString("MaNV"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"),
+                                rs.getString("Gioitinh"), rs.getString("DiaChi"), rs.getDouble("Luong"), rs.getString("ChucVu"),rs.getString("CMND")));
+                    }
+                    TB_NV.setItems(data);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Thông Báo");
+                    alert.setHeaderText("Lưu thành công");
+                    alert.showAndWait();
                 }
 
-                
-                String str = "UPDATE NhanVien SET HoVaTen = ? , NgaySinh = ? ,SoDT = ? ,DiaChi=? ,Gioitinh= ? ,Luong= ?, ChucVu= ? WHERE MaNV = ? ";
-                ps = cn.prepareStatement(str);
-                java.sql.Date date = new java.sql.Date(datestr.getTime());
-                ps.setNString(1, tf_tenNV.getText());
-                ps.setDate(2, date);
-                ps.setString(3, tf_sdt.getText());
-                ps.setNString(4, tf_dc.getText());
-                ps.setNString(5, "nam");
-                ps.setDouble(6, Double.parseDouble(tf_luong.getText()));
-                ps.setNString(7, tf_chucVu.getText());
-                ps.setString(8, tf_maNV.getText());
-                ps.executeUpdate();
-
-                data.clear();
-                Statement st = null;
-                st = cn.createStatement();
-                ResultSet rs = st.executeQuery("Select * from NhanVien");
-                while (rs.next()) {
-                    data.add(new nhanvien(rs.getString("MaNV"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"),
-                            rs.getString("Gioitinh"), rs.getString("DiaChi"), rs.getDouble("Luong"), rs.getString("ChucVu")));
-                }
-                TB_NV.setItems(data);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông Báo");
-                alert.setHeaderText("Lưu thành công");
-                alert.showAndWait();
             } catch (SQLException ex) {
                 Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
                 Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return 0;
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Thông Báo");
+            alert.setHeaderText("Bạn cần nhập đầy đủ và chính xác thông tin");
+            System.out.println("Loi!");
+            alert.showAndWait();
         }
+        return 0;
     }
 
     @FXML
@@ -197,15 +212,24 @@ public class NhanVienController implements Initializable {
         if (yes) {
 
             try {
-                data.remove(i);
+
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
-                String str = "DELETE FROM NhanVien WHERE MaNV= ?";
+                String str = "UPDATE dbo.NhanVien SET ChucVu=? WHERE MaNV=?";
 
                 ps = cn.prepareStatement(str);
-
-                ps.setString(1, nv.getMaNV());
+                ps.setNString(1, "Thôi Việc");
+                ps.setString(2, nv.getMaNV());
                 ps.executeUpdate();
+                data.clear();
+                Statement st = null;
+                st = cn.createStatement();
+                ResultSet rs = st.executeQuery("Select * from NhanVien");
+                while (rs.next()) {
+                    data.add(new nhanvien(rs.getString("MaNV"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"),
+                            rs.getString("Gioitinh"), rs.getString("DiaChi"), rs.getDouble("Luong"), rs.getString("ChucVu"),rs.getString("CMND")));
+                }
+                TB_NV.setItems(data);
             } catch (SQLException ex) {
                 Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -304,14 +328,14 @@ public class NhanVienController implements Initializable {
             this.luong = luong;
         }
 
-        public nhanvien(String MaNV, String TenNV, Date ngaySinh, String sdt, String gioiTinh, String diaChi, Double luong, String ChucVu) {
+        public nhanvien(String MaNV, String TenNV, Date ngaySinh, String sdt, String gioiTinh, String diaChi, Double luong, String ChucVu,String CMND) {
             this.MaNV = MaNV;
             this.TenNV = TenNV;
             this.ngaySinh = ngaySinh;
             this.sdt = sdt;
             this.gioiTinh = gioiTinh;
             this.diaChi = diaChi;
-            // this.CMND = CMND;
+             this.CMND = CMND;
             this.ChucVu = ChucVu;
             this.luong = luong;
         }
@@ -328,7 +352,7 @@ public class NhanVienController implements Initializable {
                 "Nam", "Nữ", "Khác"
         );
         cb_GT.setItems(cursors);
-        
+
         String pattern = "dd/MM/yyyy";
 
         db_ngaysinh.setPromptText(pattern.toLowerCase());
@@ -392,7 +416,8 @@ public class NhanVienController implements Initializable {
             crs.setCommand("select * from NhanVien");
             crs.execute();
             while (crs.next()) {
-                data.add(new nhanvien(crs.getString("MaNV"), crs.getString("HoVaTen"), crs.getDate("NgaySinh"), crs.getString("SoDT"), crs.getString("Gioitinh"), crs.getString("Email"), crs.getDouble("Luong"), crs.getString("ChucVu")));
+                data.add(new nhanvien(crs.getString("MaNV"), crs.getString("HoVaTen"), crs.getDate("NgaySinh"), crs.getString("SoDT"), crs.getString("Gioitinh")
+                        , crs.getString("Email"), crs.getDouble("Luong"), crs.getString("ChucVu"),crs.getString("CMND")));
             }
             crs.acceptChanges();
             crs.close();
