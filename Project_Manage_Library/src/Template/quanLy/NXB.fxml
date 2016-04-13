@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import Validate.*?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Template.quanLy.NXBController">
    <columnConstraints>
@@ -40,7 +41,7 @@
             <TextField fx:id="tf_tenNXB" layoutX="117.0" layoutY="137.0" prefHeight="31.0" prefWidth="174.0" />
             <Label layoutX="16.0" layoutY="187.0" text="SĐT" />
             <Label layoutX="16.0" layoutY="233.0" text="Địa chỉ" />
-            <TextField fx:id="tf_sdt" layoutX="119.0" layoutY="182.0" prefHeight="31.0" prefWidth="174.0" />
+            <NumberTextField fx:id="tf_sdt" layoutX="119.0" layoutY="182.0" prefHeight="31.0" prefWidth="174.0" />
             <TextField fx:id="tf_dc" layoutX="119.0" layoutY="228.0" prefHeight="31.0" prefWidth="174.0" />
             <Label layoutX="16.0" layoutY="279.0" text="Email" />
             <TextField fx:id="tf_email" layoutX="119.0" layoutY="274.0" prefHeight="31.0" prefWidth="174.0" />

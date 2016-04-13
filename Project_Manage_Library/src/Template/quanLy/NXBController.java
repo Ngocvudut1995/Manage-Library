@@ -6,7 +6,6 @@
 package Template.quanLy;
 
 import com.sun.rowset.CachedRowSetImpl;
-import com.sun.rowset.JdbcRowSetImpl;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,7 +28,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javax.sql.rowset.CachedRowSet;
-import javax.sql.rowset.JdbcRowSet;
 
 /**
  * FXML Controller class
@@ -78,14 +76,33 @@ public class NXBController implements Initializable {
 
     @FXML
     private int saveNew(ActionEvent event) {
-        if ((tf_tenNXB.getText()).equals("") || (tf_dc.getText()).equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Thông Báo");
-            alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
-            System.out.println("Loi!");
-            alert.showAndWait();
-            return 1;
-        } else {
+        boolean test = true;
+        if (tf_tenNXB.getText().equals("")) {
+            test = false;
+            tf_tenNXB.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        }else{
+            tf_tenNXB.setStyle("-fx-border-width:0px;");
+        }
+         if (tf_dc.getText().equals("")) {
+            test = false;
+            tf_dc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        }else{
+            tf_dc.setStyle("-fx-border-width:0px;");
+        }
+          if (tf_sdt.getText().equals("")) {
+            test = false;
+            tf_sdt.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        }else{
+            tf_sdt.setStyle("-fx-border-width:0px;");
+        }
+           if (tf_email.getText().equals("")
+                   ||!tf_email.getText().matches("[a-zA-Z0-9_]+@[a-zA-Z]+\\.[a-zA-Z]+(\\.[a-zA-Z]+)*")) {
+            test = false;
+            tf_email.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        }else{
+            tf_email.setStyle("-fx-border-width:0px;");
+        }
+        if (test == true) {
             try {
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
@@ -131,8 +148,14 @@ public class NXBController implements Initializable {
             } catch (SQLException ex) {
                 Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return 0;
+
         }
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Thông Báo");
+        alert.setHeaderText("Bạn cần nhập đầy đủ thông tin");
+        System.out.println("Loi!");
+        alert.showAndWait();
+        return 0;
     }
 
     @FXML
@@ -146,7 +169,7 @@ public class NXBController implements Initializable {
         if (yes) {
 
             try {
-                data.remove(i);
+                
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
                 String str = "DELETE FROM nHaXB WHERE MaNXB= ?";
@@ -154,9 +177,11 @@ public class NXBController implements Initializable {
 
                 ps.setString(1, nxb.getMaNXB());
                 ps.executeUpdate();
+                data.remove(i);
             } catch (SQLException ex) {
                 Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         }
     }
 

@@ -62,6 +62,7 @@ public class LoginController implements Initializable {
 
     @FXML
     public int Enter(KeyEvent ke) throws IOException, SQLException {
+       
         if(!(textpass.getText().equals("")||textuser.getText().equals("")))
         check_mk.setDisable(false);
         else{
@@ -133,7 +134,19 @@ public class LoginController implements Initializable {
                 stage.setScene(scene);
                 stage.resizableProperty().setValue(Boolean.FALSE);
                 ((Node) (event.getSource())).getScene().getWindow().hide();
+                 PrintWriter pw = null;
+                    if (check_mk.isSelected()) {
+                        System.out.println("asdasd");
 
+                        pw = new PrintWriter("save.dat");
+                        pw.println("check" + ";" + textuser.getText() + ";" + textpass.getText());
+                        pw.close();
+                    } else {
+                        System.out.println("asdasdas1");
+                        pw = new PrintWriter("save.dat");
+                        pw.println("no_check" + ";" + textuser.getText() + ";" + textpass.getText());
+                        pw.close();
+                    }
                 stage.show();
                 return 1;
             }

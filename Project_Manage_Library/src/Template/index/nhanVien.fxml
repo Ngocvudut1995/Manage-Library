@@ -2,20 +2,21 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane id="AnchorPane" prefHeight="443.0" prefWidth="990.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Template.index.NhanVienController">
    <stylesheets>
       <URL value="@../quanLy/fontthemnv.css" />
    </stylesheets>
    <children>
-      <Pane layoutX="280.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="712.0">
+      <Pane layoutX="279.0" layoutY="6.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="616.0">
          <children>
             <Label layoutX="220.0" layoutY="21.0" text="Thông tin của tôi" textFill="#504066">
                <font>
@@ -23,32 +24,37 @@
                </font>
             </Label>
             <Label layoutX="18.0" layoutY="94.0" text="Tên NXB" />
-            <TextField layoutX="110.0" layoutY="89.0" prefHeight="31.0" prefWidth="225.0" />
+            <TextField fx:id="tf_tenNV" layoutX="110.0" layoutY="89.0" prefHeight="31.0" prefWidth="225.0" />
             <Label layoutX="351.0" layoutY="94.0" text="Ngày sinh " />
             <Label layoutX="21.0" layoutY="217.0" prefHeight="21.0" prefWidth="71.0" text="Địa chỉ " />
-            <TextField layoutX="111.0" layoutY="212.0" prefHeight="31.0" prefWidth="462.0" />
+            <TextField fx:id="tf_diachi" layoutX="111.0" layoutY="212.0" prefHeight="31.0" prefWidth="462.0" />
             <Label layoutX="18.0" layoutY="134.0" text="Số ĐT" />
-            <TextField layoutX="110.0" layoutY="129.0" prefHeight="31.0" prefWidth="225.0" />
-            <TextField layoutX="430.0" layoutY="128.0" prefHeight="31.0" prefWidth="142.0" />
+            <TextField fx:id="tf_sdt" layoutX="110.0" layoutY="129.0" prefHeight="31.0" prefWidth="225.0" />
+            <TextField fx:id="tf_cmnd" layoutX="430.0" layoutY="128.0" prefHeight="31.0" prefWidth="142.0" />
             <Label layoutX="351.0" layoutY="134.0" text="Số CMND " />
             <Label layoutX="21.0" layoutY="175.0" text="Chức vụ" />
-            <TextField layoutX="110.0" layoutY="170.0" prefHeight="31.0" prefWidth="225.0" />
+            <TextField fx:id="tf_chucvu" layoutX="110.0" layoutY="170.0" prefHeight="31.0" prefWidth="225.0" />
             <Label layoutX="351.0" layoutY="175.0" text="Giới tính " />
             <Label layoutX="23.0" layoutY="256.0" text="Email " />
-            <TextField layoutX="110.0" layoutY="251.0" prefHeight="31.0" prefWidth="225.0" />
-            <TextField layoutX="430.0" layoutY="251.0" prefHeight="31.0" prefWidth="142.0" />
+            <TextField fx:id="tf_email" layoutX="110.0" layoutY="251.0" prefHeight="31.0" prefWidth="225.0" />
+            <TextField fx:id="tf_manv" layoutX="430.0" layoutY="251.0" prefHeight="31.0" prefWidth="142.0" />
             <Label layoutX="353.0" layoutY="256.0" text="Mã NV" />
-            <Button layoutX="204.0" layoutY="371.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="69.0" text="Lưu" />
-            <Button layoutX="341.0" layoutY="371.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="116.0" text="Đổi mật khẩu" />
-            <TextField layoutX="430.0" layoutY="170.0" prefHeight="31.0" prefWidth="142.0" />
-            <TextField layoutX="430.0" layoutY="89.0" prefHeight="31.0" prefWidth="142.0" />
             <Label layoutX="23.0" layoutY="298.0" text="Tên TK" />
-            <TextField layoutX="110.0" layoutY="292.0" prefHeight="31.0" prefWidth="225.0" />
+            <TextField fx:id="tf_taikhoan" layoutX="110.0" layoutY="292.0" prefHeight="31.0" prefWidth="225.0" />
             <Label layoutX="355.0" layoutY="298.0" text="password" />
-            <PasswordField layoutX="430.0" layoutY="293.0" prefHeight="31.0" prefWidth="142.0" />
+            <PasswordField fx:id="tf_pass" layoutX="430.0" layoutY="293.0" prefHeight="31.0" prefWidth="142.0" />
+            <ComboBox fx:id="cb_gioitinh" layoutX="431.0" layoutY="169.0" prefHeight="31.0" prefWidth="142.0" />
+            <Button fx:id="bt_sua" layoutX="133.0" layoutY="369.0" mnemonicParsing="false" onAction="#Sua" prefHeight="31.0" prefWidth="69.0" text="Sửa" />
+            <Button fx:id="bt_luu" layoutX="280.0" layoutY="369.0" mnemonicParsing="false" onAction="#luu_DB" prefHeight="31.0" prefWidth="69.0" text="Lưu" />
+            <Button fx:id="bt_huy" layoutX="420.0" layoutY="368.0" mnemonicParsing="false" onAction="#huy" prefHeight="31.0" prefWidth="69.0" text="Hủy" />
+            <TextField fx:id="db_brithday" layoutX="430.0" layoutY="87.0" prefHeight="31.0" prefWidth="142.0" />
          </children>
       </Pane>
-      <Pane layoutX="57.0" layoutY="95.0" prefHeight="199.0" prefWidth="160.0" style="-fx-background-color: blue;" />
-      <Label layoutX="125.0" layoutY="314.0" text="ảnh" />
+      <Pane layoutX="57.0" layoutY="95.0" prefHeight="199.0" prefWidth="160.0">
+         <children>
+            <ImageView fx:id="image_view" fitHeight="199.0" fitWidth="158.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
+         </children></Pane>
+      <Label layoutX="125.0" layoutY="314.0" text="Ảnh" />
+      <Button fx:id="bt_doianh" layoutX="110.0" layoutY="310.0" mnemonicParsing="false" onAction="#load_anh" text="Sửa" />
    </children>
 </AnchorPane>

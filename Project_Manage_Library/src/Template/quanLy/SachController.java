@@ -80,14 +80,23 @@ public class SachController implements Initializable {
         int i = TB_sach.getFocusModel().getFocusedIndex();
         sach s = data.get(i);
         tf_maSach.setText(s.getMaSach());
+        tf_tenSach.setStyle("-fx-border-width:0px;");
         tf_tenSach.setText(s.getTenSach());
+        cb_thoigianmuon.setStyle("-fx-border-width:0px;");
         cb_thoigianmuon.getSelectionModel().select(s.getStt_tgmuon());
+        cb_tl.setStyle("-fx-border-width:0px;");
         cb_tl.getSelectionModel().select(s.getStt_tl() - 1);
+        tf_NXB.setStyle("-fx-border-width:0px;");
         tf_NXB.setText(s.getNXB());
+        tf_TG.setStyle("-fx-border-width:0px;");
         tf_TG.setText(s.getTacGia());
+        tf_SL.setStyle("-fx-border-width:0px;");
         tf_SL.setText(s.getSL());
+        tf_SLcon.setStyle("-fx-border-width:0px;");
         tf_SLcon.setText((s.getSLcon()));
+        cb_ngonngu.setStyle("-fx-border-width:0px;");
         cb_ngonngu.getSelectionModel().select(s.getStt_nn() - 1);
+        tf_gia.setStyle("-fx-border-width:0px;");
         tf_gia.setText(s.gia.toString());
         btn_luu.setDisable(true);
     }
@@ -152,6 +161,7 @@ public class SachController implements Initializable {
         }else{
             cb_tl.setStyle(" -fx-border-width: 0px ;");
         }
+        try{
         if(Integer.parseInt(tf_SLcon.getText())>Integer.parseInt(tf_SL.getText())){
          test = false;
         //  tf_SL.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
@@ -160,6 +170,9 @@ public class SachController implements Initializable {
         //    tf_SL.setStyle(" -fx-border-width: 0px ;");
             tf_SLcon.setStyle(" -fx-border-width: 0px ;");
             
+        }}
+        catch(NumberFormatException e){
+            System.out.println(e.toString());
         }
         if (test == true) {
 
