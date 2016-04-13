@@ -23,22 +23,23 @@
    <children>
       <Pane prefHeight="443.0" prefWidth="168.0">
          <children>
-            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="206.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="76.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" text="Sửa" />
-            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="309.0" mnemonicParsing="false" onAction="#xoa" prefHeight="32.0" prefWidth="76.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" text="Xóa" />
-            <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="94.0" mnemonicParsing="false" onAction="#themTG" prefHeight="30.0" prefWidth="82.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css" text="Thêm" />
+            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="206.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="45.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css" />
+            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="309.0" mnemonicParsing="false" onAction="#xoa" prefHeight="32.0" prefWidth="45.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" />
+            <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="94.0" mnemonicParsing="false" onAction="#themTG" prefHeight="32.0" prefWidth="45.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css" />
+            <Label layoutX="58.0" layoutY="100.0" text="Thêm" />
+            <Label layoutX="60.0" layoutY="315.0" text="Xóa" />
+            <Label layoutX="61.0" layoutY="212.0" text="Sửa" />
          </children>
       </Pane>
       <Pane prefHeight="443.0" prefWidth="307.0" GridPane.columnIndex="2">
          <children>
-            <Label layoutX="18.0" layoutY="105.0" text="Mã tác giả" />
-            <TextField fx:id="tf_maTG" layoutX="105.0" layoutY="100.0" />
-            <Label layoutX="19.0" layoutY="162.0" text="Tên tác giả" />
-            <TextField fx:id="tf_tenTG" layoutX="105.0" layoutY="157.0" />
-            <Label layoutX="19.0" layoutY="280.0" text="GT" />
-            <Label layoutX="19.0" layoutY="220.0" text="Ngày Sinh" />
-            <TextField fx:id="tf_gt" layoutX="105.0" layoutY="275.0" />
+            <Label layoutX="18.0" layoutY="134.0" text="Mã tác giả" />
+            <TextField fx:id="tf_maTG" layoutX="105.0" layoutY="129.0" />
+            <Label layoutX="19.0" layoutY="191.0" text="Tên tác giả" />
+            <TextField fx:id="tf_tenTG" layoutX="105.0" layoutY="186.0" />
+            <Label layoutX="19.0" layoutY="249.0" text="Ngày Sinh" />
             <Button fx:id="btn_save" layoutX="121.0" layoutY="371.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="64.0" text="Lưu" />
-            <DatePicker fx:id="tf_namSinh" layoutX="105.0" layoutY="215.0" prefHeight="31.0" prefWidth="186.0" />
+            <DatePicker fx:id="tf_namSinh" layoutX="105.0" layoutY="244.0" prefHeight="31.0" prefWidth="186.0" />
          </children>
       </Pane>
       <AnchorPane prefHeight="443.0" prefWidth="565.0" GridPane.columnIndex="1">
