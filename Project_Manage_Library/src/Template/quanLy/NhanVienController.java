@@ -30,6 +30,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.SortEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -81,6 +82,10 @@ public class NhanVienController implements Initializable {
     private DatePicker db_ngaysinh;
     @FXML
     private ComboBox<String> cb_GT;
+    @FXML
+    private TextField tf_email;
+    @FXML
+    private Button btn_huy;
 
     @FXML
     private void focus_ct(MouseEvent event) {
@@ -232,6 +237,23 @@ public class NhanVienController implements Initializable {
 
         btn_save.setDisable(false);
 
+    }
+
+    @FXML
+    private void huy_edit(ActionEvent event) {
+        tf_tenNV.setEditable(false);
+        tf_maNV.setEditable(false);
+        tf_sdt.setEditable(false);
+        tf_luong.setEditable(false);
+        tf_email.setEditable(false);
+        tf_dc.setEditable(false);
+        tf_cmnd.setEditable(false);
+        tf_chucVu.setEditable(false);
+        cb_GT.setDisable(true);
+        db_ngaysinh.setDisable(true);
+        btn_huy.setDisable(true);
+        btn_save.setDisable(true);
+        load_data();
     }
 
     public class nhanvien {

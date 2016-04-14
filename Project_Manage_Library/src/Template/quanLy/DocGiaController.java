@@ -87,6 +87,8 @@ public class DocGiaController implements Initializable {
     private ComboBox<String> cb_GT;
     @FXML
     private TextField tf_NN;
+    @FXML
+    private Button btn_huy;
 
     @FXML
     private void focus_CTDG(MouseEvent event) {
@@ -266,6 +268,26 @@ public class DocGiaController implements Initializable {
         tf_ngayDK.setDisable(true);
         tf_ngayHet.setDisable(false);
         btn_save.setDisable(false);
+    }
+
+    @FXML
+    private void huy_edit(ActionEvent event) {
+        tf_NN.setEditable(false);
+        
+        tf_cmnd.setEditable(false);
+        tf_dc.setEditable(false);
+        tf_email.setEditable(false);
+        tf_maDG.setEditable(false);
+        tf_ngayDK.setEditable(false);
+        tf_ngayHet.setEditable(false);
+        tf_sdt.setEditable(false);
+        tf_tenDG.setEditable(false);
+        //focus_CTDG();
+        cb_ngaySinh.setDisable(true);
+        cb_GT.setDisable(true);
+        btn_huy.setDisable(true);
+        btn_save.setDisable(true);
+        //load_data();
     }
 
     public class docGia {

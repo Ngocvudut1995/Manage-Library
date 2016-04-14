@@ -65,14 +65,19 @@
             <TextField fx:id="tf_cmnd" layoutX="105.0" layoutY="248.0" prefWidth="186.0" />
             <TextField fx:id="tf_chucVu" layoutX="105.0" layoutY="324.0" prefWidth="186.0" />
             <TextField fx:id="tf_luong" layoutX="105.0" layoutY="362.0" prefWidth="186.0" />
-            <Button fx:id="btn_save" layoutX="129.0" layoutY="403.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="59.0" text="Lưu">
+            <Button fx:id="btn_save" layoutX="80.0" layoutY="403.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="59.0" text="Lưu">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
             <DatePicker fx:id="db_ngaysinh" layoutX="105.0" layoutY="93.0" prefHeight="31.0" prefWidth="186.0" />
             <ComboBox fx:id="cb_GT" layoutX="105.0" layoutY="172.0" prefHeight="31.0" prefWidth="186.0" promptText="Nam" />
-            <TextField layoutX="105.0" layoutY="286.0" />
-            <Label fx:id="tf_email" layoutX="16.0" layoutY="291.0" text="Email" />
+            <TextField fx:id="tf_email" layoutX="105.0" layoutY="286.0" />
+            <Label layoutX="16.0" layoutY="291.0" text="Email" />
+            <Button fx:id="btn_huy" layoutX="198.0" layoutY="403.0" mnemonicParsing="false" onAction="#huy_edit" prefHeight="31.0" prefWidth="59.0" text="Hủy">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </Pane>
    </children>

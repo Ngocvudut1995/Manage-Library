@@ -55,6 +55,8 @@ public class TheLoaiController implements Initializable {
     private ComboBox<?> cb_phong;
     @FXML
     private TextField tf_tang;
+    @FXML
+    private Button btn_huy;
 
     @FXML
     private void focus_CTTL(MouseEvent event) {
@@ -184,6 +186,15 @@ public class TheLoaiController implements Initializable {
         tf_tang.setDisable(true);
         btn_save.setDisable(false);
 
+    }
+    @FXML
+     private void huy_edit(ActionEvent event) {
+        tf_maTL.setEditable(false);
+        tf_tenTl.setEditable(false);
+        tf_tang.setEditable(false);
+        btn_huy.setDisable(true);
+        btn_save.setDisable(true);
+        
     }
 
     /**

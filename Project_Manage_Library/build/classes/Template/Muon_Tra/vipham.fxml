@@ -33,7 +33,7 @@
          <children>
             <Pane prefHeight="127.0" prefWidth="611.0">
                <children>
-                  <Button fx:id="bt_search" alignment="TOP_RIGHT" layoutX="289.0" layoutY="27.0" mnemonicParsing="false" onAction="#huy_toan_bo" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css">
+                  <Button fx:id="bt_search" alignment="TOP_RIGHT" layoutX="304.0" layoutY="37.0" mnemonicParsing="false" onAction="#huy_toan_bo" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -101,9 +101,18 @@
       </Pane>
       <Pane prefHeight="443.0" prefWidth="106.0" style="-fx-border-color: black; -fx-border-radius: 4px; -fx-border-width: 2px;">
          <children>
-            <Button fx:id="bt_them" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" onAction="#them_sach" prefHeight="40.0" prefWidth="38.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css" />
-            <Button fx:id="bt_huy" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="287.0" mnemonicParsing="false" onAction="#huy_toan_bo" prefHeight="40.0" prefWidth="38.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css" />
-            <Button fx:id="bt_luu" alignment="CENTER_RIGHT" layoutX="16.0" layoutY="199.0" mnemonicParsing="false" onAction="#luu_vaoDB" prefHeight="40.0" prefWidth="38.0" styleClass="btn-save" stylesheets="@../../CSS/fextile.css" />
+            <Button fx:id="bt_them" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" onAction="#them_sach" prefHeight="40.0" prefWidth="38.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="bt_huy" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="287.0" mnemonicParsing="false" onAction="#huy_toan_bo" prefHeight="40.0" prefWidth="38.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="bt_luu" alignment="CENTER_RIGHT" layoutX="16.0" layoutY="199.0" mnemonicParsing="false" onAction="#luu_vaoDB" prefHeight="40.0" prefWidth="38.0" styleClass="btn-save" stylesheets="@../../CSS/fextile.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <Label layoutX="56.0" layoutY="49.0" text="Thêm">
                <font>
                   <Font name="System Bold" size="15.0" />
@@ -124,7 +133,10 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Button fx:id="bt_xuly" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="115.0" mnemonicParsing="false" onAction="#xu_ly_vp" prefHeight="40.0" prefWidth="38.0" styleClass="btn-ok" stylesheets="@../../CSS/fextile.css" />
+            <Button fx:id="bt_xuly" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="115.0" mnemonicParsing="false" onAction="#xu_ly_vp" prefHeight="40.0" prefWidth="38.0" styleClass="btn-ok" stylesheets="@../../CSS/fextile.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
          </children>
       </Pane>
    </children>

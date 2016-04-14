@@ -49,43 +49,43 @@
                </font>
             </Label>
             <TextField fx:id="ct_masach" layoutX="89.0" layoutY="89.0" prefHeight="25.0" prefWidth="207.0" />
-            <Label layoutX="23.0" layoutY="134.0" text="Tên Sách:">
+            <Label layoutX="22.0" layoutY="137.0" text="Tên Sách:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
             <TextField fx:id="ct_tensach" layoutX="89.0" layoutY="130.0" prefHeight="25.0" prefWidth="207.0" />
-            <Label layoutX="23.0" layoutY="174.0" text="Tác Giả:">
+            <Label layoutX="24.0" layoutY="177.0" text="Tác Giả:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
             <TextField fx:id="ct_tacgia" layoutX="89.0" layoutY="170.0" prefHeight="25.0" prefWidth="207.0" />
-            <Label layoutX="23.0" layoutY="221.0" text="Thể Loại:">
+            <Label layoutX="21.0" layoutY="219.0" text="Thể Loại:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="ct_theloai" layoutX="89.0" layoutY="217.0" prefHeight="25.0" prefWidth="112.0" />
-            <Label layoutX="23.0" layoutY="262.0" text="Ngôn Ngữ:">
+            <TextField fx:id="ct_theloai" layoutX="89.0" layoutY="212.0" prefHeight="31.0" prefWidth="207.0" />
+            <Label layoutX="18.0" layoutY="262.0" text="Ngôn Ngữ:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="ct_ngonngu" layoutX="89.0" layoutY="258.0" prefHeight="25.0" prefWidth="112.0" />
-            <Label layoutX="23.0" layoutY="302.0" text="Đơn Giá:">
+            <TextField fx:id="ct_ngonngu" layoutX="89.0" layoutY="255.0" prefHeight="31.0" prefWidth="207.0" />
+            <Label layoutX="24.0" layoutY="305.0" text="Đơn Giá:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="ct_dongia" layoutX="90.0" layoutY="298.0" prefHeight="25.0" prefWidth="112.0" />
+            <TextField fx:id="ct_dongia" layoutX="90.0" layoutY="298.0" prefHeight="31.0" prefWidth="207.0" />
             <ImageView fx:id="ct_image" fitHeight="120.0" fitWidth="82.0" layoutX="214.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true" />
-            <Label layoutX="24.0" layoutY="338.0" text="Nhà XB:">
+            <Label layoutX="24.0" layoutY="350.0" text="Nhà XB:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="ct_nhaxb" layoutX="90.0" layoutY="346.0" prefHeight="25.0" prefWidth="112.0" />
+            <TextField fx:id="ct_nhaxb" layoutX="90.0" layoutY="343.0" prefHeight="31.0" prefWidth="207.0" />
          </children>
       </Pane>
    </children>

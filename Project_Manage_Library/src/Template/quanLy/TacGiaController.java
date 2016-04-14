@@ -58,6 +58,8 @@ public class TacGiaController implements Initializable {
    
     @FXML
     private DatePicker tf_namSinh;
+    @FXML
+    private Button btn_huy;
 
     @FXML
     private void focus_CTTG(MouseEvent event) {
@@ -278,6 +280,16 @@ public class TacGiaController implements Initializable {
     private void Edit(ActionEvent event) {
         tf_maTG.setDisable(true);
         btn_save.setDisable(false);
+    }
+
+    @FXML
+    private void huy_edit(ActionEvent event) {
+        tf_maTG.setEditable(false);
+        tf_tenTG.setEditable(false);
+        tf_namSinh.setDisable(true);
+        btn_huy.setDisable(true);
+        btn_save.setDisable(true);
+        
     }
 
     /**

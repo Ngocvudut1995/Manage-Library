@@ -74,8 +74,9 @@ public class SachController implements Initializable {
     private ComboBox<?> cb_ngonngu;
     @FXML
     private ComboBox<?> cb_thoigianmuon;
+    
     @FXML
-    private Button btn_hủy;
+    private Button btn_huy;
 
     @FXML
     private void focus_CTsach(MouseEvent event) {
@@ -261,7 +262,7 @@ public class SachController implements Initializable {
     @FXML
     private void Edit(ActionEvent event) {
         tf_maSach.setDisable(true);
-        btn_hủy.setDisable(false);
+        btn_huy.setDisable(false);
 
         btn_luu.setDisable(false);
          tf_maSach.setEditable(true);
@@ -293,9 +294,10 @@ public class SachController implements Initializable {
         cb_tl.setDisable(true);
         cb_ngonngu.setDisable(true);
         cb_thoigianmuon.setDisable(true);
-        btn_hủy.setDisable(true);
+        btn_huy.setDisable(true);
         btn_luu.setDisable(true);
        // btn_edit.setDisable(true);
+        loaddata();
     }
 
     public class sach {
@@ -475,7 +477,7 @@ public class SachController implements Initializable {
         cb_ngonngu.setDisable(true);
         cb_thoigianmuon.setDisable(true);
         btn_luu.setDisable(true);
-        btn_hủy.setDisable(true);
+        btn_huy.setDisable(true);
         ObservableList data_thmuon = FXCollections.observableArrayList("1 tháng", "3 tháng", "6 tháng", "9 tháng");
         cb_thoigianmuon.setItems(data_thmuon);
         ObservableList cursors = FXCollections.observableArrayList();
@@ -575,7 +577,7 @@ public class SachController implements Initializable {
         tf_gia.setText("");
         btn_luu.setDisable(false);
          tf_maSach.setDisable(true);
-        btn_hủy.setDisable(false);
+        btn_huy.setDisable(false);
 
        // btn_luu.setDisable(false);
        //  tf_maSach.setEditable(true);

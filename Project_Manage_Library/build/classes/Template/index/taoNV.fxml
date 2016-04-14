@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -45,19 +46,21 @@
             <DatePicker fx:id="dp_ngaysinh" layoutX="426.0" layoutY="69.0" prefHeight="31.0" prefWidth="142.0" />
             <TextField fx:id="tf_cmnd" layoutX="426.0" layoutY="111.0" prefHeight="31.0" prefWidth="142.0" />
             <TextField fx:id="tf_chucvu" layoutX="426.0" layoutY="195.0" prefHeight="31.0" prefWidth="142.0" />
-            <AnchorPane layoutX="358.0" layoutY="238.0">
+            <Pane layoutX="426.0" layoutY="242.0" prefHeight="107.0" prefWidth="100.0" style="-fx-border-color: black;">
                <children>
-                  <Pane style="-fx-border-color: black;">
-                     <children>
-                        <ImageView fx:id="image_view" fitHeight="114.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                  </Pane>
+                  <ImageView fx:id="image_view" fitHeight="105.0" fitWidth="98.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
                </children>
-            </AnchorPane>
-            <Button fx:id="them_anh" layoutX="508.0" layoutY="240.0" mnemonicParsing="false" onAction="#load_file_anh" text="Thêm" />
+            </Pane>
+            <Button fx:id="them_anh" layoutX="538.0" layoutY="321.0" mnemonicParsing="false" onAction="#load_file_anh" prefHeight="25.0" prefWidth="30.0" text="......." />
             <Label layoutX="347.0" layoutY="202.0" text="Chức Vụ" />
-            <Button fx:id="tao_NV" layoutX="169.0" layoutY="386.0" mnemonicParsing="false" onAction="#luu_vao_DB" prefHeight="31.0" prefWidth="69.0" text="Tạo" />
-            <Button fx:id="bt_huy" layoutX="356.0" layoutY="386.0" mnemonicParsing="false" onAction="#huy" prefHeight="31.0" prefWidth="69.0" text="Hủy" />
+            <Button fx:id="tao_NV" layoutX="169.0" layoutY="386.0" mnemonicParsing="false" onAction="#luu_vao_DB" prefHeight="31.0" prefWidth="69.0" text="Tạo">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="bt_huy" layoutX="356.0" layoutY="386.0" mnemonicParsing="false" onAction="#huy" prefHeight="31.0" prefWidth="69.0" text="Hủy">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
          </children>
       </Pane>
    </children>

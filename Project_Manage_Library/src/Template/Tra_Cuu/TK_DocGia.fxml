@@ -39,7 +39,7 @@
             </ScrollPane>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="22.0" layoutY="14.0" prefHeight="17.0" prefWidth="112.0" text="Mã Phiếu Mượn: ">
+                  <Label layoutX="22.0" layoutY="14.0" prefHeight="17.0" prefWidth="112.0" text="Tên Đọc Giả">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>

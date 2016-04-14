@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -50,8 +51,14 @@
                      </font>
                   </Label>
                   <TextField fx:id="tf_TKMadG" layoutX="142.0" layoutY="56.0" prefHeight="25.0" prefWidth="249.0" />
-                  <Button fx:id="btn_TKmaPM" alignment="CENTER_RIGHT" layoutX="417.0" layoutY="8.0" mnemonicParsing="false" onAction="#timKiemTheoMaPM" prefHeight="32.0" prefWidth="34.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css" />
-                  <Button fx:id="btn_TKmadG" alignment="TOP_RIGHT" layoutX="417.0" layoutY="53.0" mnemonicParsing="false" onAction="#timKiemTheoMaDG" prefHeight="32.0" prefWidth="34.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css" />
+                  <Button fx:id="btn_TKmaPM" alignment="CENTER_RIGHT" layoutX="417.0" layoutY="8.0" mnemonicParsing="false" onAction="#timKiemTheoMaPM" prefHeight="32.0" prefWidth="34.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <Button fx:id="btn_TKmadG" alignment="TOP_RIGHT" layoutX="417.0" layoutY="53.0" mnemonicParsing="false" onAction="#timKiemTheoMaDG" prefHeight="32.0" prefWidth="34.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
             </Pane>
          </children>

@@ -49,7 +49,6 @@ public class NXBController implements Initializable {
     private TextField tf_maNXB;
     @FXML
     private TextField tf_tenNXB;
-    @FXML
     private TextField tf_sdt;
     @FXML
     private TextField tf_dc;
@@ -57,6 +56,9 @@ public class NXBController implements Initializable {
     private TextField tf_email;
     ObservableList<NXB> data = FXCollections.observableArrayList();
     Connection cn = null;
+    private Button btn_huy;
+    @FXML
+    private Button btn_hủy;
 
     @FXML
     private void focus_CTNXB(MouseEvent event) {
@@ -190,6 +192,17 @@ public class NXBController implements Initializable {
     private void Edit(ActionEvent event) {
         tf_maNXB.setDisable(true);
         btn_luu.setDisable(false);
+    }
+
+    @FXML
+    private void huy_edit(ActionEvent event) {
+        tf_dc.setEditable(false);
+        tf_email.setEditable(false);
+        tf_maNXB.setEditable(false);
+        tf_sdt.setEditable(false);
+        tf_tenNXB.setEditable(false);
+        btn_huy.setDisable(true);
+        btn_luu.setDisable(true);
     }
 
     public class NXB {
