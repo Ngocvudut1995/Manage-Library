@@ -27,6 +27,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -76,14 +77,15 @@ public class NhanVienController extends Login.LoginController implements Initial
      * Initializes the controller class.
      */
     Connection cn = null;
- 
+
     @FXML
     private ComboBox<String> cb_gioitinh;
     @FXML
     private TextField db_brithday;
     @FXML
     private Button bt_doianh;
-
+   static InputStream stream;
+    Image image = null;
     void load_data() {
 
         try {
@@ -103,15 +105,18 @@ public class NhanVienController extends Login.LoginController implements Initial
             String ngaysinh = util.date.convertStringToDate(rs.getDate("NgaySinh"));
             System.out.println(ngaysinh);
             db_brithday.setText(ngaysinh);
-      //      db_brithday.getEditor().setText(ngaysinh);
+            //      db_brithday.getEditor().setText(ngaysinh);
             for (int i = 0; i < data_gioitinh.size(); i++) {
                 if (rs.getNString("Gioitinh").equals(data_gioitinh.get(i))) {
                     cb_gioitinh.getSelectionModel().select(i);
                     break;
                 }
             }
-            InputStream stream = rs.getBinaryStream("Anh");
-            Image image = new Image(stream);
+            stream = rs.getBinaryStream("Anh");
+            
+            System.out.println(stream);
+           image = new Image(stream);
+           
 
             image_view.setImage(image);
             image_view.setFitWidth(180);
@@ -125,9 +130,9 @@ public class NhanVienController extends Login.LoginController implements Initial
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-       // db_brithday.getEditor().setText("asdaaaas");
+        // db_brithday.getEditor().setText("asdaaaas");
         bt_luu.setDisable(true);
-        bt_huy.setDisable(true);
+      //  bt_huy.setDisable(true);
         tf_manv.setDisable(true);
         bt_doianh.setDisable(true);
         tf_taikhoan.setDisable(true);
@@ -166,28 +171,42 @@ public class NhanVienController extends Login.LoginController implements Initial
 
     @FXML
     private void luu_DB(ActionEvent event) throws FileNotFoundException {
-         try {
-             FileInputStream fis = null;
-            File image = new File(localUrl);
-            System.out.println(localUrl);
-            //   Blob blob = this.cn.createBlob();
-            fis = new FileInputStream(image);
-            CallableStatement st = cn.prepareCall("{call Update_member (?,?,?,?,?,?,?,?,?,?,?,?)}");
-                Date ngaysinh = util.date.convertDatetoString(db_brithday.getText());
-                java.sql.Date birthday = new java.sql.Date(ngaysinh.getTime());
+        try {
+            // FileInputStream fis = null;
+          //   System.out.println(localUrl);
+        //     System.out.println(stream);
+           
+            CallableStatement st = cn.prepareCall("{call Update_member (?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            Date ngaysinh = util.date.convertDatetoString(db_brithday.getText());
+            java.sql.Date birthday = new java.sql.Date(ngaysinh.getTime());
 
-                st.setNString(1, tf_tenNV.getText());
-                st.setNString(2, tf_sdt.getText());
-                st.setNString(3, data_gioitinh.get(cb_gioitinh.getSelectionModel().getSelectedIndex()));
-                st.setDate(4, birthday);
-                st.setString(5, tf_email.getText());
-                st.setString(6, tf_chucvu.getText());
-                st.setString(7, tf_cmnd.getText());
-                st.setString(8, tf_diachi.getText());
-                st.setString(9, tf_taikhoan.getText());
-                st.setString(10, tf_pass.getText());
-                st.setBlob(11, fis);
-                st.setString(12, tf_manv.getText());
+            st.setNString(1, tf_tenNV.getText());
+            st.setNString(2, tf_sdt.getText());
+            st.setNString(3, data_gioitinh.get(cb_gioitinh.getSelectionModel().getSelectedIndex()));
+            st.setDate(4, birthday);
+            st.setString(5, tf_email.getText());
+            st.setString(6, tf_chucvu.getText());
+            st.setString(7, tf_cmnd.getText());
+            st.setString(8, tf_diachi.getText());
+            st.setString(9, tf_taikhoan.getText());
+            st.setString(10, tf_pass.getText());
+            
+            if (!localUrl.equals("")) {
+               File image = new File(localUrl);
+                stream = new FileInputStream(image);
+                st.setInt(13, 1);
+            }else{
+                st.setInt(13, 0);
+            }
+            st.setBlob(11, stream);
+            st.setString(12, tf_manv.getText());
+            
+            st.executeUpdate();
+            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+            alert1.setTitle("Thông Báo");
+            alert1.setHeaderText("Tạo thành công");
+            alert1.showAndWait();
+            load_data();
         } catch (SQLException ex) {
             Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -198,27 +217,29 @@ public class NhanVienController extends Login.LoginController implements Initial
     @FXML
     private void Sua(ActionEvent event) throws FileNotFoundException {
         bt_luu.setDisable(false);
-        bt_huy.setDisable(false);
+     //   bt_huy.setDisable(false);
         bt_doianh.setDisable(false);
-         tf_taikhoan.setDisable(false);
+        tf_taikhoan.setDisable(false);
         tf_pass.setDisable(false);
-       
+
     }
 
     @FXML
     private void huy(ActionEvent event) {
         load_data();
-         bt_luu.setDisable(true);
-        bt_huy.setDisable(true);
+        bt_luu.setDisable(true);
+      //  bt_huy.setDisable(true);
         tf_manv.setDisable(true);
         bt_doianh.setDisable(true);
-         tf_taikhoan.setDisable(true);
+        tf_taikhoan.setDisable(true);
         tf_pass.setDisable(true);
     }
-     String localUrl;
+    String localUrl = "";
+
     @FXML
     private void load_anh(ActionEvent event) throws FileNotFoundException {
-         FileChooser fileChooser = new FileChooser();
+        
+        FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("View Pictures");
         //fileChooser.setInitialDirectory(new File(System.getProperty("user.home"))
         File file = fileChooser.showOpenDialog(new Stage());

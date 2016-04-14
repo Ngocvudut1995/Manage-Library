@@ -31,6 +31,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -245,30 +246,44 @@ public class TrasachController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+          ct_dongia.setEditable(false);
+            //ct_image.setEditable(false);
+            ct_masach.setEditable(false);
+            ct_ngonngu.setEditable(false);
+            ct_NXB.setEditable(false);
+            ct_tacgia.setEditable(false);
+            ct_tensach.setEditable(false);
+            ct_theloai.setEditable(false);
+            
         TB_TraSach.setEditable(true);
         TableColumn<trasach, Integer> colstt = new TableColumn<>("STT");
         colstt.setCellValueFactory(new PropertyValueFactory<>("stt"));
         TB_TraSach.getColumns().add(colstt);
         TableColumn<trasach, String> colMaMuon = new TableColumn<>("Mã Mượn");
         colMaMuon.setCellValueFactory(new PropertyValueFactory<>("MaMuon"));
+        colMaMuon.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TraSach.getColumns().add(colMaMuon);
         TableColumn<trasach, String> colMaSach = new TableColumn<>("Mã Sách");
         colMaSach.setCellValueFactory(new PropertyValueFactory<>("MaSach"));
+        colMaSach.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TraSach.getColumns().add(colMaSach);
         TableColumn<trasach, String> colTenSach = new TableColumn<>("Tên Sách");
         colTenSach.setCellValueFactory(new PropertyValueFactory<>("tensach"));
+        colTenSach.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TraSach.getColumns().add(colTenSach);
         TableColumn<trasach, String> colNgayMuon = new TableColumn<>("Ngày Mượn");
         colNgayMuon.setCellValueFactory(new PropertyValueFactory<>("ngaymuon"));
+     //   colNgayMuon.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TraSach.getColumns().add(colNgayMuon);
         TableColumn<trasach, String> colHanTra = new TableColumn<>("Hạn Trả");
         colHanTra.setCellValueFactory(new PropertyValueFactory<>("Hantra"));
+        
         TB_TraSach.getColumns().add(colHanTra);
         TableColumn<trasach, String> colTinhtrang = new TableColumn<>("Tình Trạng");
         colTinhtrang.setCellValueFactory(new PropertyValueFactory<>("tinhtrang"));
+        colTinhtrang.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TraSach.getColumns().add(colTinhtrang);
-        colTinhtrang.setEditable(true);
+      //  colTinhtrang.setEditable(true);
 
 //        TableColumn<PhieumuonController.phieumuonsach, String> MScol = new TableColumn<>("Mã Sách");
 //        MScol.setCellValueFactory(new PropertyValueFactory<>("MaSach"));

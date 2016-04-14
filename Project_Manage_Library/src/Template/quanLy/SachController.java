@@ -29,6 +29,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
@@ -73,6 +74,8 @@ public class SachController implements Initializable {
     private ComboBox<?> cb_ngonngu;
     @FXML
     private ComboBox<?> cb_thoigianmuon;
+    @FXML
+    private Button btn_hủy;
 
     @FXML
     private void focus_CTsach(MouseEvent event) {
@@ -258,13 +261,41 @@ public class SachController implements Initializable {
     @FXML
     private void Edit(ActionEvent event) {
         tf_maSach.setDisable(true);
+        btn_hủy.setDisable(false);
 
         btn_luu.setDisable(false);
+         tf_maSach.setEditable(true);
+        tf_NXB.setEditable(true);
+        tf_SL.setEditable(true);
+        tf_TG.setEditable(true);
+        tf_SLcon.setEditable(true);
+        tf_tenSach.setEditable(true);
+        tf_gia.setEditable(true);
+        cb_tl.setDisable(false);
+        cb_ngonngu.setDisable(false);
+        cb_thoigianmuon.setDisable(false);
     }
 
     @FXML
     private void gochu(KeyEvent event) {
         
+    }
+
+    @FXML
+    private void huy_edit(ActionEvent event) {
+         tf_maSach.setEditable(false);
+        tf_NXB.setEditable(false);
+        tf_SL.setEditable(false);
+        tf_TG.setEditable(false);
+        tf_SLcon.setEditable(false);
+        tf_tenSach.setEditable(false);
+        tf_gia.setEditable(false);
+        cb_tl.setDisable(true);
+        cb_ngonngu.setDisable(true);
+        cb_thoigianmuon.setDisable(true);
+        btn_hủy.setDisable(true);
+        btn_luu.setDisable(true);
+       // btn_edit.setDisable(true);
     }
 
     public class sach {
@@ -433,7 +464,18 @@ public class SachController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        tf_maSach.setEditable(false);
+        tf_NXB.setEditable(false);
+        tf_SL.setEditable(false);
+        tf_TG.setEditable(false);
+        tf_SLcon.setEditable(false);
+        tf_tenSach.setEditable(false);
+        tf_gia.setEditable(false);
+        cb_tl.setDisable(true);
+        cb_ngonngu.setDisable(true);
+        cb_thoigianmuon.setDisable(true);
+        btn_luu.setDisable(true);
+        btn_hủy.setDisable(true);
         ObservableList data_thmuon = FXCollections.observableArrayList("1 tháng", "3 tháng", "6 tháng", "9 tháng");
         cb_thoigianmuon.setItems(data_thmuon);
         ObservableList cursors = FXCollections.observableArrayList();
@@ -462,28 +504,35 @@ public class SachController implements Initializable {
             Logger.getLogger(SachController.class.getName()).log(Level.SEVERE, null, ex);
         }
         cb_ngonngu.setItems(data_ngonngu);
+        TB_sach.setEditable(true);
         TableColumn<sach, String> maSachcol = new TableColumn("Ma Sach");
         maSachcol.setCellValueFactory(new PropertyValueFactory<>("maSach"));
+        maSachcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_sach.getColumns().add(maSachcol);
 
         TableColumn<sach, String> tenSachcol = new TableColumn("Tên Sách");
         tenSachcol.setCellValueFactory(new PropertyValueFactory<>("tenSach"));
+        tenSachcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_sach.getColumns().add(tenSachcol);
 
         TableColumn<sach, String> NXBcol = new TableColumn("NXB");
         NXBcol.setCellValueFactory(new PropertyValueFactory<>("NXB"));
+        NXBcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_sach.getColumns().add(NXBcol);
 
         TableColumn<sach, String> TLcol = new TableColumn("Thể Loại");
         TLcol.setCellValueFactory(new PropertyValueFactory<>("theLoai"));
+        TLcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_sach.getColumns().add(TLcol);
 
         TableColumn<sach, String> TGcol = new TableColumn("Tác Giả");
         TGcol.setCellValueFactory(new PropertyValueFactory<>("tacGia"));
+        TGcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_sach.getColumns().add(TGcol);
 
         TableColumn<sach, Integer> SLcol = new TableColumn("Số Lượng");
         SLcol.setCellValueFactory(new PropertyValueFactory<>("SL"));
+       // SLcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_sach.getColumns().add(SLcol);
 
         TableColumn<sach, Integer> SLconcol = new TableColumn("Số Lượng còn");
@@ -492,10 +541,12 @@ public class SachController implements Initializable {
 
         TableColumn<sach, String> maLScol = new TableColumn("Ma loai sach");
         maLScol.setCellValueFactory(new PropertyValueFactory<>("MaLS"));
+        maLScol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_sach.getColumns().add(maLScol);
 
         TableColumn<sach, String> NNcol = new TableColumn("Ngôn Ngữ");
         NNcol.setCellValueFactory(new PropertyValueFactory<>("ngonNgu"));
+        NNcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_sach.getColumns().add(NNcol);
 
         TableColumn<sach, Double> giacol = new TableColumn("Giá");
@@ -523,6 +574,20 @@ public class SachController implements Initializable {
         tf_SLcon.setText("");
         tf_gia.setText("");
         btn_luu.setDisable(false);
+         tf_maSach.setDisable(true);
+        btn_hủy.setDisable(false);
+
+       // btn_luu.setDisable(false);
+       //  tf_maSach.setEditable(true);
+        tf_NXB.setEditable(true);
+        tf_SL.setEditable(true);
+        tf_TG.setEditable(true);
+        tf_SLcon.setEditable(true);
+        tf_tenSach.setEditable(true);
+        tf_gia.setEditable(true);
+        cb_tl.setDisable(false);
+        cb_ngonngu.setDisable(false);
+        cb_thoigianmuon.setDisable(false);
 
     }
 

@@ -37,6 +37,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 import javax.sql.rowset.CachedRowSet;
@@ -83,7 +84,7 @@ public class DocGiaController implements Initializable {
     @FXML
     private DatePicker cb_ngaySinh;
     @FXML
-    private ComboBox<?> cb_GT;
+    private ComboBox<String> cb_GT;
     @FXML
     private TextField tf_NN;
 
@@ -96,7 +97,12 @@ public class DocGiaController implements Initializable {
         String dateNS = util.date.convertStringToDate(dg.getNgaySinh());
         cb_ngaySinh.getEditor().setText(dateNS);
         tf_cmnd.setText(dg.getCMND());
-        cb_GT.getEditor().setText(dg.getGioiTinh());
+        for(int j = 0; j < data_gioitinh.size();j++){
+            if(dg.getGioiTinh().equals(data_gioitinh.get(j))){
+                cb_GT.getSelectionModel().select(j);
+            }
+           //cb_GT.getEditor().setText(dg.getGioiTinh());
+        }
         tf_dc.setText(dg.getDiaChi());
         tf_sdt.setText(dg.getSdt());
         tf_email.setText(dg.getEmail());
@@ -169,20 +175,14 @@ public class DocGiaController implements Initializable {
                     ps.setString(3, tf_sdt.getText());
                     ps.setNString(4, tf_dc.getText());
                     ps.setDate(5, date);
-                    ps.setNString(6, cb_GT.getEditor().getText());
+                    ps.setNString(6, data_gioitinh.get(cb_GT.getSelectionModel().getSelectedIndex()));
                     ps.setString(7, tf_email.getText());
                     ps.setDate(8, date2);
                     ps.setDate(9, date1);
                     ps.setString(10, tf_cmnd.getText());
                     ps.executeUpdate();
                     data.clear();
-                    Statement st = null;
-                    st = cn.createStatement();
-                    ResultSet rs = st.executeQuery("Select * from Doc_Gia");
-                    while (rs.next()) {
-                        data.add(new docGia(rs.getString("MaDocGia"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"), rs.getString("GioiTinh"), rs.getString("DiaChi"),
-                                rs.getDate("NgayLamThe"), rs.getDate("HanSD"), rs.getString("Email"), rs.getString("NgheNghiep"), rs.getString("CMND")));
-                    }
+                    load_data();
                     TB_DG.setItems(data);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Thông Báo");
@@ -190,7 +190,9 @@ public class DocGiaController implements Initializable {
                     alert.showAndWait();
                     return 2;
                 } else {
-                    String str = "UPDATE Doc_Gia SET HoVaTen= ? ,SoDT= ? ,Email= ? ,DiaChi= ? ,HanSD= ? ,NgaySinh= ?,NgheNghiep= ? , CMND = ?,GioiTinh =? WHERE MaDocGia= ? ";
+                    String str = "UPDATE Doc_Gia SET HoVaTen= ? ,SoDT= ? "
+                            + ",Email= ? ,DiaChi= ? ,HanSD= ? ,NgaySinh= ?,NgheNghiep= ? , CMND = ?,GioiTinh "
+                            + "=? WHERE MaDocGia= ? ";
 
                     ps = cn.prepareStatement(str);
 
@@ -202,17 +204,11 @@ public class DocGiaController implements Initializable {
                     ps.setDate(6, date);
                     ps.setNString(7, tf_NN.getText());
                     ps.setString(8, tf_cmnd.getText());
-                    ps.setNString(9,cb_GT.getEditor().getText());
+                    ps.setNString(9, data_gioitinh.get(cb_GT.getSelectionModel().getSelectedIndex()));
                     ps.setNString(10, tf_maDG.getText());
                     ps.executeUpdate();
                     data.clear();
-                    Statement st = null;
-                    st = cn.createStatement();
-                    ResultSet rs = st.executeQuery("Select * from Doc_Gia");
-                    while (rs.next()) {
-                        data.add(new docGia(rs.getString("MaDocGia"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"), rs.getString("GioiTinh"), rs.getString("DiaChi"),
-                                rs.getDate("NgayLamThe"), rs.getDate("HanSD"), rs.getString("Email"), rs.getString("NgheNghiep"), rs.getString("CMND")));
-                    }
+                    load_data();
                     TB_DG.setItems(data);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Thông Báo");
@@ -256,15 +252,9 @@ public class DocGiaController implements Initializable {
 
                 ps.setString(1, dg.getMaDG());
                 ps.executeUpdate();
-                  data.clear();
-                    Statement st = null;
-                    st = cn.createStatement();
-                    ResultSet rs = st.executeQuery("Select * from Doc_Gia");
-                    while (rs.next()) {
-                        data.add(new docGia(rs.getString("MaDocGia"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"), rs.getString("GioiTinh"), rs.getString("DiaChi"),
-                                rs.getDate("NgayLamThe"), rs.getDate("HanSD"), rs.getString("Email"), rs.getString("NgheNghiep"), rs.getString("CMND")));
-                    }
-                    TB_DG.setItems(data);
+                data.clear();
+                load_data();
+                TB_DG.setItems(data);
             } catch (SQLException ex) {
                 Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -395,13 +385,14 @@ public class DocGiaController implements Initializable {
         }
 
     }
+    ObservableList<String> data_gioitinh = FXCollections.observableArrayList(
+            "Nam", "Nữ", "Khác"
+    );
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ObservableList cursors = FXCollections.observableArrayList(
-                "Nam", "Nữ", "Khác"
-        );
-        cb_GT.setItems(cursors);
+
+        cb_GT.setItems(data_gioitinh);
         //  cb_GT.setSelectionModel(null);
         String pattern = "dd/MM/yyyy";
 
@@ -429,52 +420,70 @@ public class DocGiaController implements Initializable {
             }
         });
         btn_save.setDisable(true);
+        TB_DG.setEditable(true);
         TableColumn<docGia, String> maDGcol = new TableColumn<>(" Ma DG ");
         maDGcol.setCellValueFactory(new PropertyValueFactory<>("maDG"));
+         maDGcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(maDGcol);
 
         TableColumn<docGia, String> tenDGcol = new TableColumn("   Tên DG   ");
         tenDGcol.setCellValueFactory(new PropertyValueFactory<>("tenDG"));
+         tenDGcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(tenDGcol);
 
         TableColumn<docGia, String> ngaySinhcol = new TableColumn<>("  Ngày Sinh  ");
         ngaySinhcol.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
+      //   ngaySinhcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(ngaySinhcol);
 
         TableColumn<docGia, String> sdtcol = new TableColumn("     SĐT     ");
         sdtcol.setCellValueFactory(new PropertyValueFactory<>("sdt"));
+         sdtcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(sdtcol);
 
         TableColumn<docGia, String> gioiTinhcol = new TableColumn<>("   Giới tính   ");
         gioiTinhcol.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
+         gioiTinhcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(gioiTinhcol);
 
         TableColumn<docGia, String> dccol = new TableColumn("     Địa chỉ     ");
         dccol.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
+         dccol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(dccol);
 
         TableColumn<docGia, String> cmndcol = new TableColumn("    Số CMND    ");
         cmndcol.setCellValueFactory(new PropertyValueFactory<>("CMND"));
+         cmndcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(cmndcol);
         TableColumn<docGia, String> ngayDKcol = new TableColumn<>("Ngày đăng kí");
         ngayDKcol.setCellValueFactory(new PropertyValueFactory<>("ngayDK"));
+      //   ngayDKcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(ngayDKcol);
 
         TableColumn<docGia, String> ngayHetcol = new TableColumn("Ngày hết hạng");
         ngayHetcol.setCellValueFactory(new PropertyValueFactory<>("ngayHet"));
+     //    ngayHetcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(ngayHetcol);
 
         TableColumn<docGia, String> emailcol = new TableColumn<>("         Email         ");
         emailcol.setCellValueFactory(new PropertyValueFactory<>("email"));
+         emailcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(emailcol);
 
         TableColumn<docGia, String> trangThaicol = new TableColumn("  Nghề Nghiệp   ");
         trangThaicol.setCellValueFactory(new PropertyValueFactory<>("trangThai"));
+         trangThaicol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(trangThaicol);
 
+        load_data();
+        TB_DG.setItems(data);
+
+    }
+
+    void load_data() {
         try {
             Connection connection = util.Connect_JDBC.getConnection();
-            String queryString = "SELECT * FROM Doc_Gia";
+            String queryString = "SELECT * FROM Doc_Gia where HanSD > NgayLamThe";
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             ResultSet rsSql = statement.executeQuery(queryString);
@@ -491,8 +500,6 @@ public class DocGiaController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(DocGiaController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        TB_DG.setItems(data);
-
     }
 
     @FXML

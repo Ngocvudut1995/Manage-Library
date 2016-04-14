@@ -25,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -284,24 +285,38 @@ public class Chi_tiet_muonController implements Initializable {
                     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
             });
+            ct_dongia.setEditable(false);
+            //ct_image.setEditable(false);
+            ct_masach.setEditable(false);
+            ct_ngonngu.setEditable(false);
+            ct_nhaxb.setEditable(false);
+            ct_tacgia.setEditable(false);
+            ct_tensach.setEditable(false);
+            ct_theloai.setEditable(false);
+            Table_muon.setEditable(true);
             TableColumn<ct_muon, Integer> colstt = new TableColumn<>("STT");
             colstt.setCellValueFactory(new PropertyValueFactory<>("stt"));
             Table_muon.getColumns().add(colstt);
             TableColumn<ct_muon, String> mamuon = new TableColumn<>("Mã Mượn");
             mamuon.setCellValueFactory(new PropertyValueFactory<>("MaMuon"));
+            mamuon.setCellFactory(TextFieldTableCell.forTableColumn());
             Table_muon.getColumns().add(mamuon);
             TableColumn<ct_muon, String> masach = new TableColumn<>("Mã Sách");
             masach.setCellValueFactory(new PropertyValueFactory<>("MaSach"));
+            masach.setCellFactory(TextFieldTableCell.forTableColumn());
             Table_muon.getColumns().add(masach);
             TableColumn<ct_muon, String> madocgia = new TableColumn<>("Mã Đọc Giả");
+            madocgia.setCellFactory(TextFieldTableCell.forTableColumn());
             madocgia.setCellValueFactory(new PropertyValueFactory<>("MaDocGia"));
             Table_muon.getColumns().add(madocgia);
             TableColumn<ct_muon, String> tensach = new TableColumn<>("Tên Sách");
             tensach.setCellValueFactory(new PropertyValueFactory<>("tensach"));
+            tensach.setCellFactory(TextFieldTableCell.forTableColumn());
             Table_muon.getColumns().add(tensach);
             tensach.setMinWidth(150);
             TableColumn<ct_muon, String> tendocgia = new TableColumn<>("Tên Đọc Giả");
             tendocgia.setCellValueFactory(new PropertyValueFactory<>("tendocgia"));
+            tendocgia.setCellFactory(TextFieldTableCell.forTableColumn());
             Table_muon.getColumns().add(tendocgia);
             tendocgia.setMinWidth(150);
             TableColumn<ct_muon, Date> ngaymuong = new TableColumn<>("Ngày Mượn");
@@ -314,8 +329,9 @@ public class Chi_tiet_muonController implements Initializable {
             TableColumn<ct_muon, Date> ngaytra = new TableColumn<>("Ngày Trả");
             ngaytra.setCellValueFactory(new PropertyValueFactory<>("datetra"));
             Table_muon.getColumns().add(ngaytra);
-            TableColumn<ct_muon, Integer> tinhtrang = new TableColumn<>("Tình Trạng");
+            TableColumn<ct_muon, String> tinhtrang = new TableColumn<>("Tình Trạng");
             tinhtrang.setCellValueFactory(new PropertyValueFactory<>("tinhtrang"));
+            tinhtrang.setCellFactory(TextFieldTableCell.forTableColumn());
             Table_muon.getColumns().add(tinhtrang);
             cn = util.Connect_JDBC.getConnection();
             String str = "SELECT j.*,h.* FROM (SELECT a.MaSach,a.TieuDe,b.TenTheLoai,c.TenTacGia,d.TenNgonNgu,a.Gia,f.TenNXB,a.Hinhanh \n"

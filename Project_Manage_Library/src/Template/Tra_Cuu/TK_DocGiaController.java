@@ -24,6 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -268,55 +269,80 @@ public class TK_DocGiaController implements Initializable {
     @Override
 
     public void initialize(URL url, ResourceBundle rb) {
+        tf_HanSD.setEditable(false);
+        tf_NgaySinh.setEditable(false);
+       // tf_TKMadG.setEditable(false);
+        tf_dc.setEditable(false);
+        tf_email.setEditable(false);
+        tf_gt.setEditable(false);
+        tf_madG.setEditable(false);
+        tf_ngaydK.setEditable(false);
+        tf_ngheNghiep.setEditable(false);
+        tf_sdt.setEditable(false);
+        tf_tenDG.setEditable(false);
+      //  tf_tkmaPhieuMuon.setEditable(false);
+        
+        TB_TimKiemDG.setEditable(true);
         TableColumn<timDocGia, Integer> colstt = new TableColumn<>("STT");
         colstt.setCellValueFactory(new PropertyValueFactory<>("stt"));
+        
         TB_TimKiemDG.getColumns().add(colstt);
         TableColumn<timDocGia, String> maDGcol = new TableColumn<>(" Ma DG ");
         maDGcol.setCellValueFactory(new PropertyValueFactory<>("maDG"));
+        maDGcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TimKiemDG.getColumns().add(maDGcol);
 
         TableColumn<timDocGia, String> tenDGcol = new TableColumn("   Tên DG   ");
         tenDGcol.setCellValueFactory(new PropertyValueFactory<>("tenDG"));
+        tenDGcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TimKiemDG.getColumns().add(tenDGcol);
 
         TableColumn<timDocGia, String> ngaySinhcol = new TableColumn<>("  Ngày Sinh  ");
         ngaySinhcol.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
         TB_TimKiemDG.getColumns().add(ngaySinhcol);
 
-        TableColumn<timDocGia, String> ngheNghiepcol = new TableColumn<>("  Nghề Nghiệp  ");
-        ngheNghiepcol.setCellValueFactory(new PropertyValueFactory<>("ngheNghiep"));
-        TB_TimKiemDG.getColumns().add(ngheNghiepcol);
+//        TableColumn<timDocGia, String> ngheNghiepcol = new TableColumn<>("  Nghề Nghiệp  ");
+//        ngheNghiepcol.setCellValueFactory(new PropertyValueFactory<>("ngheNghiep"));
+//        TB_TimKiemDG.getColumns().add(ngheNghiepcol);
 
         TableColumn<timDocGia, String> sdtcol = new TableColumn("     SĐT     ");
         sdtcol.setCellValueFactory(new PropertyValueFactory<>("sdt"));
+        sdtcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TimKiemDG.getColumns().add(sdtcol);
 
         TableColumn<timDocGia, String> gioiTinhcol = new TableColumn<>("   Giới tính   ");
         gioiTinhcol.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
+        gioiTinhcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TimKiemDG.getColumns().add(gioiTinhcol);
 
         TableColumn<timDocGia, String> dccol = new TableColumn("     Địa chỉ     ");
         dccol.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
+        dccol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TimKiemDG.getColumns().add(dccol);
 
         TableColumn<timDocGia, String> cmndcol = new TableColumn("    Số CMND    ");
         cmndcol.setCellValueFactory(new PropertyValueFactory<>("CMND"));
+        cmndcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TimKiemDG.getColumns().add(cmndcol);
 
         TableColumn<timDocGia, String> ngayDKcol = new TableColumn<>("Ngày đăng kí");
         ngayDKcol.setCellValueFactory(new PropertyValueFactory<>("ngayDK"));
+        //ngayDKcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TimKiemDG.getColumns().add(ngayDKcol);
 
         TableColumn<timDocGia, String> ngayHetcol = new TableColumn("Ngày hết hạng");
         ngayHetcol.setCellValueFactory(new PropertyValueFactory<>("ngayHet"));
+        
         TB_TimKiemDG.getColumns().add(ngayHetcol);
 
         TableColumn<timDocGia, String> emailcol = new TableColumn<>("         Email         ");
         emailcol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        emailcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TimKiemDG.getColumns().add(emailcol);
 
         TableColumn<timDocGia, String> trangThaicol = new TableColumn("  Trạng Thái  ");
         trangThaicol.setCellValueFactory(new PropertyValueFactory<>("trangThai"));
+        trangThaicol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TimKiemDG.getColumns().add(trangThaicol);
     }
 

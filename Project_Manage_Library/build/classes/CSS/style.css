@@ -1,0 +1,33 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 27, 2016, 11:47:01 AM
+    Author     : Vu Dang
+*/
+
+.pane_background{
+   -fx-background-image: url("../Picture/bk.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 600pt;
+}
+.pane_background1{
+   -fx-background-image: url("../Picture/bk.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 900pt;
+}
+.container {
+    -fx-padding-right: 15px;
+    -fx-padding-left: 15px;
+    -fx-margin-right: auto;
+    -fx-margin-left: auto;
+}
+
+.border{
+    -fx-border-width: 0px;
+    -fx-border-color: black;
+    -fx-border-width: 0.5px;
+    -fx-border-radius: 4px;
+}

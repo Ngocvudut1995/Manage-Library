@@ -26,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javax.sql.rowset.CachedRowSet;
 
@@ -254,24 +255,30 @@ public class NXBController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btn_luu.setDisable(true);
+        TB_NXB.setEditable(true);
         TableColumn<NXB, String> maNXB = new TableColumn<>("Mã NXB");
         maNXB.setCellValueFactory(new PropertyValueFactory<>("maNXB"));
+        maNXB.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NXB.getColumns().add(maNXB);
 
         TableColumn<NXB, String> tenNXB = new TableColumn<>("Tên NXB");
         tenNXB.setCellValueFactory(new PropertyValueFactory<>("tenNXB"));
+        tenNXB.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NXB.getColumns().add(tenNXB);
 //        TableColumn<NXB, String> namTL = new TableColumn<>("Nam TL");
 //        namTL.setCellValueFactory(new PropertyValueFactory<>("namTL"));
 //        TB_NXB.getColumns().add(namTL);
         TableColumn<NXB, String> diachia = new TableColumn<>("Địa Chỉ");
         diachia.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
+        diachia.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NXB.getColumns().add(diachia);
         TableColumn<NXB, String> email = new TableColumn<>("Email");
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        email.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NXB.getColumns().add(email);
         TableColumn<NXB, String> sdt = new TableColumn<>("SDT");
         sdt.setCellValueFactory(new PropertyValueFactory<>("sdt"));
+        sdt.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NXB.getColumns().add(sdt);
 
         try {

@@ -28,6 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javax.sql.rowset.CachedRowSet;
 
@@ -268,14 +269,18 @@ public class TheLoaiController implements Initializable {
         }
         cb_phong.setItems(data_phong);
         btn_save.setDisable(true);
+        TB_Theloai.setEditable(true);
         TableColumn<theloai, String> maTL = new TableColumn<>("Mã Thể Loại");
         maTL.setCellValueFactory(new PropertyValueFactory<>("maTL"));
+        maTL.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_Theloai.getColumns().add(maTL);
         TableColumn<theloai, String> tenTL = new TableColumn<>("Tên Thể Loại");
         tenTL.setCellValueFactory(new PropertyValueFactory<>("TenTL"));
+        tenTL.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_Theloai.getColumns().add(tenTL);
         TableColumn<theloai, String> phong = new TableColumn<>("Phòng");
         phong.setCellValueFactory(new PropertyValueFactory<>("Phong"));
+        phong.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_Theloai.getColumns().add(phong);
         TableColumn<theloai, Integer> tang = new TableColumn<>("Tầng");
         tang.setCellValueFactory(new PropertyValueFactory<>("tang"));

@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -31,9 +32,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.SortEvent;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 import javax.sql.rowset.CachedRowSet;
@@ -77,7 +80,7 @@ public class NhanVienController implements Initializable {
     @FXML
     private DatePicker db_ngaysinh;
     @FXML
-    private ComboBox<?> cb_GT;
+    private ComboBox<String> cb_GT;
 
     @FXML
     private void focus_ct(MouseEvent event) {
@@ -89,7 +92,12 @@ public class NhanVienController implements Initializable {
         String dateNS = util.date.convertStringToDate(nv.getNgaySinh());
         db_ngaysinh.getEditor().setText(dateNS);
         tf_dc.setText(nv.getDiaChi());
-        cb_GT.getEditor().setText(nv.getGioiTinh());
+        for (int j = 0; j < data_gioitinh.size(); j++) {
+            if (nv.getGioiTinh().equals(data_gioitinh.get(j))) {
+                cb_GT.getSelectionModel().select(j);
+            }
+        }
+        // tf
         tf_sdt.setText(nv.getSdt());
         tf_chucVu.setText(nv.getChucVu());
         tf_luong.setText(nv.luong.toString());
@@ -133,7 +141,7 @@ public class NhanVienController implements Initializable {
                     java.sql.Date date = new java.sql.Date(datestr.getTime());
                     ps.setNString(1, tf_tenNV.getText());
                     ps.setString(2, tf_sdt.getText());
-                    ps.setNString(3, "nam");
+                    ps.setNString(3, data_gioitinh.get(cb_GT.getSelectionModel().getSelectedIndex()));
                     ps.setDate(4, date);
                     ps.setString(5, tf_cmnd.getText());
                     ps.setDouble(6, Double.parseDouble(tf_luong.getText()));
@@ -142,13 +150,7 @@ public class NhanVienController implements Initializable {
                     ps.setString(9, tf_cmnd.getText());
                     ps.executeUpdate();
                     data.clear();
-                    Statement st = null;
-                    st = cn.createStatement();
-                    ResultSet rs = st.executeQuery("Select * from NhanVien");
-                    while (rs.next()) {
-                        data.add(new nhanvien(rs.getString("MaNV"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"),
-                                rs.getString("Gioitinh"), rs.getString("DiaChi"), rs.getDouble("Luong"), rs.getString("ChucVu"),rs.getString("CMND")));
-                    }
+                    load_data();
                     TB_NV.setItems(data);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Thông Báo");
@@ -163,7 +165,7 @@ public class NhanVienController implements Initializable {
                     ps.setDate(2, date);
                     ps.setString(3, tf_sdt.getText());
                     ps.setNString(4, tf_dc.getText());
-                    ps.setNString(5, "nam");
+                    ps.setNString(5, data_gioitinh.get(cb_GT.getSelectionModel().getSelectedIndex()));
                     ps.setDouble(6, Double.parseDouble(tf_luong.getText()));
                     ps.setNString(7, tf_chucVu.getText());
                     ps.setString(8, tf_cmnd.getText());
@@ -171,13 +173,7 @@ public class NhanVienController implements Initializable {
                     ps.executeUpdate();
 
                     data.clear();
-                    Statement st = null;
-                    st = cn.createStatement();
-                    ResultSet rs = st.executeQuery("Select * from NhanVien");
-                    while (rs.next()) {
-                        data.add(new nhanvien(rs.getString("MaNV"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"),
-                                rs.getString("Gioitinh"), rs.getString("DiaChi"), rs.getDouble("Luong"), rs.getString("ChucVu"),rs.getString("CMND")));
-                    }
+                    load_data();
                     TB_NV.setItems(data);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Thông Báo");
@@ -222,13 +218,7 @@ public class NhanVienController implements Initializable {
                 ps.setString(2, nv.getMaNV());
                 ps.executeUpdate();
                 data.clear();
-                Statement st = null;
-                st = cn.createStatement();
-                ResultSet rs = st.executeQuery("Select * from NhanVien");
-                while (rs.next()) {
-                    data.add(new nhanvien(rs.getString("MaNV"), rs.getString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT"),
-                            rs.getString("Gioitinh"), rs.getString("DiaChi"), rs.getDouble("Luong"), rs.getString("ChucVu"),rs.getString("CMND")));
-                }
+                load_data();
                 TB_NV.setItems(data);
             } catch (SQLException ex) {
                 Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
@@ -255,6 +245,15 @@ public class NhanVienController implements Initializable {
         private String CMND;
         private String ChucVu;
         private Double luong;
+        private String email;
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
 
         public String getMaNV() {
             return MaNV;
@@ -328,16 +327,17 @@ public class NhanVienController implements Initializable {
             this.luong = luong;
         }
 
-        public nhanvien(String MaNV, String TenNV, Date ngaySinh, String sdt, String gioiTinh, String diaChi, Double luong, String ChucVu,String CMND) {
+        public nhanvien(String MaNV, String TenNV, Date ngaySinh, String sdt, String gioiTinh, String diaChi, Double luong, String ChucVu, String CMND, String email) {
             this.MaNV = MaNV;
             this.TenNV = TenNV;
             this.ngaySinh = ngaySinh;
             this.sdt = sdt;
             this.gioiTinh = gioiTinh;
             this.diaChi = diaChi;
-             this.CMND = CMND;
+            this.CMND = CMND;
             this.ChucVu = ChucVu;
             this.luong = luong;
+            this.email = email;
         }
 
     }
@@ -345,13 +345,35 @@ public class NhanVienController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    void load_data() {
+        try {
+            cn = util.Connect_JDBC.getConnection();
+            Statement st = cn.createStatement();
+            ResultSet crs = st.executeQuery("select * from NhanVien");
+
+            while (crs.next()) {
+                data.add(new nhanvien(crs.getString("MaNV"), crs.getString("HoVaTen"),
+                        crs.getDate("NgaySinh"), crs.getString("SoDT"), crs.getString("Gioitinh"),
+                        crs.getString("DiaChi"), crs.getDouble("Luong"),
+                        crs.getString("ChucVu"), crs.getString("CMND"), crs.getString("Email")));
+            }
+
+            crs.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NhanVienController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    ObservableList<String> data_gioitinh = FXCollections.observableArrayList(
+            "Nam", "Nữ", "Khác"
+    );
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btn_save.setDisable(true);
-        ObservableList cursors = FXCollections.observableArrayList(
-                "Nam", "Nữ", "Khác"
-        );
-        cb_GT.setItems(cursors);
+
+        cb_GT.setItems(data_gioitinh);
 
         String pattern = "dd/MM/yyyy";
 
@@ -378,57 +400,60 @@ public class NhanVienController implements Initializable {
                 }
             }
         });
+        TB_NV.setEditable(true);
         TableColumn<nhanvien, String> manvcol = new TableColumn("   Mã Nhân Viên   ");
         manvcol.setCellValueFactory(new PropertyValueFactory<>("MaNV"));
+         manvcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(manvcol);
         TableColumn<nhanvien, String> tennvcol = new TableColumn("   Tên Nhân Viên   ");
         tennvcol.setCellValueFactory(new PropertyValueFactory<>("TenNV"));
+        tennvcol.setCellFactory(TextFieldTableCell.forTableColumn());
+//        tennvcol.setOnEditCommit(
+//                new EventHandler<CellEditEvent<nhanvien, String>>() {
+//                   
+//
+//                    @Override
+//                    public void handle(CellEditEvent<nhanvien, String> event) {
+//                      //  event.getTableView().getItems().get(event.getTablePosition().getRow()).setTenNV(event.getNewValue());
+//                    }
+//                }
+//        );
         TB_NV.getColumns().add(tennvcol);
-        TableColumn<nhanvien, String> ngaycol = new TableColumn("   Ngày sinh   ");
+        TableColumn<nhanvien, Date> ngaycol = new TableColumn("   Ngày sinh   ");
         ngaycol.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
+        // tennvcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(ngaycol);
         TableColumn<nhanvien, String> sdtcol = new TableColumn("   SDT   ");
         sdtcol.setCellValueFactory(new PropertyValueFactory<>("sdt"));
+         sdtcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(sdtcol);
         TableColumn<nhanvien, String> gtcol = new TableColumn("   Giới Tính   ");
         gtcol.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
+         gtcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(gtcol);
         TableColumn<nhanvien, String> dccol = new TableColumn("   Địa  Chỉ   ");
         dccol.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
+         dccol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(dccol);
+        TableColumn<nhanvien, String> email = new TableColumn("   Email   ");
+        email.setCellValueFactory(new PropertyValueFactory<>("email"));
+         email.setCellFactory(TextFieldTableCell.forTableColumn());
+        TB_NV.getColumns().add(email);
         TableColumn<nhanvien, String> cmndcol = new TableColumn("   CMND   ");
         cmndcol.setCellValueFactory(new PropertyValueFactory<>("CMND"));
+         cmndcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(cmndcol);
         TableColumn<nhanvien, String> CVcol = new TableColumn("   Chức Vụ  ");
         CVcol.setCellValueFactory(new PropertyValueFactory<>("ChucVu"));
+         CVcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(CVcol);
         TableColumn<nhanvien, Double> luongcol = new TableColumn("   Lương   ");
         luongcol.setCellValueFactory(new PropertyValueFactory<>("luong"));
+      //   luongcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(luongcol);
 
         //   ObservableList<nhanvien> data = FXCollections.observableArrayList();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            CachedRowSet crs = new CachedRowSetImpl();
-            crs.setUsername(util.Connect_JDBC.userName);
-            crs.setPassword(util.Connect_JDBC.password);
-            crs.setUrl(util.Connect_JDBC.url);
-            crs.setCommand("select * from NhanVien");
-            crs.execute();
-            while (crs.next()) {
-                data.add(new nhanvien(crs.getString("MaNV"), crs.getString("HoVaTen"), crs.getDate("NgaySinh"), crs.getString("SoDT"), crs.getString("Gioitinh")
-                        , crs.getString("Email"), crs.getDouble("Luong"), crs.getString("ChucVu"),crs.getString("CMND")));
-            }
-            crs.acceptChanges();
-            crs.close();
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(NhanVienController.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienController.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
+        load_data();
 
         TB_NV.setItems(data);
     }

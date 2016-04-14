@@ -31,6 +31,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 import javax.sql.rowset.CachedRowSet;
@@ -104,12 +105,15 @@ public class TacGiaController implements Initializable {
                 }
             }
         });
+        TB_TG.setEditable(true);
         TableColumn<tacGia, String> maTGcol = new TableColumn(" Mã Tác Giả");
         maTGcol.setCellValueFactory(new PropertyValueFactory<>("maTG"));
+        maTGcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TG.getColumns().add(maTGcol);
 
         TableColumn<tacGia, String> tenTGcol = new TableColumn(" Tên Tác Giả");
         tenTGcol.setCellValueFactory(new PropertyValueFactory<>("tenTG"));
+        tenTGcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TG.getColumns().add(tenTGcol);
 
         TableColumn<tacGia, String> namSinhcol = new TableColumn(" Ngay sinh");

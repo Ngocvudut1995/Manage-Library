@@ -36,6 +36,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import static javax.swing.text.StyleConstants.Alignment;
 import jxl.Workbook;
@@ -415,7 +416,7 @@ public class PhieumuonController implements Initializable {
             sheet1.addCell(new Label(3, 4, "Mã Đọc Giả:"));
             sheet1.addCell(new Label(4, 4, Ma_DG.getText()));
             sheet1.addCell(new Label(3, 5, "Mã Nhân Viên:"));
-            sheet1.addCell(new Label(4, 5, ""));
+            sheet1.addCell(new Label(4, 5, MaNV.getText()));
             sheet1.addCell(new Label(2, 7, "STT"));
             sheet1.addCell(new Label(3, 7, "Mã Sách"));
             sheet1.addCell(new Label(4, 7, "Ngày Mượn"));
@@ -462,9 +463,18 @@ public class PhieumuonController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ct_dongia.setEditable(false);
+            
+            ct_masach.setEditable(false);
+            ct_ngonngu.setEditable(false);
+            ct_NXB.setEditable(false);
+            ct_tacgia.setEditable(false);
+            ct_tensach.setEditable(false);
+            ct_theloai.setEditable(false);
         MaNV.setText(lg.MaNhanVien);
         MaNV.setDisable(true);
         text_PM.setDisable(true);
+        TB_Muon.setEditable(true);
         TableColumn<phieumuonsach, Integer> colstt = new TableColumn<>("STT");
         colstt.setCellValueFactory(new PropertyValueFactory<>("stt"));
         TB_Muon.getColumns().add(colstt);
@@ -473,6 +483,7 @@ public class PhieumuonController implements Initializable {
 //        TB_Muon.getColumns().add(col);
         TableColumn<phieumuonsach, String> MScol = new TableColumn<>("Mã Sách");
         MScol.setCellValueFactory(new PropertyValueFactory<>("MaSach"));
+        MScol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_Muon.getColumns().add(MScol);
         TableColumn<phieumuonsach, String> NMcol = new TableColumn<>("Ngày Mượn");
         NMcol.setCellValueFactory(new PropertyValueFactory<>("NgayMuon"));
@@ -482,6 +493,7 @@ public class PhieumuonController implements Initializable {
         TB_Muon.getColumns().add(Han);
         TableColumn<phieumuonsach, String> Tinhtrang = new TableColumn<>("Tình Trạng");
         Tinhtrang.setCellValueFactory(new PropertyValueFactory<>("TinhTrang"));
+        Tinhtrang.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_Muon.getColumns().add(Tinhtrang);
         Tinhtrang.setEditable(true);
         cn = util.Connect_JDBC.getConnection();

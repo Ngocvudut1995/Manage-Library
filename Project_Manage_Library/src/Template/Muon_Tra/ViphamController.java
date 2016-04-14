@@ -31,6 +31,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
@@ -185,6 +186,12 @@ public class ViphamController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ct_maDG.setEditable(false);
+        ht_xu_ly.setEditable(false);
+        Ly_do.setEditable(false);
+        ngay_vi_pham.setEditable(false);
+        ten_DG.setEditable(false);
+        text_maDG.setEditable(false);
         table_VP.setEditable(true);
         
         TableColumn<viphamkhac, Integer> stt = new TableColumn<>("STT");
@@ -192,9 +199,11 @@ public class ViphamController implements Initializable {
         table_VP.getColumns().add(stt);
         TableColumn<viphamkhac, String> maVP = new TableColumn<>("Mã Vi Phạm");
         maVP.setCellValueFactory(new PropertyValueFactory<>("Mavp"));
+        maVP.setCellFactory(TextFieldTableCell.forTableColumn());
         table_VP.getColumns().add(maVP);
         TableColumn<viphamkhac, String> madocgia = new TableColumn<>("Mã Đọc Giả");
         madocgia.setCellValueFactory(new PropertyValueFactory<>("madocgia"));
+        madocgia.setCellFactory(TextFieldTableCell.forTableColumn());
         table_VP.getColumns().add(madocgia);
         TableColumn<viphamkhac, Date> ngayvipham = new TableColumn<>("Ngày Vi Phạm");
         ngayvipham.setCellValueFactory(new PropertyValueFactory<>("ngayvipham"));
@@ -202,9 +211,11 @@ public class ViphamController implements Initializable {
         
         TableColumn<viphamkhac, String> lydo = new TableColumn<>("  Lý Do  ");
         lydo.setCellValueFactory(new PropertyValueFactory<>("lydo"));
+        lydo.setCellFactory(TextFieldTableCell.forTableColumn());
         table_VP.getColumns().add(lydo);
         TableColumn<viphamkhac, String> htxuly = new TableColumn<>("Hình Thức Xử Lý");
         htxuly.setCellValueFactory(new PropertyValueFactory<>("htxuly"));
+        htxuly.setCellFactory(TextFieldTableCell.forTableColumn());
         table_VP.getColumns().add(htxuly);
         TableColumn<viphamkhac, Date> ngayxuly = new TableColumn<>("Ngày Xử Lý");
         ngayxuly.setCellValueFactory(new PropertyValueFactory<>("ngayxuly"));
@@ -285,7 +296,12 @@ public class ViphamController implements Initializable {
     @FXML
     private void them_sach(ActionEvent event) {
         bt_ok.setVisible(true);
-
+        ct_maDG.setEditable(true);
+        ht_xu_ly.setEditable(true);
+        Ly_do.setEditable(true);
+        ngay_vi_pham.setEditable(true);
+        ten_DG.setEditable(true);
+        text_maDG.setEditable(true);
         bt_ok.setDisable(true);
         ct_maDG.setText("");
         ten_DG.setText("");
@@ -299,7 +315,13 @@ public class ViphamController implements Initializable {
     @FXML
     private void huy_toan_bo(ActionEvent event) {
         data_load.clear();
-       
+       ct_maDG.setEditable(false);
+        ht_xu_ly.setEditable(false);
+        Ly_do.setEditable(false);
+        ngay_vi_pham.setEditable(false);
+        ten_DG.setEditable(false);
+        text_maDG.setEditable(false);
+        ngay_vi_pham.setText("");
         if (text_maDG.getText().equals("")) {
             load_bandau();
         } else {
@@ -310,6 +332,12 @@ public class ViphamController implements Initializable {
 
     @FXML
     private void luu_vaoDB(ActionEvent event) {
+        ct_maDG.setEditable(false);
+        ht_xu_ly.setEditable(false);
+        Ly_do.setEditable(false);
+        ngay_vi_pham.setEditable(false);
+        ten_DG.setEditable(false);
+        text_maDG.setEditable(false);
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Thông Báo");
         alert.setHeaderText("Bạn Chắc Chắn Lưu Dữ Liệu ");
