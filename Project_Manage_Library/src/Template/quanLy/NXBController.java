@@ -49,6 +49,7 @@ public class NXBController implements Initializable {
     private TextField tf_maNXB;
     @FXML
     private TextField tf_tenNXB;
+    @FXML
     private TextField tf_sdt;
     @FXML
     private TextField tf_dc;
@@ -56,12 +57,13 @@ public class NXBController implements Initializable {
     private TextField tf_email;
     ObservableList<NXB> data = FXCollections.observableArrayList();
     Connection cn = null;
-    private Button btn_huy;
+   
     @FXML
     private Button btn_hủy;
 
     @FXML
     private void focus_CTNXB(MouseEvent event) {
+       
         int i = TB_NXB.getFocusModel().getFocusedIndex();
         NXB nxb = data.get(i);
         tf_maNXB.setText(nxb.getMaNXB());
@@ -70,8 +72,13 @@ public class NXBController implements Initializable {
         tf_dc.setText(nxb.getDiaChi());
         tf_email.setText(nxb.getEmail());
         tf_sdt.setText(nxb.getSdt());
+         tf_dc.setStyle("-fx-border-width:0px;");
+        tf_email.setStyle("-fx-border-width:0px;");
+        tf_maNXB.setStyle("-fx-border-width:0px;");
+        tf_sdt.setStyle("-fx-border-width:0px;");
+        tf_tenNXB.setStyle("-fx-border-width:0px;");
 
-        btn_luu.setDisable(true);
+      //  btn_luu.setDisable(true);
     }
 
     @FXML
@@ -110,10 +117,13 @@ public class NXBController implements Initializable {
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
                 if (tf_maNXB.getText().equals("")) {
-                    String str = "INSERT dbo.NhaXB( MaNXB, TenNXB, DiaChi )VALUES  ('NXB',?,? ) ";
+                    String str = "INSERT dbo.NhaXB( MaNXB, TenNXB, DiaChi,Email,SoDT )VALUES  ('NXB',?,?,?,? ) ";
                     ps = cn.prepareStatement(str);
                     ps.setNString(1, tf_tenNXB.getText());
                     ps.setNString(2, tf_dc.getText());
+                    ps.setNString(3, tf_email.getText());
+                    ps.setNString(3, tf_sdt.getText());
+                            
 
                     ps.executeUpdate();
                     data.clear();
@@ -130,11 +140,13 @@ public class NXBController implements Initializable {
                     alert.showAndWait();
                     return 1;
                 }
-                String str = "UPDATE NhaXB SET TenNXB = ? , DiaChi = ? WHERE MaNXB = ? ";
+                String str = "UPDATE NhaXB SET TenNXB = ? , DiaChi = ?,Email = ?,SoDT = ? WHERE MaNXB = ? ";
                 ps = cn.prepareStatement(str);
                 ps.setNString(1, tf_tenNXB.getText());
                 ps.setNString(2, tf_dc.getText());
-                ps.setString(3, tf_maNXB.getText());
+                ps.setNString(3, tf_email.getText());
+                ps.setNString(4, tf_sdt.getText());
+                ps.setString(5, tf_maNXB.getText());
                 ps.executeUpdate();
                 data.clear();
                 Statement st = null;
@@ -148,6 +160,7 @@ public class NXBController implements Initializable {
                 alert.setTitle("Thông Báo");
                 alert.setHeaderText("Lưu thành công");
                 alert.showAndWait();
+                return 0;
             } catch (SQLException ex) {
                 Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -192,17 +205,32 @@ public class NXBController implements Initializable {
     private void Edit(ActionEvent event) {
         tf_maNXB.setDisable(true);
         btn_luu.setDisable(false);
+        tf_dc.setEditable(true);
+        tf_email.setEditable(true);
+        tf_maNXB.setEditable(true);
+        tf_sdt.setEditable(true);
+        tf_tenNXB.setEditable(true);
+        btn_hủy.setDisable(false);
+       // btn_luu.setDisable(true);
     }
 
     @FXML
     private void huy_edit(ActionEvent event) {
+        
         tf_dc.setEditable(false);
         tf_email.setEditable(false);
         tf_maNXB.setEditable(false);
         tf_sdt.setEditable(false);
         tf_tenNXB.setEditable(false);
-        btn_huy.setDisable(true);
+        btn_hủy.setDisable(true);
         btn_luu.setDisable(true);
+        tf_dc.setStyle("-fx-border-width:0px;");
+        tf_email.setStyle("-fx-border-width:0px;");
+        tf_maNXB.setStyle("-fx-border-width:0px;");
+        tf_sdt.setStyle("-fx-border-width:0px;");
+        tf_tenNXB.setStyle("-fx-border-width:0px;");
+        focus_CTNXB(null);
+       
     }
 
     public class NXB {
@@ -268,6 +296,12 @@ public class NXBController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btn_luu.setDisable(true);
+        tf_dc.setEditable(false);
+        tf_email.setEditable(false);
+        tf_maNXB.setEditable(false);
+        tf_sdt.setEditable(false);
+        tf_tenNXB.setEditable(false);
+        btn_hủy.setDisable(true);
         TB_NXB.setEditable(true);
         TableColumn<NXB, String> maNXB = new TableColumn<>("Mã NXB");
         maNXB.setCellValueFactory(new PropertyValueFactory<>("maNXB"));
@@ -326,8 +360,15 @@ public class NXBController implements Initializable {
         tf_email.setText("");
         tf_sdt.setText("");
         tf_maNXB.setDisable(true);
-
+         tf_maNXB.setDisable(true);
         btn_luu.setDisable(false);
+        tf_dc.setEditable(true);
+        tf_email.setEditable(true);
+        tf_maNXB.setEditable(true);
+        tf_sdt.setEditable(true);
+        tf_tenNXB.setEditable(true);
+        btn_hủy.setDisable(false);
+        //btn_luu.setDisable(false);
 
     }
 }

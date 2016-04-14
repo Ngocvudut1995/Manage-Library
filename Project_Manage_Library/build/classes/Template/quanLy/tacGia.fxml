@@ -4,9 +4,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
@@ -24,15 +24,15 @@
    <children>
       <Pane prefHeight="443.0" prefWidth="168.0">
          <children>
-            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="206.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="45.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="206.0" mnemonicParsing="false" onAction="#Edit" prefHeight="40.0" prefWidth="38.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="309.0" mnemonicParsing="false" onAction="#xoa" prefHeight="32.0" prefWidth="45.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="309.0" mnemonicParsing="false" onAction="#xoa" prefHeight="40.0" prefWidth="38.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="94.0" mnemonicParsing="false" onAction="#themTG" prefHeight="32.0" prefWidth="45.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="94.0" mnemonicParsing="false" onAction="#themTG" prefHeight="40.0" prefWidth="38.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -60,10 +60,10 @@
             </Button>
          </children>
       </Pane>
-      <AnchorPane prefHeight="443.0" prefWidth="565.0" GridPane.columnIndex="1">
-         <children>
-            <TableView fx:id="TB_TG" onMousePressed="#focus_CTTG" prefHeight="443.0" prefWidth="565.0" />
-         </children>
-      </AnchorPane>
+      <ScrollPane prefHeight="471.0" prefWidth="566.0" GridPane.columnIndex="1">
+         <content>
+            <TableView fx:id="TB_TG" onMousePressed="#focus_CTTG" prefHeight="437.0" prefWidth="563.0" />
+         </content>
+      </ScrollPane>
    </children>
 </GridPane>

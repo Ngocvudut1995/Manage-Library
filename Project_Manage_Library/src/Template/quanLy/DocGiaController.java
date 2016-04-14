@@ -62,17 +62,17 @@ public class DocGiaController implements Initializable {
     private TextField tf_maDG;
     @FXML
     private TextField tf_tenDG;
-    private TextField tf_ngaySinh;
+
     @FXML
     private TextField tf_sdt;
-    private TextField tf_gt;
+   
     @FXML
     private TextField tf_dc;
     @FXML
     private TextField tf_cmnd;
     @FXML
     private TextField tf_email;
-    private TextField tf_TT;
+   
     @FXML
     private Button btn_save;
     @FXML
@@ -113,7 +113,7 @@ public class DocGiaController implements Initializable {
         String dateHH = util.date.convertStringToDate(dg.getNgayHet());
         tf_ngayHet.setText(dateHH);
         tf_NN.setText(dg.getTrangThai());
-        tf_maDG.setDisable(false);
+       // tf_maDG.setDisable(false);
         tf_ngayHet.setDisable(false);
         tf_ngayDK.setDisable(false);
         btn_save.setDisable(true);
@@ -265,15 +265,26 @@ public class DocGiaController implements Initializable {
 
     @FXML
     private void Edit(ActionEvent event) {
-        tf_ngayDK.setDisable(true);
-        tf_ngayHet.setDisable(false);
+         tf_NN.setEditable(true);
+         tf_maDG.setDisable(true);
+         tf_tenDG.setEditable(true);
+        tf_maDG.setEditable(true);
+        tf_sdt.setEditable(true);
+        tf_ngayDK.setEditable(true);
+        tf_email.setEditable(true);
+        tf_dc.setEditable(true);
+        tf_cmnd.setEditable(true);
+        tf_ngayHet.setEditable(true);
+        cb_GT.setDisable(false);
+        cb_ngaySinh.setDisable(false);
+        btn_huy.setDisable(false);
         btn_save.setDisable(false);
     }
 
     @FXML
     private void huy_edit(ActionEvent event) {
         tf_NN.setEditable(false);
-        
+        tf_maDG.setDisable(false);
         tf_cmnd.setEditable(false);
         tf_dc.setEditable(false);
         tf_email.setEditable(false);
@@ -413,7 +424,19 @@ public class DocGiaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+         tf_NN.setEditable(false);
+         tf_tenDG.setEditable(false);
+        tf_maDG.setEditable(false);
+        tf_sdt.setEditable(false);
+        tf_ngayDK.setEditable(false);
+        tf_email.setEditable(false);
+        tf_dc.setEditable(false);
+        tf_cmnd.setEditable(false);
+        tf_ngayHet.setEditable(false);
+        cb_GT.setDisable(true);
+        cb_ngaySinh.setDisable(true);
+        btn_huy.setDisable(true);
+        btn_save.setDisable(true);
         cb_GT.setItems(data_gioitinh);
         //  cb_GT.setSelectionModel(null);
         String pattern = "dd/MM/yyyy";
@@ -527,6 +550,8 @@ public class DocGiaController implements Initializable {
     @FXML
     public void themDG(ActionEvent e) {
         tf_ngayDK.setDisable(false);
+        tf_maDG.setDisable(true);
+        
         //tf_maDG.setDisable(false);
         tf_maDG.setText("");
         tf_tenDG.setText("");
@@ -539,9 +564,19 @@ public class DocGiaController implements Initializable {
         tf_ngayDK.setText("");
         tf_ngayHet.setText("");
         tf_NN.setText("");
-        tf_maDG.setDisable(true);
-        tf_ngayDK.setDisable(true);
-        tf_ngayHet.setDisable(true);
+         tf_NN.setEditable(true);
+         tf_tenDG.setEditable(true);
+        tf_maDG.setEditable(true);
+        tf_sdt.setEditable(true);
+        tf_ngayDK.setEditable(true);
+        tf_email.setEditable(true);
+        tf_dc.setEditable(true);
+        tf_cmnd.setEditable(true);
+        tf_ngayHet.setEditable(true);
+        cb_GT.setDisable(false);
+        cb_ngaySinh.setDisable(false);
+        btn_huy.setDisable(false);
+        btn_save.setDisable(false);
         // Date toDate = new Date();
         Calendar todate = Calendar.getInstance();
 

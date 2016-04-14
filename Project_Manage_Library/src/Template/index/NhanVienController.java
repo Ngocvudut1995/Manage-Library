@@ -38,6 +38,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import static util.Encode.getSecurePassword;
 
 /**
  * FXML Controller class
@@ -72,7 +73,7 @@ public class NhanVienController extends Login.LoginController implements Initial
     private Button bt_huy;
     @FXML
     private ImageView image_view;
-
+    String securepass = null;
     /**
      * Initializes the controller class.
      */
@@ -86,6 +87,8 @@ public class NhanVienController extends Login.LoginController implements Initial
     private Button bt_doianh;
    static InputStream stream;
     Image image = null;
+    @FXML
+    private Button bt_doi_mk;
     void load_data() {
 
         try {
@@ -101,7 +104,8 @@ public class NhanVienController extends Login.LoginController implements Initial
             tf_manv.setText(rs.getString("MaNV"));
             tf_sdt.setText(rs.getString("SoDT"));
             tf_taikhoan.setText(rs.getString("Username"));
-            tf_pass.setText(rs.getString("Password"));
+            tf_pass.setText("123456789");
+            securepass = rs.getString("Password");
             String ngaysinh = util.date.convertStringToDate(rs.getDate("NgaySinh"));
             System.out.println(ngaysinh);
             db_brithday.setText(ngaysinh);
@@ -189,7 +193,15 @@ public class NhanVienController extends Login.LoginController implements Initial
             st.setString(7, tf_cmnd.getText());
             st.setString(8, tf_diachi.getText());
             st.setString(9, tf_taikhoan.getText());
-            st.setString(10, tf_pass.getText());
+            if(kt == 1){
+                String salt = "VuDang";
+                String securePass_change = getSecurePassword(tf_pass.getText(), salt);
+                st.setString(10,securePass_change);
+            
+            }else{
+                 st.setString(10, securepass);
+            }
+             
             
             if (!localUrl.equals("")) {
                File image = new File(localUrl);
@@ -233,6 +245,10 @@ public class NhanVienController extends Login.LoginController implements Initial
         bt_doianh.setDisable(true);
         tf_taikhoan.setDisable(true);
         tf_pass.setDisable(true);
+        tf_pass.setText("123456789");
+        kt = 0;
+     //   bt_doi_mk.setDisable(true);
+      //  tf_pass.setDisable(true);
     }
     String localUrl = "";
 
@@ -248,6 +264,17 @@ public class NhanVienController extends Login.LoginController implements Initial
         Image localImage = new Image(fis);
 
         image_view.setImage(localImage);
+    }
+    int kt=0;
+    @FXML
+    private void Doi_MK(ActionEvent event) {
+         bt_luu.setDisable(false);
+     //   bt_huy.setDisable(false);
+       // bt_doianh.setDisable(false);
+         tf_pass.setText("");
+        tf_taikhoan.setDisable(false);
+        tf_pass.setDisable(false);
+        kt = 1;
     }
 
 }

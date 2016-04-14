@@ -40,6 +40,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import static util.Encode.getSecurePassword;
 
 /**
  * FXML Controller class
@@ -185,6 +186,8 @@ public class TaoNVController implements Initializable {
                 st.setString(7, tf_cmnd.getText());
                 st.setString(8, tf_diachi.getText());
                 st.setString(9, tf_user.getText());
+               String salt = "VuDang";
+                String securePass = getSecurePassword(tf_pass.getText(), salt);
                 st.setString(10, tf_pass.getText());
                 st.setBlob(11, fis);
                 st.registerOutParameter(12, Types.INTEGER);

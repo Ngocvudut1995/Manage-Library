@@ -23,22 +23,22 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="549.0" GridPane.columnIndex="1">
+      <ScrollPane prefHeight="419.0" prefWidth="557.0" GridPane.columnIndex="1">
          <content>
-            <TableView fx:id="TB_NV" onMousePressed="#focus_ct" prefHeight="426.0" prefWidth="930.0" />
+            <TableView fx:id="TB_NV" onMousePressed="#focus_ct" prefHeight="434.0" prefWidth="552.0" />
          </content>
       </ScrollPane>
       <Pane prefHeight="443.0" prefWidth="111.0">
          <children>
-            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="23.0" layoutY="318.0" mnemonicParsing="false" onAction="#xoa" prefHeight="32.0" prefWidth="40.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="23.0" layoutY="318.0" mnemonicParsing="false" onAction="#xoa" prefHeight="40.0" prefWidth="38.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="23.0" layoutY="206.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="40.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="23.0" layoutY="206.0" mnemonicParsing="false" onAction="#Edit" prefHeight="40.0" prefWidth="38.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="23.0" layoutY="98.0" mnemonicParsing="false" onAction="#themNhanVien" prefHeight="32.0" prefWidth="40.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="23.0" layoutY="98.0" mnemonicParsing="false" onAction="#themNhanVien" prefHeight="40.0" prefWidth="38.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -71,7 +71,7 @@
                </cursor></Button>
             <DatePicker fx:id="db_ngaysinh" layoutX="105.0" layoutY="93.0" prefHeight="31.0" prefWidth="186.0" />
             <ComboBox fx:id="cb_GT" layoutX="105.0" layoutY="172.0" prefHeight="31.0" prefWidth="186.0" promptText="Nam" />
-            <TextField fx:id="tf_email" layoutX="105.0" layoutY="286.0" />
+            <TextField fx:id="tf_email" layoutX="105.0" layoutY="286.0" prefHeight="25.0" prefWidth="186.0" />
             <Label layoutX="16.0" layoutY="291.0" text="Email" />
             <Button fx:id="btn_huy" layoutX="198.0" layoutY="403.0" mnemonicParsing="false" onAction="#huy_edit" prefHeight="31.0" prefWidth="59.0" text="Hủy">
                <cursor>

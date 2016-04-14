@@ -30,7 +30,7 @@
             <RowConstraints maxHeight="233.0" minHeight="10.0" prefHeight="227.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <GridPane prefHeight="443.0" prefWidth="904.0" styleClass="border" stylesheets="@../../CSS/style.css">
+            <GridPane prefHeight="443.0" prefWidth="904.0" stylesheets="@../../CSS/style.css">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
@@ -55,7 +55,7 @@
                   </ScrollPane>
                </children>
             </GridPane>
-            <GridPane prefHeight="443.0" prefWidth="904.0" styleClass="border" stylesheets="@../../CSS/style.css" GridPane.rowIndex="1">
+            <GridPane prefHeight="443.0" prefWidth="904.0" stylesheets="@../../CSS/style.css" GridPane.rowIndex="1">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
@@ -82,25 +82,25 @@
             </GridPane>
          </children>
       </GridPane>
-      <Pane prefHeight="200.0" prefWidth="200.0" styleClass="border" stylesheets="@../../CSS/style.css">
+      <Pane prefHeight="200.0" prefWidth="200.0" stylesheets="@../../CSS/style.css">
          <children>
-            <Button fx:id="bt_tuan" alignment="CENTER_RIGHT" layoutX="7.0" layoutY="53.0" mnemonicParsing="false" onAction="#getDocGia_Tuan" prefHeight="32.0" prefWidth="42.0" styleClass="btn-week" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="bt_tuan" alignment="CENTER_RIGHT" layoutX="7.0" layoutY="53.0" mnemonicParsing="false" onAction="#getDocGia_Tuan" prefHeight="40.0" prefWidth="38.0" styleClass="btn-week" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="bt_docgia_thang" alignment="CENTER_RIGHT" layoutX="8.0" layoutY="128.0" mnemonicParsing="false" onAction="#getDocGia_Thang" prefHeight="32.0" prefWidth="42.0" styleClass="btn-month" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="bt_docgia_thang" alignment="CENTER_RIGHT" layoutX="8.0" layoutY="128.0" mnemonicParsing="false" onAction="#getDocGia_Thang" prefHeight="40.0" prefWidth="38.0" styleClass="btn-month" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="bt_docgia_qui" alignment="CENTER_RIGHT" layoutX="8.0" layoutY="206.0" mnemonicParsing="false" onAction="#getDocGia_Qui" prefHeight="32.0" prefWidth="42.0" styleClass="btn-qui" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="bt_docgia_qui" alignment="CENTER_RIGHT" layoutX="8.0" layoutY="206.0" mnemonicParsing="false" onAction="#getDocGia_Qui" prefHeight="40.0" prefWidth="38.0" styleClass="btn-qui" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="bt_docgia_nam" alignment="CENTER_RIGHT" layoutX="7.0" layoutY="283.0" mnemonicParsing="false" onAction="#getDocGia_Nam" prefHeight="32.0" prefWidth="42.0" styleClass="btn-year" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="bt_docgia_nam" alignment="CENTER_RIGHT" layoutX="7.0" layoutY="283.0" mnemonicParsing="false" onAction="#getDocGia_Nam" prefHeight="40.0" prefWidth="38.0" styleClass="btn-year" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button alignment="CENTER_RIGHT" layoutX="8.0" layoutY="349.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" styleClass="btn-export" stylesheets="@../../CSS/fextile.css">
+            <Button alignment="CENTER_RIGHT" layoutX="8.0" layoutY="349.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="38.0" styleClass="btn-export" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>

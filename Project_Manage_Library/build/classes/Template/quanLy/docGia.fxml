@@ -24,9 +24,9 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="581.0" GridPane.columnIndex="1">
+      <ScrollPane GridPane.columnIndex="1">
          <content>
-            <TableView fx:id="TB_DG" onMousePressed="#focus_CTDG" prefHeight="428.0" prefWidth="1009.0" />
+            <TableView fx:id="TB_DG" onMousePressed="#focus_CTDG" prefHeight="436.0" prefWidth="575.0" />
          </content>
       </ScrollPane>
       <Pane prefHeight="200.0" prefWidth="200.0">

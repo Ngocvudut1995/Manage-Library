@@ -68,8 +68,8 @@ public class TheLoaiController implements Initializable {
         tf_tang.setText(tl.getTang().toString());
         //tf_maTL.setDisable(true);
         //  tf_tenTl.setDisable(true);
-        tf_maTL.setDisable(false);
-        btn_save.setDisable(true);
+       // tf_maTL.setDisable(false);
+       // btn_save.setDisable(true);
     }
     Connection cn = null;
     @FXML
@@ -111,6 +111,7 @@ public class TheLoaiController implements Initializable {
                     ps.setString(3, tf_maTL.getText());
                     ps.executeUpdate();
                 }
+             //   huy_edit(event);
                 data.clear();
                 Statement st = null;
                 st = cn.createStatement();
@@ -185,6 +186,12 @@ public class TheLoaiController implements Initializable {
         tf_tenTl.setDisable(false);
         tf_tang.setDisable(true);
         btn_save.setDisable(false);
+        cb_phong.setDisable(false);
+         tf_maTL.setEditable(true);
+        tf_tenTl.setEditable(true);
+        tf_tang.setEditable(true);
+        btn_huy.setDisable(false);
+        
 
     }
     @FXML
@@ -194,6 +201,9 @@ public class TheLoaiController implements Initializable {
         tf_tang.setEditable(false);
         btn_huy.setDisable(true);
         btn_save.setDisable(true);
+        cb_phong.setDisable(true);
+         tf_tenTl.setStyle("-fx-border-width:0px;");
+         cb_phong.setStyle("-fx-border-width:0px;");
         
     }
 
@@ -279,7 +289,12 @@ public class TheLoaiController implements Initializable {
                     .getName()).log(Level.SEVERE, null, ex);
         }
         cb_phong.setItems(data_phong);
+         tf_maTL.setEditable(false);
+        tf_tenTl.setEditable(false);
+        tf_tang.setEditable(false);
+        btn_huy.setDisable(true);
         btn_save.setDisable(true);
+        cb_phong.setDisable(true);
         TB_Theloai.setEditable(true);
         TableColumn<theloai, String> maTL = new TableColumn<>("Mã Thể Loại");
         maTL.setCellValueFactory(new PropertyValueFactory<>("maTL"));
@@ -328,6 +343,12 @@ public class TheLoaiController implements Initializable {
         cb_phong.getSelectionModel().select(-1);
         tf_tenTl.setDisable(false);
         btn_save.setDisable(false);
+         tf_maTL.setEditable(true);
+        tf_tenTl.setEditable(true);
+        tf_tang.setEditable(true);
+        btn_huy.setDisable(false);
+        btn_save.setDisable(false);
+        cb_phong.setDisable(false);
 
     }
 }

@@ -22,7 +22,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <GridPane prefHeight="443.0" prefWidth="641.0" style="-fx-border-color: Black; -fx-border-radius: 4px; -fx-border-width: 2px;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <GridPane prefHeight="443.0" prefWidth="641.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
          </columnConstraints>
@@ -58,7 +58,7 @@
             </ScrollPane>
          </children>
       </GridPane>
-      <Pane prefHeight="443.0" prefWidth="282.0" style="-fx-border-color: black; -fx-border-radius: 4px; -fx-border-width: 2px;" GridPane.columnIndex="2">
+      <Pane prefHeight="443.0" prefWidth="282.0" GridPane.columnIndex="2">
          <children>
             <Label layoutX="107.0" layoutY="38.0" text="Thông tin chi tiết">
                <font>
@@ -99,7 +99,7 @@
             <Button fx:id="bt_cancel" layoutX="217.0" layoutY="345.0" mnemonicParsing="false" onAction="#them_sach" text="Cancel" visible="false" />
          </children>
       </Pane>
-      <Pane prefHeight="443.0" prefWidth="106.0" style="-fx-border-color: black; -fx-border-radius: 4px; -fx-border-width: 2px;">
+      <Pane prefHeight="443.0" prefWidth="106.0">
          <children>
             <Button fx:id="bt_them" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" onAction="#them_sach" prefHeight="40.0" prefWidth="38.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css">
                <cursor>

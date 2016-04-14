@@ -5,8 +5,6 @@
  */
 package Template.Bao_Cao;
 
-import UserCase.Person;
-import com.sun.rowset.CachedRowSetImpl;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,7 +29,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javax.sql.rowset.CachedRowSet;
 
 /**
  * FXML Controller class
@@ -238,18 +235,18 @@ public class Report_DocGiaController implements Initializable {
                 data_new.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
-                        (Image) rs.getBlob("Anh"), rs.getString("CMND")));
+                        (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
             }
 
             st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             String str2 = "Select * From Doc_Gia Where HanSD between '" + sqltungay + "' and '" + sqldenngay + "'";
-            rs = st.executeQuery(str);
+            rs = st.executeQuery(str2);
             while (rs.next()) {
                 data_old.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
-                        (Image) rs.getBlob("Anh"), rs.getString("CMND")));
+                        (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
             }
 
         } catch (SQLException ex) {
@@ -286,18 +283,18 @@ public class Report_DocGiaController implements Initializable {
                 data_new.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
-                        (Image) rs.getBlob("Anh"), rs.getString("CMND")));
+                        (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
             }
 
             st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             String str2 = "Select * From Doc_Gia Where HanSD between '" + sqltungay + "' and '" + sqldenngay + "'";
-            rs = st.executeQuery(str);
+            rs = st.executeQuery(str2);
             while (rs.next()) {
                 data_old.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
-                        (Image) rs.getBlob("Anh"), rs.getString("CMND")));
+                        (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
             }
 
         } catch (SQLException ex) {
@@ -334,18 +331,18 @@ public class Report_DocGiaController implements Initializable {
                 data_new.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
-                        (Image) rs.getBlob("Anh"), rs.getString("CMND")));
+                        (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
             }
 
             st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             String str2 = "Select * From Doc_Gia Where HanSD between '" + sqltungay + "' and '" + sqldenngay + "'";
-            rs = st.executeQuery(str);
+            rs = st.executeQuery(str2);
             while (rs.next()) {
                 data_old.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
-                        (Image) rs.getBlob("Anh"), rs.getString("CMND")));
+                        (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
             }
 
         } catch (SQLException ex) {
@@ -382,18 +379,18 @@ public class Report_DocGiaController implements Initializable {
                 data_new.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
-                        (Image) rs.getBlob("Anh"), rs.getString("CMND")));
+                        (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
             }
 
             st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             String str2 = "Select * From Doc_Gia Where HanSD between '" + sqltungay + "' and '" + sqldenngay + "'";
-            rs = st.executeQuery(str);
+            rs = st.executeQuery(str2);
             while (rs.next()) {
                 data_old.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
-                        (Image) rs.getBlob("Anh"), rs.getString("CMND")));
+                        (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
             }
 
         } catch (SQLException ex) {
@@ -412,15 +409,17 @@ public class Report_DocGiaController implements Initializable {
         }
 
     }
-
+    
     /**
      * Initializes the controller class.
      */
+    Statement st = null;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             //Column Doc Gia
-            
+             lable_themmoi.setText("Bảng Báo Cáo Thống Kê Bạn Đọc");
+        label_hethan.setText("Bảng Báo Cáo Thống Kê Bạn Đọc Hết Hạn");
             TableColumn MaDGCol = new TableColumn("Mã Độc Giả");
             MaDGCol.setCellValueFactory(new PropertyValueFactory<>("MaDocGia"));
             TBdocgia_moi.getColumns().add(MaDGCol);
@@ -499,28 +498,34 @@ public class Report_DocGiaController implements Initializable {
              Date today = new Date();
              java.sql.Date hansd= new java.sql.Date(today.getTime());
             cn = util.Connect_JDBC.getConnection();
-            Statement st = null;
+            
             st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            String str = "Select * From Doc_Gia Where HanSD > '"+hansd+"'";
+            String str = "Select * From Doc_Gia Where HanSD > GETDATE()";
             ResultSet rs = st.executeQuery(str);
             while (rs.next()) {
                 data_new.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
-                        (Image) rs.getBlob("Anh"), rs.getString("CMND")));
+                        (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
             }
-            
-            st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-            String str2 = "Select * From Doc_Gia Where HanSD < '"+hansd+"'";
-            rs = st.executeQuery(str);
-            while (rs.next()) {
-                data_old.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
-                        rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
-                        rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
-                        (Image) rs.getBlob("Anh"), rs.getString("CMND")));
+            rs.close();
+            st.close();
+            TBdocgia_moi.setItems(data_new);
+          //  st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+              //      ResultSet.CONCUR_UPDATABLE);
+            cn = util.Connect_JDBC.getConnection();
+            Statement st2 = cn.createStatement();
+          //  st= cn.createStatement();
+            String str2 = "Select * From Doc_Gia Where HanSD < GETDATE()";
+            ResultSet rs2 = st2.executeQuery(str2);
+            while (rs2.next()) {
+                data_old.add(new DocGia(data_old.size() + 1, rs2.getString("MaDocGia"), rs2.getString(2),
+                        rs2.getString(3), rs2.getString(4), rs2.getString(5), rs2.getString(6), rs2.getDate(7),
+                        rs2.getString(8), rs2.getString(9), rs2.getDate(10), rs2.getDate(11),
+                        (Image) rs2.getBlob("AnhThe"), rs2.getString("CMND")));
             }
+            TBdocgia_hethan.setItems(data_old);
         } catch (SQLException ex) {
             Logger.getLogger(Report_DocGiaController.class.getName()).log(Level.SEVERE, null, ex);
         }

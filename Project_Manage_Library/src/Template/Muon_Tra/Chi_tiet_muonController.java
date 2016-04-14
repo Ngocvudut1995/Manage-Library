@@ -19,8 +19,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -29,6 +31,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
@@ -36,6 +39,10 @@ import javafx.scene.input.MouseEvent;
  * @author Vu Dang
  */
 public class Chi_tiet_muonController implements Initializable {
+    @FXML
+    private Button bt_load;
+
+   
 
     public class ct_muon {
 
@@ -363,5 +370,35 @@ public class Chi_tiet_muonController implements Initializable {
             Logger.getLogger(Chi_tiet_muonController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+     @FXML
+    private void load_data(ActionEvent event) throws SQLException, ParseException {
+        data.clear();
+           cn = util.Connect_JDBC.getConnection();
+            String str = "SELECT j.*,h.* FROM (SELECT a.MaSach,a.TieuDe,b.TenTheLoai,c.TenTacGia,d.TenNgonNgu,a.Gia,f.TenNXB,a.Hinhanh \n"
+                    + "FROM dbo.Book a,dbo.TheLoai b,dbo.TacGia c,dbo.NgonNgu d,dbo.LoaiSach e,dbo.NhaXB f\n"
+                    + "WHERE (a.MaTheLoai =b.MaTheLoai AND a.MaTacGia = c.MaTacGia) and (a.MaNgonNgu = d.MaNgonNgu) \n"
+                    + "AND a.MaLoaiSach = e.MaLoaiSach AND a.MaNXB = f.MaNXB) h, (SELECT l.*,m.HoVaTen FROM dbo.MuonSach l ,dbo.Doc_Gia m\n"
+                    + "WHERE l.MaDocGia = m.MaDocGia ) j WHERE h.MaSach =j.MaSach";
+            Statement st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = st.executeQuery(str);
+            while (rs.next()) {
+                
+                String ngaymuon = util.date.convertStringToDate(rs.getDate("NgayMuon"));
+                Date date = util.date.convertDatetoString(ngaymuon);
+                Date date1 = rs.getDate("HanTra");
+                String dealline = util.date.convertStringToDate(rs.getDate("HanTra"));
+                String datetra = util.date.convertStringToDate(rs.getDate("NgayTra"));
+                data.add(new ct_muon(data.size() + 1, rs.getString("MaMuon"), rs.getString("MaSach"),
+                        rs.getString("TieuDe"), rs.getString("MaDocGia"), rs.getString("HoVaTen"),
+                        ngaymuon, dealline, datetra, rs.getString("TinhTrang"),rs.getDate("NgayMuon"),
+                        rs.getDate("HanTra"), rs.getString("TenTacGia"), rs.getString("TenTheLoai"),
+                        rs.getString("TenNgonNgu"), rs.getDouble("Gia"), rs.getString("TenNXB"), null,rs.getDate("NgayTra")));
+            }
 
+            Table_muon.setItems(data);
+        } 
+        
+    
 }
+

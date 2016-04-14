@@ -6,6 +6,7 @@
 package Login;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -62,10 +63,10 @@ public class LoginController implements Initializable {
 
     @FXML
     public int Enter(KeyEvent ke) throws IOException, SQLException {
-       
-        if(!(textpass.getText().equals("")||textuser.getText().equals("")))
-        check_mk.setDisable(false);
-        else{
+
+        if (!(textpass.getText().equals("") || textuser.getText().equals(""))) {
+            check_mk.setDisable(false);
+        } else {
             check_mk.setDisable(true);
         }
         cn = util.Connect_JDBC.getConnection();
@@ -85,6 +86,7 @@ public class LoginController implements Initializable {
                     Parent root = FXMLLoader.load(getClass().getResource("/Index/index.fxml"));
                     Scene scene = new Scene(root);
                     stage = new Stage();
+                    stage.setTitle("Quản Lý Thư Viện");
                     stage.setScene(scene);
                     stage.resizableProperty().setValue(Boolean.FALSE);
                     ((Node) (ke.getSource())).getScene().getWindow().hide();
@@ -116,7 +118,7 @@ public class LoginController implements Initializable {
     @FXML
     public int Login(ActionEvent event) throws IOException, SQLException {
         //  tb.setText("");
-         cn = util.Connect_JDBC.getConnection();
+        cn = util.Connect_JDBC.getConnection();
         String user = textuser.getText();
         String pass = textpass.getText();
         stmt = cn.createStatement(
@@ -132,21 +134,22 @@ public class LoginController implements Initializable {
                 Scene scene = new Scene(root);
                 stage = new Stage();
                 stage.setScene(scene);
+                stage.setTitle("Quản Lý Thư Viện");
                 stage.resizableProperty().setValue(Boolean.FALSE);
                 ((Node) (event.getSource())).getScene().getWindow().hide();
-                 PrintWriter pw = null;
-                    if (check_mk.isSelected()) {
-                        System.out.println("asdasd");
+                PrintWriter pw = null;
+                if (check_mk.isSelected()) {
+                    System.out.println("asdasd");
 
-                        pw = new PrintWriter("save.dat");
-                        pw.println("check" + ";" + textuser.getText() + ";" + textpass.getText());
-                        pw.close();
-                    } else {
-                        System.out.println("asdasdas1");
-                        pw = new PrintWriter("save.dat");
-                        pw.println("no_check" + ";" + textuser.getText() + ";" + textpass.getText());
-                        pw.close();
-                    }
+                    pw = new PrintWriter("save.dat");
+                    pw.println("check" + ";" + textuser.getText() + ";" + textpass.getText());
+                    pw.close();
+                } else {
+                    System.out.println("asdasdas1");
+                    pw = new PrintWriter("save.dat");
+                    pw.println("no_check" + ";" + textuser.getText() + ";" + textpass.getText());
+                    pw.close();
+                }
                 stage.show();
                 return 1;
             }
@@ -170,7 +173,20 @@ public class LoginController implements Initializable {
     @Override
 
     public void initialize(URL url, ResourceBundle rb) {
-          
+        System.out.println("asdasdasdas11111");
+        File file = new File("save.dat");
+        file.canRead();
+        System.out.println(file.canRead());
+        PrintWriter pw = null;
+        if (!file.canRead()) {
+            try {
+                pw = new PrintWriter("save.dat");
+                pw.println("no_check" + ";admin;admin");
+                pw.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         BufferedReader bf = null;
         System.out.println("asdasd");
         try {
@@ -201,21 +217,21 @@ public class LoginController implements Initializable {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if(!(textpass.getText().equals("")||textuser.getText().equals("")))
-             check_mk.setDisable(false);
-          else{
-              check_mk.setDisable(true);
-          }
+        if (!(textpass.getText().equals("") || textuser.getText().equals(""))) {
+            check_mk.setDisable(false);
+        } else {
+            check_mk.setDisable(true);
+        }
     }
 
     @FXML
     private void save_mk(ActionEvent event) throws FileNotFoundException {
-        
+
         PrintWriter pw = null;
-        if (check_mk.isSelected()&&!textuser.equals("")&&!textpass.equals("")) {
+        if (check_mk.isSelected() && !textuser.equals("") && !textpass.equals("")) {
             try {
                 System.out.println("Check");
-                
+
                 pw = new PrintWriter("save.dat");
                 pw.println("check" + ";" + textuser.getText() + ";" + textpass.getText());
                 pw.close();

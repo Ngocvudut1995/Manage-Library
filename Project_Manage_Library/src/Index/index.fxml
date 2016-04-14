@@ -158,11 +158,14 @@
                                  </children></Pane>
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
                                  <children>
-                                    <Button layoutX="48.0" layoutY="6.0" mnemonicParsing="false" onAction="#quanLyNXB" prefHeight="50.0" prefWidth="50.0" styleClass="btn-qlNXB" stylesheets="@../CSS/fextile.css" text="Button">
+                                    <Button layoutX="48.0" layoutY="6.0" mnemonicParsing="false" onAction="#quanLyNXB" prefHeight="50.0" prefWidth="50.0" styleClass="btn-qlNXB" stylesheets="@../CSS/fextile.css">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor></Button>
-                                    <Label layoutX="59.0" layoutY="56.0" text="NXB" />
+                                    <Label layoutX="59.0" layoutY="56.0" text="NXB">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font></Label>
                                  </children></Pane>
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
                                  <children>
@@ -174,8 +177,15 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor></Button>
-                                    <Label layoutX="68.0" layoutY="55.0" text="Sách" />
-                                    <Label layoutX="214.0" layoutY="56.0" text="Thể loại" />
+                                    <Label layoutX="214.0" layoutY="56.0" text="Thể loại">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font></Label>
+                                    <Label layoutX="71.0" layoutY="55.0" text="Sách">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </Pane>
                            </children>
@@ -425,7 +435,7 @@
                <children>
                   <TabPane fx:id="tabPane" onMousePressed="#chuotphai" prefHeight="461.0" prefWidth="1190.0" rotateGraphic="true" tabClosingPolicy="ALL_TABS">
                     <tabs>
-                      <Tab closable="false" text="About">
+                      <Tab fx:id="tab_about" closable="false" text="About">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>

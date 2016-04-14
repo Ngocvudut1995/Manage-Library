@@ -45,26 +45,30 @@
             <Label layoutX="355.0" layoutY="298.0" text="password" />
             <PasswordField fx:id="tf_pass" layoutX="430.0" layoutY="293.0" prefHeight="31.0" prefWidth="142.0" />
             <ComboBox fx:id="cb_gioitinh" layoutX="431.0" layoutY="169.0" prefHeight="31.0" prefWidth="142.0" />
-            <Button fx:id="bt_sua" layoutX="133.0" layoutY="369.0" mnemonicParsing="false" onAction="#Sua" prefHeight="31.0" prefWidth="69.0" text="Sửa">
+            <Button fx:id="bt_sua" layoutX="51.0" layoutY="369.0" mnemonicParsing="false" onAction="#Sua" prefHeight="31.0" prefWidth="69.0" text="Sửa">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="bt_luu" layoutX="280.0" layoutY="369.0" mnemonicParsing="false" onAction="#luu_DB" prefHeight="31.0" prefWidth="69.0" text="Lưu">
+            <Button fx:id="bt_luu" layoutX="325.0" layoutY="369.0" mnemonicParsing="false" onAction="#luu_DB" prefHeight="31.0" prefWidth="69.0" text="Lưu">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="bt_huy" layoutX="420.0" layoutY="368.0" mnemonicParsing="false" onAction="#huy" prefHeight="31.0" prefWidth="69.0" text="Hủy">
+            <Button fx:id="bt_huy" layoutX="458.0" layoutY="368.0" mnemonicParsing="false" onAction="#huy" prefHeight="31.0" prefWidth="69.0" text="Hủy">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
             <TextField fx:id="db_brithday" layoutX="430.0" layoutY="87.0" prefHeight="31.0" prefWidth="142.0" />
+            <Button fx:id="bt_doi_mk" layoutX="185.0" layoutY="369.0" mnemonicParsing="false" onAction="#Doi_MK" prefHeight="31.0" prefWidth="69.0" text="Đổi MK">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </Pane>
       <Pane layoutX="57.0" layoutY="95.0" prefHeight="199.0" prefWidth="160.0">
          <children>
             <ImageView fx:id="image_view" fitHeight="199.0" fitWidth="158.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
          </children></Pane>
-      <Label layoutX="125.0" layoutY="314.0" text="Ảnh" />
       <Button fx:id="bt_doianh" layoutX="110.0" layoutY="310.0" mnemonicParsing="false" onAction="#load_anh" text="Sửa">
          <cursor>
             <Cursor fx:constant="HAND" />

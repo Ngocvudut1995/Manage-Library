@@ -68,6 +68,8 @@ public class IndexController extends Login.LoginController implements Initializa
     @FXML
     private Button bt_qlnhanvien;
     @FXML
+    private Tab tab_about;
+    @FXML
     private void logout(ActionEvent e) throws IOException {
         Stage stage = (Stage) bt_logout.getScene().getWindow();
         stage.close();
@@ -104,7 +106,7 @@ public class IndexController extends Login.LoginController implements Initializa
                 @Override
                 public void handle(ActionEvent event) {
                     int max = tabPane.getTabs().size();
-                    tabPane.getTabs().remove(0, max);
+                    tabPane.getTabs().remove(1, max);
                 }
             });
             menuItem3.setOnAction(new EventHandler<ActionEvent>() {
@@ -122,7 +124,7 @@ public class IndexController extends Login.LoginController implements Initializa
                 public void handle(ActionEvent event) {
 
                     int to = tabPane.getSelectionModel().getSelectedIndex();
-                    tabPane.getTabs().remove(0, to);
+                    tabPane.getTabs().remove(1, to);
                 }
             });
 
@@ -401,6 +403,7 @@ public class IndexController extends Login.LoginController implements Initializa
 ObservableList<viphamquahan> data = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         cn = util.Connect_JDBC.getConnection();
         Statement st = null;
         String sql = "select ChucVu From NhanVien where MaNV = '"+MaNhanVien+"'";
@@ -431,6 +434,9 @@ ObservableList<viphamquahan> data = FXCollections.observableArrayList();
                 }
             });
             //
+              root = FXMLLoader.load(getClass().getResource("/Index/about.fxml"));   
+              tab_about.setContent(root);
+              ////
             tab_vipham.setText("  Vi Phạm  ");
              root = FXMLLoader.load(getClass().getResource("/Template/Muon_Tra/vipham.fxml"));
             tab_vipham.setContent(root);

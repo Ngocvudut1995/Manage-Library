@@ -32,6 +32,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -331,43 +332,51 @@ public class PhieumuonController implements Initializable {
 //         DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 //      Date date = new Date(format.parse(MaNV.getText()).getTime());
 //        System.out.println(date.toString());
-        if (data.size() <= 0 || Ma_DG.getText().equals("")) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Thông Báo");
-            alert.setHeaderText("Thông Tin Chưa Đầy Đủ");
-            //alert.setContentText("Thêm Thành Công!");
-            alert.showAndWait();
-        } else {
-            for (int i = 0; i < data.size(); i++) {
-                try {
-                    phieumuonsach pm = data.get(i);
-                    System.out.println(pm.getMaSach());
-                    CallableStatement cs = null;
-                    cs = cn.prepareCall("{call INSERT_MuonSach(?,?,?,?,?,?,?)}");
-                    cs.setString(1, text_PM.getText());
-                    cs.setString(2, pm.getMaSach());
-                    cs.setString(3, Ma_DG.getText());
-                    java.sql.Date sqldate = new java.sql.Date(pm.getToday().getTime());
+        Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
+        alert1.setTitle("Thông Báo");
+        alert1.setHeaderText("Bạn Chắc Chắn Lưu Dữ Liệu ");
+        //alert.setContentText("Thêm Thành Công!");
+        alert1.showAndWait();
+        ButtonType result = alert1.getResult();
+        if (result.getText().equals("OK")) {
+            if (data.size() <= 0 || Ma_DG.getText().equals("")) {
+                Alert alert2 = new Alert(AlertType.ERROR);
+                alert2.setTitle("Thông Báo");
+                alert2.setHeaderText("Thông Tin Chưa Đầy Đủ");
+                //alert.setContentText("Thêm Thành Công!");
+                alert2.showAndWait();
+            } else {
+                for (int i = 0; i < data.size(); i++) {
+                    try {
+                        phieumuonsach pm = data.get(i);
+                        System.out.println(pm.getMaSach());
+                        CallableStatement cs = null;
+                        cs = cn.prepareCall("{call INSERT_MuonSach(?,?,?,?,?,?,?)}");
+                        cs.setString(1, text_PM.getText());
+                        cs.setString(2, pm.getMaSach());
+                        cs.setString(3, Ma_DG.getText());
+                        java.sql.Date sqldate = new java.sql.Date(pm.getToday().getTime());
 
-                    cs.setDate(4, sqldate);
-                    java.sql.Date sqldeal = new java.sql.Date(pm.getDeal().getTime());
-                    cs.setDate(5, sqldeal);
-                    cs.setString(6, "NV1021001");
-                    cs.setString(7, pm.getTinhTrang());
+                        cs.setDate(4, sqldate);
+                        java.sql.Date sqldeal = new java.sql.Date(pm.getDeal().getTime());
+                        cs.setDate(5, sqldeal);
+                        cs.setString(6, "NV1021001");
+                        cs.setString(7, pm.getTinhTrang());
 
-                    cs.executeUpdate();
-                    Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Thông Báo");
-                    alert.setHeaderText("Đã Lưu Thành Công");
-                    //alert.setContentText("Thêm Thành Công!");
-                    alert.showAndWait();
+                        cs.executeUpdate();
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Thông Báo");
+                        alert.setHeaderText("Đã Lưu Thành Công");
+                        //alert.setContentText("Thêm Thành Công!");
+                        alert.showAndWait();
 
-                } catch (SQLException ex) {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Thông Báo");
-                    alert.setHeaderText("Thông Tin Chưa Đúng");
-                    //alert.setContentText("Thêm Thành Công!");
-                    alert.showAndWait();
+                    } catch (SQLException ex) {
+                        Alert alert= new Alert(AlertType.ERROR);
+                        alert.setTitle("Thông Báo");
+                        alert.setHeaderText("Thông Tin Chưa Đúng");
+                        //alert.setContentText("Thêm Thành Công!");
+                        alert.showAndWait();
+                    }
                 }
             }
             Ma_DG.setText("");
@@ -405,9 +414,9 @@ public class PhieumuonController implements Initializable {
 
             WritableCellFormat cf = new WritableCellFormat();
             cf.setFont(tahomaboldpt);
-            
+
             WritableCellFormat cf4 = new WritableCellFormat();
-            
+
             sheet1.addCell(new Label(5, 1, "Phiếu Mượn Sách", cf));
             sheet1.addCell(new Label(3, 3, "Mã Phiếu Mượn:"));
             sheet1.setColumnView(3, 15);
@@ -464,16 +473,16 @@ public class PhieumuonController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ct_dongia.setEditable(false);
-            
-            ct_masach.setEditable(false);
-            ct_ngonngu.setEditable(false);
-            ct_NXB.setEditable(false);
-            ct_tacgia.setEditable(false);
-            ct_tensach.setEditable(false);
-            ct_theloai.setEditable(false);
+
+        ct_masach.setEditable(false);
+        ct_ngonngu.setEditable(false);
+        ct_NXB.setEditable(false);
+        ct_tacgia.setEditable(false);
+        ct_tensach.setEditable(false);
+        ct_theloai.setEditable(false);
         MaNV.setText(lg.MaNhanVien);
-        MaNV.setDisable(true);
-        text_PM.setDisable(true);
+        MaNV.setEditable(false);
+        text_PM.setEditable(false);
         TB_Muon.setEditable(true);
         TableColumn<phieumuonsach, Integer> colstt = new TableColumn<>("STT");
         colstt.setCellValueFactory(new PropertyValueFactory<>("stt"));

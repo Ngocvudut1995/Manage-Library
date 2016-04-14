@@ -71,7 +71,7 @@ public class TacGiaController implements Initializable {
         tf_namSinh.getEditor().setText(dateNS);
         
         tf_maTG.setDisable(false);
-        btn_save.setDisable(true);
+      //  btn_save.setDisable(true);
 
     }
     ObservableList<tacGia> data = FXCollections.observableArrayList();
@@ -81,6 +81,10 @@ public class TacGiaController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btn_save.setDisable(true);
+        btn_huy.setDisable(true);
+        tf_maTG.setEditable(false);
+        tf_tenTG.setEditable(false);
+        tf_namSinh.setDisable(true);
 
         String pattern = "dd/MM/yyyy";
 
@@ -157,6 +161,10 @@ public class TacGiaController implements Initializable {
         tf_maTG.setDisable(true);
 
         btn_save.setDisable(false);
+        btn_huy.setDisable(false);
+        tf_maTG.setEditable(true);
+        tf_tenTG.setEditable(true);
+        tf_namSinh.setDisable(false);
     }
     Connection cn = null;
 
@@ -280,6 +288,10 @@ public class TacGiaController implements Initializable {
     private void Edit(ActionEvent event) {
         tf_maTG.setDisable(true);
         btn_save.setDisable(false);
+        btn_huy.setDisable(false);
+        tf_maTG.setEditable(true);
+        tf_tenTG.setEditable(true);
+        tf_namSinh.setDisable(false);
     }
 
     @FXML

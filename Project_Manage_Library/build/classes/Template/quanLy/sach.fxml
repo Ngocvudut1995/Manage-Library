@@ -25,26 +25,26 @@
     <children>
         <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="553.0" GridPane.columnIndex="1">
             <content>
-                <TableView fx:id="TB_sach" onMousePressed="#focus_CTsach" prefHeight="361.0" prefWidth="1100.0" />
+                <TableView fx:id="TB_sach" onMousePressed="#focus_CTsach" prefHeight="435.0" prefWidth="550.0" />
             </content>
         </ScrollPane>
         <Pane prefHeight="200.0" prefWidth="200.0">
             <children>
-                <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="22.0" layoutY="197.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="40.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css">
+                <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="22.0" layoutY="197.0" mnemonicParsing="false" onAction="#Edit" prefHeight="40.0" prefWidth="38.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-                <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="22.0" layoutY="309.0" mnemonicParsing="false" onAction="#xoa" prefHeight="32.0" prefWidth="40.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css">
+                <Button fx:id="btn_xoa" alignment="CENTER_RIGHT" layoutX="22.0" layoutY="309.0" mnemonicParsing="false" onAction="#xoa" prefHeight="40.0" prefWidth="38.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-                <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="19.0" layoutY="88.0" mnemonicParsing="false" onAction="#themSach" prefHeight="32.0" prefWidth="40.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css">
+                <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="19.0" layoutY="88.0" mnemonicParsing="false" onAction="#themSach" prefHeight="40.0" prefWidth="38.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
             <Label layoutX="59.0" layoutY="94.0" text="Thêm" />
-            <Label layoutX="69.0" layoutY="203.0" text="Thêm" />
-            <Label layoutX="69.0" layoutY="315.0" text="Thêm" />
+            <Label layoutX="69.0" layoutY="203.0" text="Sửa" />
+            <Label layoutX="69.0" layoutY="315.0" text="Xóa" />
             </children>
         </Pane>
         <Pane prefHeight="443.0" prefWidth="310.0" GridPane.columnIndex="2">

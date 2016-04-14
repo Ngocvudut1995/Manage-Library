@@ -23,21 +23,21 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Pane prefHeight="443.0" prefWidth="216.0" style="-fx-border-color: black; -fx-border-radius: 4px; -fx-border-width: 2px;">
+      <Pane prefHeight="443.0" prefWidth="216.0">
          <children>
-            <Button fx:id="bt_tra" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="82.0" mnemonicParsing="false" onAction="#trasach" prefHeight="32.0" prefWidth="44.0" styleClass="btn-ok" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="bt_tra" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="82.0" mnemonicParsing="false" onAction="#trasach" prefHeight="40.0" prefWidth="38.0" styleClass="btn-ok" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="bt_huy" alignment="CENTER_RIGHT" layoutX="13.0" layoutY="337.0" mnemonicParsing="false" onAction="#Huy_action" prefHeight="32.0" prefWidth="44.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="bt_huy" alignment="CENTER_RIGHT" layoutX="13.0" layoutY="337.0" mnemonicParsing="false" onAction="#Huy_action" prefHeight="40.0" prefWidth="38.0" styleClass="btn-close" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="bt_luu" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="246.0" mnemonicParsing="false" onAction="#Luu_vao_DB" prefHeight="32.0" prefWidth="44.0" styleClass="btn-save" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="bt_luu" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="246.0" mnemonicParsing="false" onAction="#Luu_vao_DB" prefHeight="40.0" prefWidth="38.0" styleClass="btn-save" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="bt_giahan" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="165.0" mnemonicParsing="false" onAction="#giahanSach" prefHeight="32.0" prefWidth="44.0" styleClass="btn-update" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="bt_giahan" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="165.0" mnemonicParsing="false" onAction="#giahanSach" prefHeight="40.0" prefWidth="38.0" styleClass="btn-update" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -47,7 +47,7 @@
             <Label layoutX="54.0" layoutY="343.0" text="Xóa" />
          </children>
       </Pane>
-      <GridPane prefHeight="443.0" prefWidth="641.0" style="-fx-border-color: Black; -fx-border-radius: 4px; -fx-border-width: 2px;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <GridPane prefHeight="443.0" prefWidth="641.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
          </columnConstraints>
@@ -87,7 +87,7 @@
             </Pane>
          </children>
       </GridPane>
-      <Pane prefHeight="443.0" prefWidth="282.0" style="-fx-border-color: black; -fx-border-radius: 4px; -fx-border-width: 2px;" GridPane.columnIndex="2">
+      <Pane prefHeight="443.0" prefWidth="282.0" GridPane.columnIndex="2">
          <children>
             <Label layoutX="68.0" layoutY="38.0" text="Thông tin chi tiết">
                <font>

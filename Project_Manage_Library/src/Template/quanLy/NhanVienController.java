@@ -5,8 +5,6 @@
  */
 package Template.quanLy;
 
-import Template.Bao_Cao.Report_DocGiaController;
-import com.sun.rowset.CachedRowSetImpl;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,25 +21,19 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.SortEvent;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
-import javax.sql.rowset.CachedRowSet;
-import javax.sql.rowset.spi.SyncProvider;
 
 /**
  * FXML Controller class
@@ -62,10 +54,10 @@ public class NhanVienController implements Initializable {
     private TextField tf_maNV;
     @FXML
     private TextField tf_tenNV;
-    private TextField tf_NgaySinh;
+    
     @FXML
     private TextField tf_sdt;
-    private TextField tf_gt;
+   
     @FXML
     private TextField tf_dc;
     @FXML
@@ -103,11 +95,12 @@ public class NhanVienController implements Initializable {
             }
         }
         // tf
+        tf_email.setText(nv.getEmail());
         tf_sdt.setText(nv.getSdt());
         tf_chucVu.setText(nv.getChucVu());
         tf_luong.setText(nv.luong.toString());
-        tf_maNV.setDisable(false);
-        btn_save.setDisable(true);
+       // tf_maNV.setDisable(false);
+       // btn_save.setDisable(true);
 
     }
     Connection cn = null;
@@ -235,7 +228,20 @@ public class NhanVienController implements Initializable {
     private void Edit(ActionEvent event) {
         tf_maNV.setDisable(true);
 
+        
+         tf_maNV.setDisable(true);
         btn_save.setDisable(false);
+        cb_GT.setDisable(false);
+        tf_chucVu.setEditable(true);
+        tf_cmnd.setEditable(true);
+        tf_dc.setEditable(true);
+        tf_email.setEditable(true);
+        db_ngaysinh.setDisable(false);
+        tf_maNV.setEditable(true);
+        tf_luong.setEditable(true);
+        tf_sdt.setEditable(true);
+        tf_tenNV.setEditable(true);
+        btn_huy.setDisable(false);
 
     }
 
@@ -253,7 +259,7 @@ public class NhanVienController implements Initializable {
         db_ngaysinh.setDisable(true);
         btn_huy.setDisable(true);
         btn_save.setDisable(true);
-        load_data();
+        focus_ct(null);
     }
 
     public class nhanvien {
@@ -394,9 +400,18 @@ public class NhanVienController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btn_save.setDisable(true);
-
+        cb_GT.setDisable(true);
+        tf_chucVu.setEditable(false);
+        tf_cmnd.setEditable(false);
+        tf_dc.setEditable(false);
+        tf_email.setEditable(false);
+        db_ngaysinh.setDisable(true);
+        tf_maNV.setEditable(false);
+        tf_luong.setEditable(false);
+        tf_sdt.setEditable(false);
+        tf_tenNV.setEditable(false);
+        btn_huy.setDisable(true);
         cb_GT.setItems(data_gioitinh);
-
         String pattern = "dd/MM/yyyy";
 
         db_ngaysinh.setPromptText(pattern.toLowerCase());
@@ -482,18 +497,30 @@ public class NhanVienController implements Initializable {
 
     @FXML
     public void themNhanVien(ActionEvent e) {
-
+        tf_email.setText("");
         tf_maNV.setText("");
         tf_tenNV.setText("");
+        
         db_ngaysinh.getEditor().setText("");
         tf_dc.setText("");
-        cb_GT.getEditor().setText("");
+        cb_GT.getSelectionModel().select(-2);
         tf_cmnd.setText("");
         tf_sdt.setText("");
         tf_chucVu.setText("");
         tf_luong.setText("");
         tf_maNV.setDisable(true);
         btn_save.setDisable(false);
+        cb_GT.setDisable(false);
+        tf_chucVu.setEditable(true);
+        tf_cmnd.setEditable(true);
+        tf_dc.setEditable(true);
+        tf_email.setEditable(true);
+        db_ngaysinh.setDisable(false);
+        tf_maNV.setEditable(true);
+        tf_luong.setEditable(true);
+        tf_sdt.setEditable(true);
+        tf_tenNV.setEditable(true);
+        btn_huy.setDisable(false);
 
     }
 

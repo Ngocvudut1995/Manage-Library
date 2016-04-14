@@ -237,7 +237,7 @@ public class TrasachController implements Initializable {
     ObservableList<trasach> data_luu_DB = FXCollections.observableArrayList();
     Connection cn = null;
     Locale currentLocale = new Locale("vi", "VN");
-      
+
     DateFormat currentDateFormat = DateFormat.getDateInstance(3, currentLocale);
     Calendar calendar = Calendar.getInstance();
 
@@ -246,15 +246,15 @@ public class TrasachController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-          ct_dongia.setEditable(false);
-            //ct_image.setEditable(false);
-            ct_masach.setEditable(false);
-            ct_ngonngu.setEditable(false);
-            ct_NXB.setEditable(false);
-            ct_tacgia.setEditable(false);
-            ct_tensach.setEditable(false);
-            ct_theloai.setEditable(false);
-            
+        ct_dongia.setEditable(false);
+        //ct_image.setEditable(false);
+        ct_masach.setEditable(false);
+        ct_ngonngu.setEditable(false);
+        ct_NXB.setEditable(false);
+        ct_tacgia.setEditable(false);
+        ct_tensach.setEditable(false);
+        ct_theloai.setEditable(false);
+
         TB_TraSach.setEditable(true);
         TableColumn<trasach, Integer> colstt = new TableColumn<>("STT");
         colstt.setCellValueFactory(new PropertyValueFactory<>("stt"));
@@ -273,17 +273,17 @@ public class TrasachController implements Initializable {
         TB_TraSach.getColumns().add(colTenSach);
         TableColumn<trasach, String> colNgayMuon = new TableColumn<>("Ngày Mượn");
         colNgayMuon.setCellValueFactory(new PropertyValueFactory<>("ngaymuon"));
-     //   colNgayMuon.setCellFactory(TextFieldTableCell.forTableColumn());
+        //   colNgayMuon.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TraSach.getColumns().add(colNgayMuon);
         TableColumn<trasach, String> colHanTra = new TableColumn<>("Hạn Trả");
         colHanTra.setCellValueFactory(new PropertyValueFactory<>("Hantra"));
-        
+
         TB_TraSach.getColumns().add(colHanTra);
         TableColumn<trasach, String> colTinhtrang = new TableColumn<>("Tình Trạng");
         colTinhtrang.setCellValueFactory(new PropertyValueFactory<>("tinhtrang"));
         colTinhtrang.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_TraSach.getColumns().add(colTinhtrang);
-      //  colTinhtrang.setEditable(true);
+        //  colTinhtrang.setEditable(true);
 
 //        TableColumn<PhieumuonController.phieumuonsach, String> MScol = new TableColumn<>("Mã Sách");
 //        MScol.setCellValueFactory(new PropertyValueFactory<>("MaSach"));
@@ -327,60 +327,66 @@ public class TrasachController implements Initializable {
 //        currentLocale = new Locale("vi", "VN");
 //        DateFormat currentDateFormat = DateFormat.getDateInstance(3, currentLocale);
 //        Calendar calendar = Calendar.getInstance();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Thông Báo");
+        alert.setHeaderText("Bạn Chắc Chắn Lưu Dữ Liệu ");
+        //alert.setContentText("Thêm Thành Công!");
+        alert.showAndWait();
+        ButtonType result = alert.getResult();
+        if (result.getText().equals("OK")) {
+            if (data_luu_DB.size() > 0) {
+                for (int i = 0; i < data_luu_DB.size(); i++) {
+                    try {
+                        trasach ts = data_luu_DB.get(i);
+                        if (ts.getTinhtrang().equals("Đã Trả")) {
+                            System.out.println("sdsa");
+                            CallableStatement cs = null;
+                            cs = cn.prepareCall("{call TraSach(?,?,?)}");
+                            Date today = calendar.getTime();
+                            java.sql.Date ngaytra = new java.sql.Date(today.getTime());
 
-        if (data_luu_DB.size() > 0) {
-            for (int i = 0; i < data_luu_DB.size(); i++) {
-                try {
-                    trasach ts = data_luu_DB.get(i);
-                    if (ts.getTinhtrang().equals("Đã Trả")) {
-                        System.out.println("sdsa");
-                        CallableStatement cs = null;
-                        cs = cn.prepareCall("{call TraSach(?,?,?)}");
-                        Date today = calendar.getTime();
-                        java.sql.Date ngaytra = new java.sql.Date(today.getTime());
+                            cs.setString(1, data_luu_DB.get(i).getMaMuon());
+                            cs.setDate(2, ngaytra);
+                            cs.setString(3, ts.getTinhtrang());
 
-                        cs.setString(1, data_luu_DB.get(i).getMaMuon());
-                        cs.setDate(2, ngaytra);
-                        cs.setString(3, ts.getTinhtrang());
+                            cs.executeUpdate();
+                        } else if (ts.getTinhtrang().equals("Đã Gia Hạn")) {
+                            System.out.println("sdsa2");
+                            PreparedStatement ps = null;
+                            String sql = "UPDATE dbo.MuonSach SET HanTra = ? , TinhTrang = ? where MaMuon = ? ";
+                            ps = cn.prepareStatement(sql);
 
-                        cs.executeUpdate();
-                    } else if (ts.getTinhtrang().equals("Đã Gia Hạn")) {
-                        System.out.println("sdsa2");
-                        PreparedStatement ps = null;
-                        String sql = "UPDATE dbo.MuonSach SET HanTra = ? , TinhTrang = ? where MaMuon = ? ";
-                        ps = cn.prepareStatement(sql);
+                            java.sql.Date hantra = new java.sql.Date(ts.getDealine().getTime());
+                            ps.setDate(1, hantra);
+                            ps.setString(2, ts.getTinhtrang());
+                            ps.setString(3, ts.getMaMuon());
+                            ps.executeUpdate();
 
-                        java.sql.Date hantra = new java.sql.Date(ts.getDealine().getTime());
-                        ps.setDate(1, hantra);
-                        ps.setString(2, ts.getTinhtrang());
-                        ps.setString(3, ts.getMaMuon());
-                        ps.executeUpdate();
-
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(TrasachController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(TrasachController.class.getName()).log(Level.SEVERE, null, ex);
-                }
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông Báo");
-                alert.setHeaderText("Đã Lưu Thành Công");
-                //alert.setContentText("Thêm Thành Công!");
-                alert.showAndWait();
-                data_luu_DB.clear();
-                if (text_MaDG.getText().equals("")) {
-                    load_by_PM(event);
-                } else if (text_MaPM.getText().equals("")) {
-                    load_by_DocGia(event);
+                    Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                    alert2.setTitle("Thông Báo");
+                    alert2.setHeaderText("Đã Lưu Thành Công");
+                    //alert.setContentText("Thêm Thành Công!");
+                    alert2.showAndWait();
+                    data_luu_DB.clear();
+                    if (text_MaDG.getText().equals("")) {
+                        load_by_PM(event);
+                    } else if (text_MaPM.getText().equals("")) {
+                        load_by_DocGia(event);
+                    }
                 }
-
             }
 
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Thông Báo");
-            alert.setHeaderText("Chưa có thay đổi");
+            Alert alert3 = new Alert(Alert.AlertType.ERROR);
+            alert3.setTitle("Thông Báo");
+            alert3.setHeaderText("Chưa có thay đổi");
             //alert.setContentText("Thêm Thành Công!");
-            alert.showAndWait();
+            alert3.showAndWait();
         }
     }
 
@@ -392,6 +398,7 @@ public class TrasachController implements Initializable {
         ct_tensach.setText(ts.getTensach());
         ct_tacgia.setText(ts.getTacgia());
         ct_ngonngu.setText(ts.getNgonngu());
+        ct_theloai.setText(ts.getTheloai());
         ct_dongia.setText(ts.getDongia().toString());
         ct_NXB.setText(ts.getNXB());
     }
@@ -525,7 +532,7 @@ public class TrasachController implements Initializable {
             calendar.add(Calendar.MONTH, ts.getTGmuon());
             String hantra = currentDateFormat.format(calendar.getTime());
             ts.setHantra(hantra);
-           // ts.setTinhtrang("Đã Gia Hạn");
+            // ts.setTinhtrang("Đã Gia Hạn");
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Thông Báo");

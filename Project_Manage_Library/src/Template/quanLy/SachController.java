@@ -102,7 +102,7 @@ public class SachController implements Initializable {
         cb_ngonngu.getSelectionModel().select(s.getStt_nn() - 1);
         tf_gia.setStyle("-fx-border-width:0px;");
         tf_gia.setText(s.gia.toString());
-        btn_luu.setDisable(true);
+     //   btn_luu.setDisable(true);
     }
 
     @FXML
@@ -296,8 +296,9 @@ public class SachController implements Initializable {
         cb_thoigianmuon.setDisable(true);
         btn_huy.setDisable(true);
         btn_luu.setDisable(true);
+        focus_CTsach(null);
        // btn_edit.setDisable(true);
-        loaddata();
+        //loaddata();
     }
 
     public class sach {

@@ -16,9 +16,9 @@ import java.util.logging.Logger;
  * @author Vu Dang
  */
 public class Connect_JDBC {
-   public static final String userName = "sa";
+   public static final String userName = "admin";
     public static final String password = "123456";
-    public static final String url = "jdbc:sqlserver://VANTU:1433;databaseName = QLThuVien";
+    public static final String url = "jdbc:sqlserver://VUDANG:1433;databaseName = QLThuVien";
     public static Connection getConnection() {
         Connection cn = null;
         try {
