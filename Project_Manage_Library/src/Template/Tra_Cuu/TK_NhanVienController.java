@@ -70,7 +70,8 @@ public class TK_NhanVienController implements Initializable {
     private void tracuuTheoMaNV(ActionEvent event) {
         data.clear();
         cn = util.Connect_JDBC.getConnection();
-        String str="SELECT * FROM dbo.NhanVien WHERE (MaNV LIKE '"+tf_TKmaNV.getText()+"%') OR (MaNV LIKE '%"+tf_TKmaNV.getText()+"')OR (MaNV LIKE '%"+tf_TKmaNV.getText()+"%')";
+        String str="SELECT * FROM dbo.NhanVien WHERE (dbo.fChuyenCoDauThanhKhongDau(MaNV) LIKE '"+tf_TKmaNV.getText()+"%') OR (dbo.fChuyenCoDauThanhKhongDau(MaNV) "
+                + "             LIKE '%"+tf_TKmaNV.getText()+"')OR (dbo.fChuyenCoDauThanhKhongDau(MaNV) LIKE '%"+tf_TKmaNV.getText()+"%')";
         PreparedStatement ps=null;
         try {
             ps=cn.prepareStatement(str);
@@ -87,6 +88,22 @@ public class TK_NhanVienController implements Initializable {
 
     @FXML
     private void tracuuTheoTenNV(ActionEvent event) {
+        data.clear();
+        cn = util.Connect_JDBC.getConnection();
+        String str="SELECT * FROM dbo.NhanVien WHERE (dbo.fChuyenCoDauThanhKhongDau(HoVaTen) LIKE '"+tf_TKmaNV.getText()+"%') OR (dbo.fChuyenCoDauThanhKhongDau(HoVaTen) LIKE '%"+tf_TKmaNV.getText()+"')"
+                + "OR (dbo.fChuyenCoDauThanhKhongDau(HoVaTen) LIKE '%"+tf_TKmaNV.getText()+"%')";
+        PreparedStatement ps=null;
+        try {
+            ps=cn.prepareStatement(str);
+            ResultSet rs= ps.executeQuery();
+            while(rs.next()){
+                data.add(new nhanvien(data.size()+1, rs.getString("MaNV"), rs.getNString("HoVaTen"), rs.getDate("NgaySinh"), rs.getString("SoDT")
+                        , rs.getNString("Gioitinh"), rs.getString("CMND"), rs.getNString("ChucVu"), rs.getDouble("Luong"), rs.getString("Email"), rs.getString("MaPhong")));
+            }
+            TB_NV.setItems(data);
+        } catch (SQLException ex) {
+            Logger.getLogger(TK_NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public class nhanvien {

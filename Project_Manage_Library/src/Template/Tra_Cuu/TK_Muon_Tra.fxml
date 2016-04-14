@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -38,7 +39,10 @@
             </ScrollPane>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="btn_tim" alignment="TOP_RIGHT" layoutX="438.0" layoutY="34.0" mnemonicParsing="false" onAction="#timKiem" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css" />
+                  <Button fx:id="btn_tim" alignment="TOP_RIGHT" layoutX="438.0" layoutY="34.0" mnemonicParsing="false" onAction="#timKiem" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Label layoutX="55.0" layoutY="16.0" text="Từ Ngày:">
                      <font>
                         <Font name="System Bold" size="12.0" />

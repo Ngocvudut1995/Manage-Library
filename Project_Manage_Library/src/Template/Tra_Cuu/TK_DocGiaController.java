@@ -91,8 +91,8 @@ public class TK_DocGiaController implements Initializable {
     private void timKiemTheoMaPM(ActionEvent event) {
         data.clear();
         cn = util.Connect_JDBC.getConnection();
-        String str = "SELECT  a.* FROM dbo.Doc_Gia a,dbo.PhieuMuon b,dbo.MuonSach c WHERE a.MaDocGia=c.MaDocGia AND b.MaMuon=c.MaMuon "
-                + "          AND ((b.MaPhieuMuon LIKE '" + tf_tkmaPhieuMuon.getText() + "%') OR (b.MaPhieuMuon LIKE '%" + tf_tkmaPhieuMuon.getText() + "' )OR(b.MaPhieuMuon LIKE'%" + tf_tkmaPhieuMuon.getText() + "%'))";
+        String str = "SELECT   * FROM dbo.Doc_Gia WHERE (dbo.fChuyenCoDauThanhKhongDau(HoVaTen) LIKE '%" + tf_tkmaPhieuMuon.getText() + "') "
+                + "OR (dbo.fChuyenCoDauThanhKhongDau(HoVaTen) LIKE '" + tf_tkmaPhieuMuon.getText() + "%') OR (dbo.fChuyenCoDauThanhKhongDau(HoVaTen) LIKE '%" + tf_tkmaPhieuMuon.getText() + "%') ";
         PreparedStatement ps = null;
         try {
             ps = cn.prepareStatement(str);
@@ -111,7 +111,8 @@ public class TK_DocGiaController implements Initializable {
     private void timKiemTheoMaDG(ActionEvent event) {
         data.clear();
         cn = util.Connect_JDBC.getConnection();
-        String str = "SELECT   * FROM dbo.Doc_Gia WHERE MaDocGia LIKE '%" + tf_TKMadG.getText() + "' OR MaDocGia LIKE '" + tf_TKMadG.getText() + "%' OR MaDocGia LIKE '%" + tf_TKMadG.getText() + "%' ";
+        String str = "SELECT   * FROM dbo.Doc_Gia WHERE dbo.fChuyenCoDauThanhKhongDau(MaDocGia) LIKE '%" + tf_TKMadG.getText() + "' OR dbo.fChuyenCoDauThanhKhongDau(MaDocGia) "
+                        + "         LIKE '" + tf_TKMadG.getText() + "%' OR dbo.fChuyenCoDauThanhKhongDau(MaDocGia) LIKE '%" + tf_TKMadG.getText() + "%' ";
         PreparedStatement ps = null;
         try {
             ps = cn.prepareStatement(str);
@@ -301,9 +302,9 @@ public class TK_DocGiaController implements Initializable {
         ngaySinhcol.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
         TB_TimKiemDG.getColumns().add(ngaySinhcol);
 
-//        TableColumn<timDocGia, String> ngheNghiepcol = new TableColumn<>("  Nghề Nghiệp  ");
-//        ngheNghiepcol.setCellValueFactory(new PropertyValueFactory<>("ngheNghiep"));
-//        TB_TimKiemDG.getColumns().add(ngheNghiepcol);
+        TableColumn<timDocGia, String> ngheNghiepcol = new TableColumn<>("  Nghề Nghiệp  ");
+        ngheNghiepcol.setCellValueFactory(new PropertyValueFactory<>("ngheNghiep"));
+        TB_TimKiemDG.getColumns().add(ngheNghiepcol);
 
         TableColumn<timDocGia, String> sdtcol = new TableColumn("     SĐT     ");
         sdtcol.setCellValueFactory(new PropertyValueFactory<>("sdt"));

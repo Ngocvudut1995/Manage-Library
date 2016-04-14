@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="Project_Manage_Library.jar" size="2274167" download="eager" />
+    <jar href="Project_Manage_Library.jar" size="2274352" download="eager" />
     <jar href="lib/jxl.jar" size="725755" download="eager" />
     <jar href="lib/sqljdbc4.jar" size="584207" download="eager" />
   </resources>
