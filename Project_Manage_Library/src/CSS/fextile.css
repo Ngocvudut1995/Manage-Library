@@ -431,3 +431,11 @@
     -fx-color: red;
      
 }
+.btn-about1{
+    -fx-background-image: url("../Picture/Books-1-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-about2{
+    -fx-background-image: url("../Picture/folder-media-icon.png");
+  -fx-background-repeat: no-repeat;
+}
