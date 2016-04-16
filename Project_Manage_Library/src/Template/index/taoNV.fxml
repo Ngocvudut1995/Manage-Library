@@ -46,7 +46,7 @@
             <DatePicker fx:id="dp_ngaysinh" layoutX="426.0" layoutY="69.0" prefHeight="31.0" prefWidth="142.0" />
             <TextField fx:id="tf_cmnd" layoutX="426.0" layoutY="111.0" prefHeight="31.0" prefWidth="142.0" />
             <TextField fx:id="tf_chucvu" layoutX="426.0" layoutY="195.0" prefHeight="31.0" prefWidth="142.0" />
-            <Pane layoutX="426.0" layoutY="242.0" prefHeight="107.0" prefWidth="100.0" style="-fx-border-color: black;">
+            <Pane fx:id="pane_image" layoutX="426.0" layoutY="242.0" prefHeight="107.0" prefWidth="100.0" style="-fx-border-color: black;">
                <children>
                   <ImageView fx:id="image_view" fitHeight="105.0" fitWidth="98.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
                </children>

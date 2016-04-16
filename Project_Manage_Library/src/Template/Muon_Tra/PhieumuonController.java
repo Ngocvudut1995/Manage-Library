@@ -390,7 +390,9 @@ public class PhieumuonController implements Initializable {
                         ResultSet.CONCUR_UPDATABLE);
                 ResultSet rs = st.executeQuery(queryString);
                 rs.next();
+                
                 text_PM.setText("PM" + (rs.getInt(1) + 1));
+                bt_luu.setDisable(true);
             } catch (SQLException ex) {
                 Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -449,6 +451,7 @@ public class PhieumuonController implements Initializable {
             // for(int i = 2;i<data.size();i++)
             workbook.write();
             workbook.close();
+            bt_luu.setDisable(false);
         } catch (IOException ex) {
             Logger.getLogger(PhieumuonController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (WriteException ex) {
@@ -465,6 +468,7 @@ public class PhieumuonController implements Initializable {
         //System.out.println("ádad");
         data.clear();
         TB_Muon.setItems(data);
+        bt_luu.setDisable(true);
     }
 
     /**
@@ -473,7 +477,7 @@ public class PhieumuonController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ct_dongia.setEditable(false);
-
+        bt_luu.setDisable(true);
         ct_masach.setEditable(false);
         ct_ngonngu.setEditable(false);
         ct_NXB.setEditable(false);

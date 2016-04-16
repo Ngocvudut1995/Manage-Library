@@ -191,7 +191,7 @@ public class ViphamController implements Initializable {
         Ly_do.setEditable(false);
         ngay_vi_pham.setEditable(false);
         ten_DG.setEditable(false);
-        text_maDG.setEditable(false);
+        text_maDG.setEditable(true);
         table_VP.setEditable(true);
         
         TableColumn<viphamkhac, Integer> stt = new TableColumn<>("STT");
@@ -280,8 +280,8 @@ public class ViphamController implements Initializable {
 
     @FXML
     private void focus_ct(MouseEvent event) {
-        bt_ok.setVisible(false);
-        bt_cancel.setVisible(false);
+       // bt_ok.setVisible(false);
+      //  bt_cancel.setVisible(false);
         int i = table_VP.getFocusModel().getFocusedIndex();
         viphamkhac vp = data_load.get(i);
 
@@ -295,13 +295,15 @@ public class ViphamController implements Initializable {
 
     @FXML
     private void them_sach(ActionEvent event) {
+        ten_DG.setDisable(true);
+        bt_cancel.setVisible(true);
         bt_ok.setVisible(true);
         ct_maDG.setEditable(true);
         ht_xu_ly.setEditable(true);
         Ly_do.setEditable(true);
         ngay_vi_pham.setEditable(true);
         ten_DG.setEditable(true);
-        text_maDG.setEditable(true);
+      //  text_maDG.setEditable(true);
         bt_ok.setDisable(true);
         ct_maDG.setText("");
         ten_DG.setText("");
@@ -315,12 +317,16 @@ public class ViphamController implements Initializable {
     @FXML
     private void huy_toan_bo(ActionEvent event) {
         data_load.clear();
+        ht_xu_ly.setStyle("-fx-border-width:0px;");
+        ct_maDG.setStyle("-fx-border-width:0px;");
+        Ly_do.setStyle("-fx-border-width:0px;");
+        ten_DG.setDisable(false);
        ct_maDG.setEditable(false);
         ht_xu_ly.setEditable(false);
         Ly_do.setEditable(false);
         ngay_vi_pham.setEditable(false);
         ten_DG.setEditable(false);
-        text_maDG.setEditable(false);
+      //  text_maDG.setEditable(false);
         ngay_vi_pham.setText("");
         if (text_maDG.getText().equals("")) {
             load_bandau();
@@ -337,7 +343,7 @@ public class ViphamController implements Initializable {
         Ly_do.setEditable(false);
         ngay_vi_pham.setEditable(false);
         ten_DG.setEditable(false);
-        text_maDG.setEditable(false);
+      //  text_maDG.setEditable(false);
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Thông Báo");
         alert.setHeaderText("Bạn Chắc Chắn Lưu Dữ Liệu ");
@@ -363,6 +369,26 @@ public class ViphamController implements Initializable {
 
     @FXML
     private void luu_moi(ActionEvent event) throws ParseException {
+        boolean test = true;
+        if(ct_maDG.getText().equals("")){
+             test = false;
+            ct_maDG.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        } else {
+            ct_maDG.setStyle("-fx-border-width:0px;");
+        }
+        if(Ly_do.getText().equals("")){
+             test = false;
+            Ly_do.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        } else {
+            Ly_do.setStyle("-fx-border-width:0px;");
+        }
+        if(ht_xu_ly.getText().equals("")){
+             test = false;
+            ht_xu_ly.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        } else {
+            ht_xu_ly.setStyle("-fx-border-width:0px;");
+        }
+        if(test == true){
         try {
             PreparedStatement ps = null;
             ps = cn.prepareStatement("Insert Into ViPham Values (?,?,?,?,?,?) ");
@@ -383,10 +409,18 @@ public class ViphamController implements Initializable {
             alert.setHeaderText("Thêm Vi Phạm Thành Công");
             //alert.setContentText("Thêm Thành Công!");
             alert.showAndWait();
+            data_load.clear();
             load_bandau();
         } catch (SQLException ex) {
             Logger.getLogger(ViphamController.class.getName()).log(Level.SEVERE, null, ex);
             Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Thông Báo");
+            alert.setHeaderText("Thông Tin Không Đầy Đủ");
+            //alert.setContentText("Thêm Thành Công!");
+            alert.showAndWait();
+        }}
+        else{
+             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Thông Báo");
             alert.setHeaderText("Thông Tin Không Đầy Đủ");
             //alert.setContentText("Thêm Thành Công!");

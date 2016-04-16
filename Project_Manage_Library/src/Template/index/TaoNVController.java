@@ -15,6 +15,7 @@ import java.net.URL;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
@@ -37,6 +38,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -47,7 +49,7 @@ import static util.Encode.getSecurePassword;
  *
  * @author TU
  */
-public class TaoNVController implements Initializable {
+public class TaoNVController extends Login.LoginController implements Initializable {
 
     @FXML
     private ImageView image_view;
@@ -80,6 +82,8 @@ public class TaoNVController implements Initializable {
     private TextField tf_chucvu;
     @FXML
     private Button bt_huy;
+    @FXML
+    private Pane pane_image;
 
     /**
      * Initializes the controller class.
@@ -117,7 +121,7 @@ public class TaoNVController implements Initializable {
         image_view.setStyle("-fx-border-color:black;-fx-border-width: 1px ;");
     }
     Connection cn = null;
-    String localUrl;
+    String localUrl = "";
 
     @FXML
     private void load_file_anh(ActionEvent event) throws MalformedURLException, FileNotFoundException {
@@ -134,16 +138,15 @@ public class TaoNVController implements Initializable {
     }
 
     @FXML
-    private void luu_vao_DB(ActionEvent event) throws FileNotFoundException {
+    private void luu_vao_DB(ActionEvent event) throws FileNotFoundException, SQLException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Thông Báo");
         alert.setHeaderText("Bạn Chắc Chắn Lưu Dữ Liệu ");
         //alert.setContentText("Thêm Thành Công!");
         alert.showAndWait();
-      
-        
+
         ButtonType result = alert.getResult();
-          boolean test = true;
+        boolean test = true;
         if (tf_tennv.getText().equals("")) {
             test = false;
             tf_tennv.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
@@ -162,64 +165,144 @@ public class TaoNVController implements Initializable {
         } else {
             tf_cmnd.setStyle("-fx-border-width:0px;");
         }
-        if(test == true){
-        if (result.getText().equals("OK")) {
-            cn = util.Connect_JDBC.getConnection();
-            CallableStatement st;
-            FileInputStream fis = null;
-            File image = new File(localUrl);
-            System.out.println(localUrl);
-            //   Blob blob = this.cn.createBlob();
-            fis = new FileInputStream(image);
-            try {
+        if (tf_email.getText().equals("") || !(tf_email.getText()).matches("[a-zA-Z0-9_]+"
+                + "@[a-zA-Z]+\\.[a-zA-Z]+(\\.[a-zA-Z]+)*")) {
+            test = false;
+            tf_email.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        } else {
+            tf_email.setStyle("-fx-border-width:0px;");
+        }
+        if (tf_sdt.getText().equals("")) {
+            test = false;
+            tf_sdt.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        } else {
+            for (int i = 0; i < data_username.size(); i++) {
 
-                st = cn.prepareCall("{call INSERT_member (?,?,?,?,?,?,?,?,?,?,?,?)}");
-                LocalDate date = dp_ngaysinh.getValue();
-                java.sql.Date ngaysinh = java.sql.Date.valueOf(date);
+                if (tf_user.getText().equalsIgnoreCase(data_username.get(i))) {
+                    test = false;
+                    tf_user.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+                }
+            }
+            tf_sdt.setStyle("-fx-border-width:0px;");
+        }
+        if (tf_user.getText().equals("")) {
+            test = false;
+            tf_user.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        } else {
+            int kt = 1;
+            for (int i = 0; i < data_username.size(); i++) {
 
-                st.setNString(1, tf_tennv.getText());
-                st.setNString(2, tf_sdt.getText());
-                st.setNString(3, data_gioitinh.get(cb_giotinh.getSelectionModel().getSelectedIndex()));
-                st.setDate(4, ngaysinh);
-                st.setString(5, tf_email.getText());
-                st.setString(6, tf_chucvu.getText());
-                st.setString(7, tf_cmnd.getText());
-                st.setString(8, tf_diachi.getText());
-                st.setString(9, tf_user.getText());
-               String salt = "VuDang";
-                String securePass = getSecurePassword(tf_pass.getText(), salt);
-                st.setString(10, tf_pass.getText());
-                st.setBlob(11, fis);
-                st.registerOutParameter(12, Types.INTEGER);
-                st.executeUpdate();
-
-                fis.close();
-
-                if (st.getInt(12) == 1) {
-                    // don't load in the background
-                    Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
-                    alert1.setTitle("Thông Báo");
-                    alert1.setHeaderText("Tạo thành công");
-                    alert1.showAndWait();
-                    huy(event);
-                } else {
+                if (tf_user.getText().equalsIgnoreCase(data_username.get(i))) {
+                    test = false;
+                    tf_user.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
                     Alert alert1 = new Alert(Alert.AlertType.ERROR);
                     alert1.setTitle("Thông Báo");
-                    alert1.setHeaderText("Nhân Viên Đã Tồn Tại");
+                    alert1.setHeaderText("Username Đã Tồn Tại");
                     alert1.showAndWait();
-                    //  tf_cmnd.setStyle();
+                    kt = 0;
+                    break;
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(TaoNVController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(TaoNVController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            if (kt == 1) {
+                tf_user.setStyle("-fx-border-width:0px;");
             }
-        }else{
-             Alert alert1 = new Alert(Alert.AlertType.ERROR);
-                    alert1.setTitle("Thông Báo");
-                    alert1.setHeaderText("Thông Tin Không Đầy Đủ");
-                    alert1.showAndWait();
+        }
+        if (tf_pass.getText().equals("") || !tf_pass.getText().equals(tf_pass_again.getText())) {
+            test = false;
+            tf_pass.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+            tf_pass_again.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        } else {
+            tf_pass.setStyle("-fx-border-width:0px;");
+            tf_pass_again.setStyle("-fx-border-width:0px;");
+        }
+        if (cb_giotinh.getSelectionModel().getSelectedIndex() < 0) {
+            test = false;
+            cb_giotinh.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        } else {
+            cb_giotinh.setStyle("-fx-border-width:0px;");
+        }
+        if (dp_ngaysinh.getEditor().getText().equals("")) {
+            test = false;
+            dp_ngaysinh.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        } else {
+            dp_ngaysinh.setStyle("-fx-border-width:0px;");
+        }
+        if (tf_diachi.getText().equals("")) {
+            test = false;
+            tf_diachi.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        } else {
+            tf_diachi.setStyle("-fx-border-width:0px;");
+        }
+        if (localUrl.equals("")) {
+            pane_image.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+        } else {
+            pane_image.setStyle("-fx-border-color: black ; -fx-border-width: 1px ;");
+        }
+
+        cn = util.Connect_JDBC.getConnection();
+        //  Statement statement = cn.createStatement();
+        //ResultSet resultSet = statement.executeQuery("Select Username From Mem")
+        if (test == true) {
+            if (result.getText().equals("OK")) {
+
+                CallableStatement st;
+                FileInputStream fis = null;
+                File image = new File(localUrl);
+                System.out.println(localUrl);
+                //   Blob blob = this.cn.createBlob();
+                fis = new FileInputStream(image);
+                try {
+
+                    st = cn.prepareCall("{call INSERT_member (?,?,?,?,?,?,?,?,?,?,?,?)}");
+                    LocalDate date = dp_ngaysinh.getValue();
+                    java.sql.Date ngaysinh = java.sql.Date.valueOf(date);
+
+                    st.setNString(1, tf_tennv.getText());
+                    st.setNString(2, tf_sdt.getText());
+                    st.setNString(3, data_gioitinh.get(cb_giotinh.getSelectionModel().getSelectedIndex()));
+                    st.setDate(4, ngaysinh);
+                    st.setString(5, tf_email.getText());
+                    st.setString(6, tf_chucvu.getText());
+                    st.setString(7, tf_cmnd.getText());
+                    st.setString(8, tf_diachi.getText());
+                    st.setString(9, tf_user.getText());
+                    String salt = "VuDang";
+                    String securePass = getSecurePassword(tf_pass.getText(), salt);
+                    st.setString(10, securePass);
+                    st.setBlob(11, fis);
+                    st.registerOutParameter(12, Types.INTEGER);
+                    st.executeUpdate();
+
+                    fis.close();
+
+                    if (st.getInt(12) == 1) {
+                        // don't load in the background
+                        Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                        alert1.setTitle("Thông Báo");
+                        alert1.setHeaderText("Tạo thành công");
+                        alert1.showAndWait();
+                          tf_cmnd.setStyle("-fx-border-width:0px;");
+                        
+                     //   huy(event);
+                    } else {
+                         tf_cmnd.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+                        Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                        alert1.setTitle("Thông Báo");
+                        alert1.setHeaderText("Nhân Viên Đã Tồn Tại");
+                        alert1.showAndWait();
+                        //  tf_cmnd.setStyle();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(TaoNVController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(TaoNVController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            Alert alert1 = new Alert(Alert.AlertType.ERROR);
+            alert1.setTitle("Thông Báo");
+            alert1.setHeaderText("Thông Tin Không Đầy Đủ");
+            alert1.showAndWait();
         }
     }
 

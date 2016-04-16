@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
-
+<?import Validate.*?>
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Template.quanLy.TheLoaiController">
    <columnConstraints>
       <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" maxWidth="283.0" minWidth="10.0" prefWidth="112.0" />
@@ -24,7 +24,7 @@
    <children>
       <Pane prefHeight="443.0" prefWidth="170.0">
          <children>
-            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="206.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="40.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="btn_edit" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="232.0" mnemonicParsing="false" onAction="#Edit" prefHeight="32.0" prefWidth="40.0" styleClass="btn-edit" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -32,13 +32,19 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="101.0" mnemonicParsing="false" onAction="#themTL" prefHeight="32.0" prefWidth="40.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="btn_them" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="161.0" mnemonicParsing="false" onAction="#themTL" prefHeight="32.0" prefWidth="40.0" styleClass="btn-add" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Label layoutX="68.0" layoutY="107.0" text="Thêm" />
-            <Label layoutX="68.0" layoutY="211.0" text="Sửa" />
+            <Label layoutX="68.0" layoutY="167.0" text="Thêm" />
+            <Label layoutX="68.0" layoutY="237.0" text="Sửa" />
             <Label layoutX="68.0" layoutY="309.0" text="Xóa" />
+            <Button fx:id="bt_load" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="88.0" mnemonicParsing="false" onAction="#reload_data" prefHeight="32.0" prefWidth="40.0" styleClass="btn-update" stylesheets="@../../CSS/fextile.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label layoutX="65.0" layoutY="95.0" text="Làm Mới" />
          </children>
       </Pane>
       <Pane prefHeight="443.0" prefWidth="306.0" GridPane.columnIndex="2">
@@ -46,7 +52,7 @@
             <Label layoutX="22.0" layoutY="80.0" text="Mã thể loại" />
             <TextField fx:id="tf_maTL" layoutX="109.0" layoutY="75.0" prefHeight="31.0" prefWidth="186.5" />
             <Label layoutX="22.0" layoutY="152.0" text="Tên thể loại" />
-            <TextField fx:id="tf_tenTl" layoutX="109.0" layoutY="147.0" prefHeight="31.0" prefWidth="186.5" />
+            <NameTextField fx:id="tf_tenTl" layoutX="109.0" layoutY="147.0" prefHeight="31.0" prefWidth="186.5" />
             <Button fx:id="btn_save" layoutX="67.0" layoutY="371.0" mnemonicParsing="false" onAction="#newSave" prefHeight="31.0" prefWidth="65.0" text="Lưu">
                <cursor>
                   <Cursor fx:constant="HAND" />

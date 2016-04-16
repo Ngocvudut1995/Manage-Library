@@ -571,10 +571,35 @@ ObservableList<viphamquahan> data = FXCollections.observableArrayList();
                     tabPane.getTabs().remove(tab_QLTL);
                 }
             });
-            cn = util.Connect_JDBC.getConnection();
+            
+            
+            
+            // Kiểm tra quá hạn
+            ktquahan();
+
+           
+        } catch (IOException ex) {
+            Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void reportVP(ActionEvent event) throws IOException {
+         Tab tab = new Tab();
+        tab.setText("    Báo Cáo Vi Phạm    ");
+        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_VP.fxml"));
+        tab.setContent(root);
+        tabPane.getTabs().add(tab);
+        selectionModel = tabPane.getSelectionModel();
+        selectionModel.select(tab);
+    }
+void ktquahan() throws SQLException{
+      cn = util.Connect_JDBC.getConnection();
              
-           st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                        ResultSet.CONCUR_UPDATABLE);
+        Statement st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
        
           String str = "SELECT MaMuon,MaDocGia,HanTra FROM dbo.MuonSach WHERE NgayTra IS NULL AND HanTra < GETDATE() "
                   + " AND TinhTrang NOT LIKE N'Quá Hạn'";
@@ -597,26 +622,6 @@ ObservableList<viphamquahan> data = FXCollections.observableArrayList();
                cs.executeUpdate();
                cs.close();
            }
-              // crs.moveToCurrentRow();
-//                ps.close();
-            
-           
-        } catch (IOException ex) {
-            Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @FXML
-    private void reportVP(ActionEvent event) throws IOException {
-         Tab tab = new Tab();
-        tab.setText("    Báo Cáo Vi Phạm    ");
-        Parent root = FXMLLoader.load(getClass().getResource("/Template/Bao_Cao/report_VP.fxml"));
-        tab.setContent(root);
-        tabPane.getTabs().add(tab);
-        selectionModel = tabPane.getSelectionModel();
-        selectionModel.select(tab);
-    }
-
+           System.out.println("Đã Kiểm Tra Và Load Vi Phạm");
+}
 }

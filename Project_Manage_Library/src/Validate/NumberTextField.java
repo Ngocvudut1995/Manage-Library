@@ -12,16 +12,23 @@ import javafx.scene.control.TextField;
  * @author Vu Dang
  */
 public class NumberTextField extends TextField{
+     private int maxlength;
+    public NumberTextField() {
+        this.maxlength = 15;
+    }
+    public void setMaxlength(int maxlength) {
+        this.maxlength = maxlength;
+    }
     @Override
       public void replaceText(int start, int end, String text) {
-        if (!text.matches("[a-z]")) {
+        if (!text.matches("[a-zA-Z]")) {
           super.replaceText(start, end, text);
         }
       }
 
       @Override
       public void replaceSelection(String text) {
-        if (!text.matches("[a-z]")) {
+        if (!text.matches("[a-zA-Z]")) {
           super.replaceSelection(text);
         }
       }

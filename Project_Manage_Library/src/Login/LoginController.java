@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,13 +94,13 @@ public class LoginController implements Initializable {
 
                     PrintWriter pw = null;
                     if (check_mk.isSelected()) {
-                        System.out.println("asdasd");
+                   //     System.out.println("asdasd");
 
                         pw = new PrintWriter("save.dat");
                         pw.println("check" + ";" + textuser.getText() + ";" + textpass.getText());
                         pw.close();
                     } else {
-                        System.out.println("asdasdas1");
+                      //  System.out.println("asdasdas1");
                         pw = new PrintWriter("save.dat");
                         pw.println("no_check" + ";" + textuser.getText() + ";" + textpass.getText());
                         pw.close();
@@ -114,7 +115,7 @@ public class LoginController implements Initializable {
         return 0;
 
     }
-
+    static protected ArrayList<String> data_username = new ArrayList<>();
     @FXML
     public int Login(ActionEvent event) throws IOException, SQLException {
         //  tb.setText("");
@@ -126,6 +127,7 @@ public class LoginController implements Initializable {
                 ResultSet.CONCUR_UPDATABLE);
         rs = stmt.executeQuery("SELECT * FROM Member");
         while (rs.next()) {
+            data_username.add(rs.getString("Username"));
             String salt = "VuDang";
             String securepass = util.Encode.getSecurePassword(pass, salt);
             if (user.equals(rs.getString("Username")) && securepass.equals(rs.getString("Password"))) {
@@ -139,13 +141,13 @@ public class LoginController implements Initializable {
                 ((Node) (event.getSource())).getScene().getWindow().hide();
                 PrintWriter pw = null;
                 if (check_mk.isSelected()) {
-                    System.out.println("asdasd");
+                  //  System.out.println("asdasd");
 
                     pw = new PrintWriter("save.dat");
                     pw.println("check" + ";" + textuser.getText() + ";" + textpass.getText());
                     pw.close();
                 } else {
-                    System.out.println("asdasdas1");
+                 //   System.out.println("asdasdas1");
                     pw = new PrintWriter("save.dat");
                     pw.println("no_check" + ";" + textuser.getText() + ";" + textpass.getText());
                     pw.close();
@@ -173,7 +175,7 @@ public class LoginController implements Initializable {
     @Override
 
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("asdasdasdas11111");
+      //  System.out.println("asdasdasdas11111");
         File file = new File("save.dat");
         file.canRead();
         System.out.println(file.canRead());
@@ -188,7 +190,7 @@ public class LoginController implements Initializable {
             }
         }
         BufferedReader bf = null;
-        System.out.println("asdasd");
+      //  System.out.println("asdasd");
         try {
             // TODO
 

@@ -8,6 +8,7 @@ package Template.index;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.CallableStatement;
@@ -38,6 +39,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import sun.awt.image.SunWritableRaster;
 import static util.Encode.getSecurePassword;
 
 /**
@@ -85,10 +87,13 @@ public class NhanVienController extends Login.LoginController implements Initial
     private TextField db_brithday;
     @FXML
     private Button bt_doianh;
-   static InputStream stream;
-    Image image = null;
+    private InputStream stream;
+   
     @FXML
     private Button bt_doi_mk;
+    @FXML
+    private PasswordField tf_pass_again;
+
     void load_data() {
 
         try {
@@ -105,6 +110,7 @@ public class NhanVienController extends Login.LoginController implements Initial
             tf_sdt.setText(rs.getString("SoDT"));
             tf_taikhoan.setText(rs.getString("Username"));
             tf_pass.setText("123456789");
+            tf_pass_again.setText("123456789");
             securepass = rs.getString("Password");
             String ngaysinh = util.date.convertStringToDate(rs.getDate("NgaySinh"));
             System.out.println(ngaysinh);
@@ -117,10 +123,10 @@ public class NhanVienController extends Login.LoginController implements Initial
                 }
             }
             stream = rs.getBinaryStream("Anh");
-            
-            System.out.println(stream);
-           image = new Image(stream);
            
+           
+             Image image = null;
+            image = new Image(stream);
 
             image_view.setImage(image);
             image_view.setFitWidth(180);
@@ -136,11 +142,12 @@ public class NhanVienController extends Login.LoginController implements Initial
         // TODO
         // db_brithday.getEditor().setText("asdaaaas");
         bt_luu.setDisable(true);
-      //  bt_huy.setDisable(true);
+        //  bt_huy.setDisable(true);
         tf_manv.setDisable(true);
         bt_doianh.setDisable(true);
         tf_taikhoan.setDisable(true);
         tf_pass.setDisable(true);
+        tf_pass_again.setDisable(true);
         cb_gioitinh.setItems(data_gioitinh);
 //        String pattern = "dd/MM/yyyy";
 //
@@ -175,64 +182,78 @@ public class NhanVienController extends Login.LoginController implements Initial
 
     @FXML
     private void luu_DB(ActionEvent event) throws FileNotFoundException {
-        try {
+        boolean test = true;
+        if (!tf_pass.getText().equals(tf_pass_again.getText())) {
+            tf_pass_again.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+            test = false;
+        } else {
+            tf_pass_again.setStyle("-fx-border-width:0px;");
+        }
+        if (test == true) {
+            try {
             // FileInputStream fis = null;
-          //   System.out.println(localUrl);
-        //     System.out.println(stream);
-           
-            CallableStatement st = cn.prepareCall("{call Update_member (?,?,?,?,?,?,?,?,?,?,?,?,?)}");
-            Date ngaysinh = util.date.convertDatetoString(db_brithday.getText());
-            java.sql.Date birthday = new java.sql.Date(ngaysinh.getTime());
+                //   System.out.println(localUrl);
+                //     System.out.println(stream);
 
-            st.setNString(1, tf_tenNV.getText());
-            st.setNString(2, tf_sdt.getText());
-            st.setNString(3, data_gioitinh.get(cb_gioitinh.getSelectionModel().getSelectedIndex()));
-            st.setDate(4, birthday);
-            st.setString(5, tf_email.getText());
-            st.setString(6, tf_chucvu.getText());
-            st.setString(7, tf_cmnd.getText());
-            st.setString(8, tf_diachi.getText());
-            st.setString(9, tf_taikhoan.getText());
-            if(kt == 1){
-                String salt = "VuDang";
-                String securePass_change = getSecurePassword(tf_pass.getText(), salt);
-                st.setString(10,securePass_change);
-            
-            }else{
-                 st.setString(10, securepass);
+                CallableStatement st = cn.prepareCall("{call Update_member (?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+                Date ngaysinh = util.date.convertDatetoString(db_brithday.getText());
+                java.sql.Date birthday = new java.sql.Date(ngaysinh.getTime());
+
+                st.setNString(1, tf_tenNV.getText());
+                st.setNString(2, tf_sdt.getText());
+                st.setNString(3, data_gioitinh.get(cb_gioitinh.getSelectionModel().getSelectedIndex()));
+                st.setDate(4, birthday);
+                st.setString(5, tf_email.getText());
+                st.setString(6, tf_chucvu.getText());
+                st.setString(7, tf_cmnd.getText());
+                st.setString(8, tf_diachi.getText());
+                st.setString(9, tf_taikhoan.getText());
+                if (kt == 1) {
+                    String salt = "VuDang";
+                    String securePass_change = getSecurePassword(tf_pass.getText(), salt);
+                    st.setString(10, securePass_change);
+
+                } else {
+                    st.setString(10, securepass);
+                }
+
+                if (!localUrl.equals("")) {
+                    File image = new File(localUrl);
+                    stream = new FileInputStream(image);
+                    st.setInt(13, 1);
+                } else {
+                    st.setInt(13, 0);
+                }
+                st.setBlob(11, stream);
+                st.setString(12, tf_manv.getText());
+
+                st.executeUpdate();
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                alert1.setTitle("Thông Báo");
+                alert1.setHeaderText("Lưu thành công");
+                alert1.showAndWait();
+                huy(event);
+            } catch (SQLException ex) {
+                Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
             }
-             
-            
-            if (!localUrl.equals("")) {
-               File image = new File(localUrl);
-                stream = new FileInputStream(image);
-                st.setInt(13, 1);
-            }else{
-                st.setInt(13, 0);
-            }
-            st.setBlob(11, stream);
-            st.setString(12, tf_manv.getText());
-            
-            st.executeUpdate();
-            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
-            alert1.setTitle("Thông Báo");
-            alert1.setHeaderText("Tạo thành công");
-            alert1.showAndWait();
-            load_data();
-        } catch (SQLException ex) {
-            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }else{
+            Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                alert1.setTitle("Thông Báo");
+                alert1.setHeaderText("Lưu Thất Bại");
+                alert1.showAndWait();
         }
     }
 
     @FXML
     private void Sua(ActionEvent event) throws FileNotFoundException {
         bt_luu.setDisable(false);
-     //   bt_huy.setDisable(false);
+        //   bt_huy.setDisable(false);
         bt_doianh.setDisable(false);
         tf_taikhoan.setDisable(false);
-        tf_pass.setDisable(false);
+       //tf_pass.setDisable(false);
+        //tf_pass_again.setDisable(false);
 
     }
 
@@ -240,21 +261,23 @@ public class NhanVienController extends Login.LoginController implements Initial
     private void huy(ActionEvent event) {
         load_data();
         bt_luu.setDisable(true);
-      //  bt_huy.setDisable(true);
+        //  bt_huy.setDisable(true);
         tf_manv.setDisable(true);
         bt_doianh.setDisable(true);
         tf_taikhoan.setDisable(true);
         tf_pass.setDisable(true);
+        tf_pass_again.setDisable(true);
         tf_pass.setText("123456789");
+        tf_pass_again.setText("123456789");
         kt = 0;
      //   bt_doi_mk.setDisable(true);
-      //  tf_pass.setDisable(true);
+        //  tf_pass.setDisable(true);
     }
     String localUrl = "";
 
     @FXML
     private void load_anh(ActionEvent event) throws FileNotFoundException {
-        
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("View Pictures");
         //fileChooser.setInitialDirectory(new File(System.getProperty("user.home"))
@@ -265,15 +288,18 @@ public class NhanVienController extends Login.LoginController implements Initial
 
         image_view.setImage(localImage);
     }
-    int kt=0;
+    int kt = 0;
+
     @FXML
     private void Doi_MK(ActionEvent event) {
-         bt_luu.setDisable(false);
+        bt_luu.setDisable(false);
      //   bt_huy.setDisable(false);
-       // bt_doianh.setDisable(false);
-         tf_pass.setText("");
+        // bt_doianh.setDisable(false);
+        tf_pass.setText("");
+        tf_pass_again.setText("");
         tf_taikhoan.setDisable(false);
         tf_pass.setDisable(false);
+        tf_pass_again.setDisable(false);
         kt = 1;
     }
 

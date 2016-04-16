@@ -5,6 +5,7 @@
  */
 package Template.quanLy;
 
+import Validate.NumberTextField;
 import com.sun.rowset.CachedRowSetImpl;
 import java.net.URL;
 import java.sql.Connection;
@@ -50,20 +51,23 @@ public class NXBController implements Initializable {
     @FXML
     private TextField tf_tenNXB;
     @FXML
-    private TextField tf_sdt;
+    private NumberTextField tf_sdt;
+    
     @FXML
     private TextField tf_dc;
     @FXML
     private TextField tf_email;
     ObservableList<NXB> data = FXCollections.observableArrayList();
     Connection cn = null;
-   
+
     @FXML
     private Button btn_hủy;
+    @FXML
+    private Button bt_load;
 
     @FXML
     private void focus_CTNXB(MouseEvent event) {
-       
+
         int i = TB_NXB.getFocusModel().getFocusedIndex();
         NXB nxb = data.get(i);
         tf_maNXB.setText(nxb.getMaNXB());
@@ -72,13 +76,13 @@ public class NXBController implements Initializable {
         tf_dc.setText(nxb.getDiaChi());
         tf_email.setText(nxb.getEmail());
         tf_sdt.setText(nxb.getSdt());
-         tf_dc.setStyle("-fx-border-width:0px;");
+        tf_dc.setStyle("-fx-border-width:0px;");
         tf_email.setStyle("-fx-border-width:0px;");
         tf_maNXB.setStyle("-fx-border-width:0px;");
         tf_sdt.setStyle("-fx-border-width:0px;");
         tf_tenNXB.setStyle("-fx-border-width:0px;");
 
-      //  btn_luu.setDisable(true);
+        //  btn_luu.setDisable(true);
     }
 
     @FXML
@@ -90,26 +94,27 @@ public class NXBController implements Initializable {
         if (tf_tenNXB.getText().equals("")) {
             test = false;
             tf_tenNXB.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-        }else{
+        } else {
             tf_tenNXB.setStyle("-fx-border-width:0px;");
         }
-         if (tf_dc.getText().equals("")) {
+       // System.out.println(tf_dc.getText());
+        if (tf_dc.getText().equals("")||tf_dc.equals(null)) {
             test = false;
             tf_dc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-        }else{
+        } else {
             tf_dc.setStyle("-fx-border-width:0px;");
         }
-          if (tf_sdt.getText().equals("")) {
+        if (tf_sdt.getText().equals("")) {
             test = false;
             tf_sdt.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-        }else{
+        } else {
             tf_sdt.setStyle("-fx-border-width:0px;");
         }
-           if (tf_email.getText().equals("")
-                   ||!tf_email.getText().matches("[a-zA-Z0-9_]+@[a-zA-Z]+\\.[a-zA-Z]+(\\.[a-zA-Z]+)*")) {
+        if (tf_email.getText().equals("")
+                || !tf_email.getText().matches("[a-zA-Z0-9_]+@[a-zA-Z]+\\.[a-zA-Z]+(\\.[a-zA-Z]+)*")) {
             test = false;
             tf_email.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-        }else{
+        } else {
             tf_email.setStyle("-fx-border-width:0px;");
         }
         if (test == true) {
@@ -123,7 +128,6 @@ public class NXBController implements Initializable {
                     ps.setNString(2, tf_dc.getText());
                     ps.setNString(3, tf_email.getText());
                     ps.setNString(3, tf_sdt.getText());
-                            
 
                     ps.executeUpdate();
                     data.clear();
@@ -185,7 +189,7 @@ public class NXBController implements Initializable {
         if (yes) {
 
             try {
-                
+
                 cn = util.Connect_JDBC.getConnection();
                 PreparedStatement ps = null;
                 String str = "DELETE FROM nHaXB WHERE MaNXB= ?";
@@ -196,8 +200,13 @@ public class NXBController implements Initializable {
                 data.remove(i);
             } catch (SQLException ex) {
                 Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
+                Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                alert1.setTitle("Thông Báo");
+                alert1.setHeaderText("Nhà Xuất Bản Này Còn Ràng Buộc Với Dữ Liệu Khác");
+               // System.out.println("Loi!");
+                alert1.showAndWait();
             }
-            
+
         }
     }
 
@@ -211,12 +220,12 @@ public class NXBController implements Initializable {
         tf_sdt.setEditable(true);
         tf_tenNXB.setEditable(true);
         btn_hủy.setDisable(false);
-       // btn_luu.setDisable(true);
+        // btn_luu.setDisable(true);
     }
 
     @FXML
     private void huy_edit(ActionEvent event) {
-        
+
         tf_dc.setEditable(false);
         tf_email.setEditable(false);
         tf_maNXB.setEditable(false);
@@ -230,7 +239,32 @@ public class NXBController implements Initializable {
         tf_sdt.setStyle("-fx-border-width:0px;");
         tf_tenNXB.setStyle("-fx-border-width:0px;");
         focus_CTNXB(null);
-       
+
+    }
+
+    @FXML
+    private void reload_data(ActionEvent event) {
+        data.clear();
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            CachedRowSet crs = new CachedRowSetImpl();
+            crs.setUsername(util.Connect_JDBC.userName);
+            crs.setPassword(util.Connect_JDBC.password);
+            crs.setUrl(util.Connect_JDBC.url);
+            crs.setCommand("select * from NhaXB");
+            crs.execute();
+            while (crs.next()) {
+                data.add(new NXB(crs.getString("MaNXB"), crs.getString("TenNXB"), crs.getString("DiaChi"), crs.getString("Email"), crs.getString("SoDT")));
+            }
+            crs.acceptChanges();
+            crs.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        TB_NXB.setItems(data);
     }
 
     public class NXB {
@@ -295,6 +329,7 @@ public class NXBController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        util.LimittextField.addTextLimiter(tf_sdt, 15);
         btn_luu.setDisable(true);
         tf_dc.setEditable(false);
         tf_email.setEditable(false);
@@ -328,26 +363,7 @@ public class NXBController implements Initializable {
         sdt.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NXB.getColumns().add(sdt);
 
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            CachedRowSet crs = new CachedRowSetImpl();
-            crs.setUsername(util.Connect_JDBC.userName);
-            crs.setPassword(util.Connect_JDBC.password);
-            crs.setUrl(util.Connect_JDBC.url);
-            crs.setCommand("select * from NhaXB");
-            crs.execute();
-            while (crs.next()) {
-                data.add(new NXB(crs.getString("MaNXB"), crs.getString("TenNXB"), crs.getString("DiaChi"), crs.getString("Email"), crs.getString("SoDT")));
-            }
-            crs.acceptChanges();
-            crs.close();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(NXBController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        TB_NXB.setItems(data);
+        reload_data(null);
     }
 
     @FXML
@@ -360,7 +376,7 @@ public class NXBController implements Initializable {
         tf_email.setText("");
         tf_sdt.setText("");
         tf_maNXB.setDisable(true);
-         tf_maNXB.setDisable(true);
+        tf_maNXB.setDisable(true);
         btn_luu.setDisable(false);
         tf_dc.setEditable(true);
         tf_email.setEditable(true);

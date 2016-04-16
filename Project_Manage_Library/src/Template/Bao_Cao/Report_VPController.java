@@ -308,7 +308,35 @@ public class Report_VPController implements Initializable {
             this.tendocgia = tendocgia;
         }
     }
+    void loaddata() throws SQLException{
+        data_load.clear();
+        data_load_vp.clear();
+        cn = util.Connect_JDBC.getConnection();
+        Statement st = null;
+       
+            st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            String str = "SELECT a.*,b.TieuDe,c.HoVaTen FROM dbo.MuonSach a ,dbo.Book b, dbo.Doc_Gia c \n"
+                    + "				WHERE a.TinhTrang = N'Quá Hạn'  AND a.MaSach = b.MaSach AND a.MaDocGia = c.MaDocGia";
+            ResultSet rs = st.executeQuery(str);
+            while (rs.next()) {
+                data_load.add(new vipham(data_load.size() + 1, rs.getString("MaMuon"), rs.getString("MaSach"),
+                        rs.getString("TieuDe"), rs.getDate("NgayMuon"), rs.getDate("HanTra"), rs.getDate("NgayTra"),
+                        rs.getString("TinhTrang"), rs.getString("MaDocGia"), rs.getString("HoVaTen")));
 
+            }
+            ResultSet rs2 = null;
+            String str2 = "SELECT a.*,b.HoVaTen FROM dbo.ViPham a,dbo.Doc_Gia b WHERE a.MaDocGia = b.MaDocGia ";
+            rs2 = st.executeQuery(str2);
+            while (rs2.next()) {
+                data_load_vp.add(new viphamkhac(data_load_vp.size() + 1, rs2.getString("MaVP"),
+                        rs2.getString("MaDocGia"), rs2.getNString("LyDo"),
+                        rs2.getNString("HinhThucXuLy"), rs2.getDate("NgayXuLy"), rs2.getDate("NgayViPham"),
+                        rs2.getNString("HoVaten")));
+            }
+            table_VP.setItems(data_load);
+            table_VP1.setItems(data_load_vp);
+    }
     /**
      * Initializes the controller class.
      */
@@ -405,31 +433,9 @@ public class Report_VPController implements Initializable {
                 }
             }
         });
-        cn = util.Connect_JDBC.getConnection();
-        Statement st = null;
+        
         try {
-            st = cn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
-            String str = "SELECT a.*,b.TieuDe,c.HoVaTen FROM dbo.MuonSach a ,dbo.Book b, dbo.Doc_Gia c \n"
-                    + "				WHERE a.TinhTrang = N'Quá Hạn'  AND a.MaSach = b.MaSach AND a.MaDocGia = c.MaDocGia";
-            ResultSet rs = st.executeQuery(str);
-            while (rs.next()) {
-                data_load.add(new vipham(data_load.size() + 1, rs.getString("MaMuon"), rs.getString("MaSach"),
-                        rs.getString("TieuDe"), rs.getDate("NgayMuon"), rs.getDate("HanTra"), rs.getDate("NgayTra"),
-                        rs.getString("TinhTrang"), rs.getString("MaDocGia"), rs.getString("HoVaTen")));
-
-            }
-            ResultSet rs2 = null;
-            String str2 = "SELECT a.*,b.HoVaTen FROM dbo.ViPham a,dbo.Doc_Gia b WHERE a.MaDocGia = b.MaDocGia ";
-            rs2 = st.executeQuery(str2);
-            while (rs2.next()) {
-                data_load_vp.add(new viphamkhac(data_load_vp.size() + 1, rs2.getString("MaVP"),
-                        rs2.getString("MaDocGia"), rs2.getNString("LyDo"),
-                        rs2.getNString("HinhThucXuLy"), rs2.getDate("NgayXuLy"), rs2.getDate("NgayViPham"),
-                        rs2.getNString("HoVaten")));
-            }
-            table_VP.setItems(data_load);
-            table_VP1.setItems(data_load_vp);
+            loaddata();
         } catch (SQLException ex) {
             Logger.getLogger(Report_VPController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -469,7 +475,7 @@ public class Report_VPController implements Initializable {
             LocalDate tungay = text_tungay.getValue();
 
             LocalDate denngay = text_denngay.getValue();
-            if (!tungay.equals(null) && !denngay.equals(null)) {
+            if (!text_tungay.getEditor().getText().equals("") && !text_denngay.getEditor().getText().equals("")) {
                 data_load.clear();
                 data_load_vp.clear();
                 java.sql.Date From_date = java.sql.Date.valueOf(tungay);
@@ -500,6 +506,8 @@ public class Report_VPController implements Initializable {
                 }
                 table_VP.setItems(data_load);
                 table_VP1.setItems(data_load_vp);
+            }else{
+                loaddata();
             }
             //  date.valueOf(gt);
             // System.out.println(date);

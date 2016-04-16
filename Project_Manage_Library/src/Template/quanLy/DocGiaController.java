@@ -5,14 +5,18 @@
  */
 package Template.quanLy;
 
+import Validate.NameTextField;
+import Validate.NumberTextField;
 import com.sun.rowset.CachedRowSetImpl;
 import com.sun.rowset.JdbcRowSetImpl;
 import java.net.URL;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +28,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -61,18 +67,18 @@ public class DocGiaController implements Initializable {
     @FXML
     private TextField tf_maDG;
     @FXML
-    private TextField tf_tenDG;
+    private NameTextField tf_tenDG;
 
     @FXML
-    private TextField tf_sdt;
-   
+    private NumberTextField tf_sdt;
+
     @FXML
     private TextField tf_dc;
     @FXML
     private TextField tf_cmnd;
     @FXML
     private TextField tf_email;
-   
+
     @FXML
     private Button btn_save;
     @FXML
@@ -89,21 +95,33 @@ public class DocGiaController implements Initializable {
     private TextField tf_NN;
     @FXML
     private Button btn_huy;
+    @FXML
+    private Button bt_load;
+    @FXML
+    private Button bt_up;
 
     @FXML
     private void focus_CTDG(MouseEvent event) {
         int i = TB_DG.getFocusModel().getFocusedIndex();
         docGia dg = data.get(i);
+//        Date today = new Date();
+//        if (dg.getNgayHet().before(today))
+//        {
+//            tf_ngayHet.setStyle("-fx-border-color:red;-fx-border-width: 2px ;");
+//        }else{
+//            tf_ngayHet.setStyle("-fx-border-width: 0px ;");
+//        }
         tf_maDG.setText(dg.getMaDG());
         tf_tenDG.setText(dg.getTenDG());
         String dateNS = util.date.convertStringToDate(dg.getNgaySinh());
         cb_ngaySinh.getEditor().setText(dateNS);
         tf_cmnd.setText(dg.getCMND());
-        for(int j = 0; j < data_gioitinh.size();j++){
-            if(dg.getGioiTinh().equals(data_gioitinh.get(j))){
+        for (int j = 0; j < data_gioitinh.size(); j++) {
+            if (dg.getGioiTinh().equals(data_gioitinh.get(j))) {
                 cb_GT.getSelectionModel().select(j);
+                break;
             }
-           //cb_GT.getEditor().setText(dg.getGioiTinh());
+            //cb_GT.getEditor().setText(dg.getGioiTinh());
         }
         tf_dc.setText(dg.getDiaChi());
         tf_sdt.setText(dg.getSdt());
@@ -113,10 +131,10 @@ public class DocGiaController implements Initializable {
         String dateHH = util.date.convertStringToDate(dg.getNgayHet());
         tf_ngayHet.setText(dateHH);
         tf_NN.setText(dg.getTrangThai());
-       // tf_maDG.setDisable(false);
+        // tf_maDG.setDisable(false);
         tf_ngayHet.setDisable(false);
         tf_ngayDK.setDisable(false);
-        btn_save.setDisable(true);
+        // btn_save.setDisable(true);
     }
     Connection cn = null;
 
@@ -134,7 +152,21 @@ public class DocGiaController implements Initializable {
             if (mangTF[i].getText().equals("")) {
                 mangTF[i].setStyle("-fx-border-color:red;-fx-border-width: 2px ;");
                 test = false;
+            } else {
+                mangTF[i].setStyle("-fx-border-width:0px;");
             }
+        }
+        if (cb_GT.getSelectionModel().getSelectedIndex() == 3) {
+            cb_GT.setStyle("-fx-border-color:red;-fx-border-width: 2px ;");
+            test = false;
+        } else {
+            cb_GT.setStyle("-fx-border-width:0px;");
+        }
+        if (cb_ngaySinh.getEditor().getText().equals("")) {
+            cb_ngaySinh.setStyle("-fx-border-color:red;-fx-border-width: 2px ;");
+            test = false;
+        } else {
+            cb_ngaySinh.setStyle("-fx-border-width:0px;");
         }
         match = (tf_email.getText()).matches("[a-zA-Z0-9_]+@[a-zA-Z]+\\.[a-zA-Z]+(\\.[a-zA-Z]+)*");
         if (match == false) {
@@ -165,50 +197,68 @@ public class DocGiaController implements Initializable {
                 java.sql.Date date2 = new java.sql.Date(datedk.getTime());
                 //System.out.println(datestr);
                 cn = util.Connect_JDBC.getConnection();
-                PreparedStatement ps = null;
+                CallableStatement ps = null;
                 if (tf_maDG.getText().equals("")) {
                     String str = "INSERT INTO dbo.Doc_Gia( MaDocGia , HoVaTen ,NgheNghiep ,SoDT ,DiaChi "
                             + ",NgaySinh ,GioiTinh ,Email ,NgayLamThe ,HanSD ,AnhThe,CMND)"
                             + "VALUES  ( 'MDG', ? ,? , ? , ? , ? , ? , ? , ? , ? ,NULL ,? )";
 
-                    ps = cn.prepareStatement(str);
+                    ps = cn.prepareCall("{call Insert_docgia (?,?,?,?,?,?,?,?,?,?,?)}");
                     ps.setNString(1, tf_tenDG.getText());
                     ps.setNString(2, tf_NN.getText());
                     ps.setString(3, tf_sdt.getText());
                     ps.setNString(4, tf_dc.getText());
                     ps.setDate(5, date);
+                    System.out.println(data_gioitinh.get(cb_GT.getSelectionModel().getSelectedIndex()));
                     ps.setNString(6, data_gioitinh.get(cb_GT.getSelectionModel().getSelectedIndex()));
                     ps.setString(7, tf_email.getText());
                     ps.setDate(8, date2);
                     ps.setDate(9, date1);
                     ps.setString(10, tf_cmnd.getText());
+                    ps.registerOutParameter(11, Types.INTEGER);
                     ps.executeUpdate();
-                    data.clear();
-                    load_data();
-                    TB_DG.setItems(data);
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Thông Báo");
-                    alert.setHeaderText("Lưu thành công");
-                    alert.showAndWait();
+                    if (ps.getInt(11) == 1) {
+                        data.clear();
+                        load_data();
+                        Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                        alert1.setTitle("Thông Báo");
+                        alert1.setHeaderText("Tạo thành công");
+                        alert1.showAndWait();
+                        TB_DG.setItems(data);
+                       // huy_edit(event);
+                        tf_cmnd.setStyle("-fx-border-width:0px;");
+                    } else {
+                        tf_cmnd.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+                        Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                        alert1.setTitle("Thông Báo");
+                        alert1.setHeaderText("Đọc Giả Đã Tồn Tại");
+                        alert1.showAndWait();
+                    }
+
+//                    
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                    alert.setTitle("Thông Báo");
+//                    alert.setHeaderText("Lưu thành công");
+//                    alert.showAndWait();
                     return 2;
                 } else {
                     String str = "UPDATE Doc_Gia SET HoVaTen= ? ,SoDT= ? "
                             + ",Email= ? ,DiaChi= ? ,HanSD= ? ,NgaySinh= ?,NgheNghiep= ? , CMND = ?,GioiTinh "
                             + "=? WHERE MaDocGia= ? ";
 
-                    ps = cn.prepareStatement(str);
+                    PreparedStatement ps1 = cn.prepareStatement(str);
 
-                    ps.setNString(1, tf_tenDG.getText());
-                    ps.setNString(2, tf_sdt.getText());
-                    ps.setNString(3, tf_email.getText());
-                    ps.setNString(4, tf_dc.getText());
-                    ps.setDate(5, date1);
-                    ps.setDate(6, date);
-                    ps.setNString(7, tf_NN.getText());
-                    ps.setString(8, tf_cmnd.getText());
-                    ps.setNString(9, data_gioitinh.get(cb_GT.getSelectionModel().getSelectedIndex()));
-                    ps.setNString(10, tf_maDG.getText());
-                    ps.executeUpdate();
+                    ps1.setNString(1, tf_tenDG.getText());
+                    ps1.setNString(2, tf_sdt.getText());
+                    ps1.setNString(3, tf_email.getText());
+                    ps1.setNString(4, tf_dc.getText());
+                    ps1.setDate(5, date1);
+                    ps1.setDate(6, date);
+                    ps1.setNString(7, tf_NN.getText());
+                    ps1.setString(8, tf_cmnd.getText());
+                    ps1.setNString(9, data_gioitinh.get(cb_GT.getSelectionModel().getSelectedIndex()));
+                    ps1.setString(10, tf_maDG.getText());
+                    ps1.executeUpdate();
                     data.clear();
                     load_data();
                     TB_DG.setItems(data);
@@ -236,6 +286,7 @@ public class DocGiaController implements Initializable {
 
     @FXML
     private void xoa(ActionEvent event) {
+        tf_ngayHet.setStyle("-fx-border-width: 0px ;");
         int i = TB_DG.getFocusModel().getFocusedIndex();
         docGia dg = data.get(i);
 
@@ -256,6 +307,7 @@ public class DocGiaController implements Initializable {
                 ps.executeUpdate();
                 data.clear();
                 load_data();
+                focus_CTDG(null);
                 TB_DG.setItems(data);
             } catch (SQLException ex) {
                 Logger.getLogger(TheLoaiController.class.getName()).log(Level.SEVERE, null, ex);
@@ -265,32 +317,36 @@ public class DocGiaController implements Initializable {
 
     @FXML
     private void Edit(ActionEvent event) {
-         tf_NN.setEditable(true);
-         tf_maDG.setDisable(true);
-         tf_tenDG.setEditable(true);
+        bt_up.setDisable(false);
+        tf_ngayHet.setStyle("-fx-border-width: 0px ;");
+        tf_NN.setEditable(true);
+        tf_maDG.setDisable(true);
+        tf_tenDG.setEditable(true);
         tf_maDG.setEditable(true);
         tf_sdt.setEditable(true);
-        tf_ngayDK.setEditable(true);
+        // tf_ngayDK.setEditable(true);
         tf_email.setEditable(true);
         tf_dc.setEditable(true);
         tf_cmnd.setEditable(true);
-        tf_ngayHet.setEditable(true);
+        //  tf_ngayHet.setEditable(true);
         cb_GT.setDisable(false);
         cb_ngaySinh.setDisable(false);
+
         btn_huy.setDisable(false);
         btn_save.setDisable(false);
     }
 
     @FXML
     private void huy_edit(ActionEvent event) {
+        bt_up.setDisable(true);
         tf_NN.setEditable(false);
         tf_maDG.setDisable(false);
         tf_cmnd.setEditable(false);
         tf_dc.setEditable(false);
         tf_email.setEditable(false);
         tf_maDG.setEditable(false);
-        tf_ngayDK.setEditable(false);
-        tf_ngayHet.setEditable(false);
+        //  tf_ngayDK.setEditable(false);
+        // tf_ngayHet.setEditable(false);
         tf_sdt.setEditable(false);
         tf_tenDG.setEditable(false);
         //focus_CTDG();
@@ -299,6 +355,23 @@ public class DocGiaController implements Initializable {
         btn_huy.setDisable(true);
         btn_save.setDisable(true);
         //load_data();
+    }
+
+    @FXML
+    private void reload_data(ActionEvent event) {
+        data.clear();
+        load_data();
+    }
+
+    @FXML
+    private void tangHSD(ActionEvent event) throws ParseException {
+        Calendar date = Calendar.getInstance();
+        Date date_ngayhan = util.date.convertDatetoString(tf_ngayHet.getText());
+        date.setTime(date_ngayhan);
+        date.add(Calendar.MONTH, 9);
+        date_ngayhan = date.getTime();
+        tf_ngayHet.setText(util.date.convertStringToDate(date_ngayhan));
+
     }
 
     public class docGia {
@@ -419,13 +492,26 @@ public class DocGiaController implements Initializable {
 
     }
     ObservableList<String> data_gioitinh = FXCollections.observableArrayList(
-            "Nam", "Nữ", "Khác"
+            "Nam", "Nữ", "Khác", ""
     );
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         tf_NN.setEditable(false);
-         tf_tenDG.setEditable(false);
+        // tf_cmnd.
+        bt_up.setDisable(true);
+        tf_sdt.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tf_sdt.getText().length() > 15) {
+                    String s = tf_sdt.getText().substring(0, 15);
+                    tf_sdt.setText(s);
+                }
+            }
+
+        });
+
+        tf_NN.setEditable(false);
+        tf_tenDG.setEditable(false);
         tf_maDG.setEditable(false);
         tf_sdt.setEditable(false);
         tf_ngayDK.setEditable(false);
@@ -468,56 +554,56 @@ public class DocGiaController implements Initializable {
         TB_DG.setEditable(true);
         TableColumn<docGia, String> maDGcol = new TableColumn<>(" Ma DG ");
         maDGcol.setCellValueFactory(new PropertyValueFactory<>("maDG"));
-         maDGcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        maDGcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(maDGcol);
 
         TableColumn<docGia, String> tenDGcol = new TableColumn("   Tên DG   ");
         tenDGcol.setCellValueFactory(new PropertyValueFactory<>("tenDG"));
-         tenDGcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        tenDGcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(tenDGcol);
 
         TableColumn<docGia, String> ngaySinhcol = new TableColumn<>("  Ngày Sinh  ");
         ngaySinhcol.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
-      //   ngaySinhcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        //   ngaySinhcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(ngaySinhcol);
 
         TableColumn<docGia, String> sdtcol = new TableColumn("     SĐT     ");
         sdtcol.setCellValueFactory(new PropertyValueFactory<>("sdt"));
-         sdtcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        sdtcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(sdtcol);
 
         TableColumn<docGia, String> gioiTinhcol = new TableColumn<>("   Giới tính   ");
         gioiTinhcol.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
-         gioiTinhcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        gioiTinhcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(gioiTinhcol);
 
         TableColumn<docGia, String> dccol = new TableColumn("     Địa chỉ     ");
         dccol.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
-         dccol.setCellFactory(TextFieldTableCell.forTableColumn());
+        dccol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(dccol);
 
         TableColumn<docGia, String> cmndcol = new TableColumn("    Số CMND    ");
         cmndcol.setCellValueFactory(new PropertyValueFactory<>("CMND"));
-         cmndcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        cmndcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(cmndcol);
         TableColumn<docGia, String> ngayDKcol = new TableColumn<>("Ngày đăng kí");
         ngayDKcol.setCellValueFactory(new PropertyValueFactory<>("ngayDK"));
-      //   ngayDKcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        //   ngayDKcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(ngayDKcol);
 
         TableColumn<docGia, String> ngayHetcol = new TableColumn("Ngày hết hạng");
         ngayHetcol.setCellValueFactory(new PropertyValueFactory<>("ngayHet"));
-     //    ngayHetcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        //    ngayHetcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(ngayHetcol);
 
         TableColumn<docGia, String> emailcol = new TableColumn<>("         Email         ");
         emailcol.setCellValueFactory(new PropertyValueFactory<>("email"));
-         emailcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        emailcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(emailcol);
 
         TableColumn<docGia, String> trangThaicol = new TableColumn("  Nghề Nghiệp   ");
         trangThaicol.setCellValueFactory(new PropertyValueFactory<>("trangThai"));
-         trangThaicol.setCellFactory(TextFieldTableCell.forTableColumn());
+        trangThaicol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_DG.getColumns().add(trangThaicol);
 
         load_data();
@@ -526,9 +612,10 @@ public class DocGiaController implements Initializable {
     }
 
     void load_data() {
+        tf_ngayHet.setStyle("-fx-border-width: 0px ;");
         try {
             Connection connection = util.Connect_JDBC.getConnection();
-            String queryString = "SELECT * FROM Doc_Gia where HanSD > NgayLamThe";
+            String queryString = "SELECT * FROM Doc_Gia";
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             ResultSet rsSql = statement.executeQuery(queryString);
@@ -549,30 +636,32 @@ public class DocGiaController implements Initializable {
 
     @FXML
     public void themDG(ActionEvent e) {
+        bt_up.setDisable(false);
+        tf_ngayHet.setStyle("-fx-border-width: 0px ;");
         tf_ngayDK.setDisable(false);
         tf_maDG.setDisable(true);
-        
+
         //tf_maDG.setDisable(false);
         tf_maDG.setText("");
         tf_tenDG.setText("");
         cb_ngaySinh.getEditor().setText("");
         tf_dc.setText("");
-        cb_GT.getEditor().setText("");
+        cb_GT.getSelectionModel().select(3);
         tf_cmnd.setText("");
         tf_sdt.setText("");
         tf_email.setText("");
-        tf_ngayDK.setText("");
-        tf_ngayHet.setText("");
+        //   tf_ngayDK.setText("");
+        //  tf_ngayHet.setText("");
         tf_NN.setText("");
-         tf_NN.setEditable(true);
-         tf_tenDG.setEditable(true);
+        tf_NN.setEditable(true);
+        tf_tenDG.setEditable(true);
         tf_maDG.setEditable(true);
         tf_sdt.setEditable(true);
-        tf_ngayDK.setEditable(true);
+        //  tf_ngayDK.setEditable(true);
         tf_email.setEditable(true);
         tf_dc.setEditable(true);
         tf_cmnd.setEditable(true);
-        tf_ngayHet.setEditable(true);
+        //   tf_ngayHet.setEditable(true);
         cb_GT.setDisable(false);
         cb_ngaySinh.setDisable(false);
         btn_huy.setDisable(false);

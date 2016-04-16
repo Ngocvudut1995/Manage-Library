@@ -439,3 +439,8 @@
     -fx-background-image: url("../Picture/folder-media-icon.png");
   -fx-background-repeat: no-repeat;
 }
+.btn-up{
+    -fx-background-image: url("../Picture/Button-Up-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+

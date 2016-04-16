@@ -50,7 +50,7 @@
                   </Pane>
                   <ScrollPane GridPane.rowIndex="1">
                      <content>
-                        <TableView fx:id="TBdocgia_moi" onMousePressed="#focuscol" prefHeight="359.0" prefWidth="1300.0" />
+                        <TableView fx:id="TBdocgia_moi" prefHeight="359.0" prefWidth="1300.0" />
                      </content>
                   </ScrollPane>
                </children>
@@ -75,7 +75,7 @@
                   </Pane>
                   <ScrollPane GridPane.rowIndex="1">
                      <content>
-                        <TableView fx:id="TBdocgia_hethan" onMousePressed="#focuscol" prefHeight="359.0" prefWidth="1300.0" />
+                        <TableView fx:id="TBdocgia_hethan" prefHeight="359.0" prefWidth="1300.0" />
                      </content>
                   </ScrollPane>
                </children>

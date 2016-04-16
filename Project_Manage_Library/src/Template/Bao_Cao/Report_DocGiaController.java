@@ -243,7 +243,7 @@ public class Report_DocGiaController implements Initializable {
             String str2 = "Select * From Doc_Gia Where HanSD between '" + sqltungay + "' and '" + sqldenngay + "'";
             rs = st.executeQuery(str2);
             while (rs.next()) {
-                data_old.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
+                data_old.add(new DocGia(data_old.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
                         (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
@@ -291,7 +291,7 @@ public class Report_DocGiaController implements Initializable {
             String str2 = "Select * From Doc_Gia Where HanSD between '" + sqltungay + "' and '" + sqldenngay + "'";
             rs = st.executeQuery(str2);
             while (rs.next()) {
-                data_old.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
+                data_old.add(new DocGia(data_old.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
                         (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
@@ -339,7 +339,7 @@ public class Report_DocGiaController implements Initializable {
             String str2 = "Select * From Doc_Gia Where HanSD between '" + sqltungay + "' and '" + sqldenngay + "'";
             rs = st.executeQuery(str2);
             while (rs.next()) {
-                data_old.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
+                data_old.add(new DocGia(data_old.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
                         (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
@@ -387,7 +387,7 @@ public class Report_DocGiaController implements Initializable {
             String str2 = "Select * From Doc_Gia Where HanSD between '" + sqltungay + "' and '" + sqldenngay + "'";
             rs = st.executeQuery(str2);
             while (rs.next()) {
-                data_old.add(new DocGia(data_new.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
+                data_old.add(new DocGia(data_old.size() + 1, rs.getString("MaDocGia"), rs.getString(2),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7),
                         rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11),
                         (Image) rs.getBlob("AnhThe"), rs.getString("CMND")));
@@ -401,12 +401,11 @@ public class Report_DocGiaController implements Initializable {
 
     }
 
-    @FXML
     public void focuscol(MouseEvent e) {
-        if (e.getButton() == MouseButton.SECONDARY) {
-            int i = TBdocgia_moi.getFocusModel().getFocusedIndex();
-            System.out.println(i);
-        }
+//        if (e.getButton() == MouseButton.SECONDARY) {
+//            int i = TBdocgia_moi.getFocusModel().getFocusedIndex();
+//            System.out.println(i);
+//        }
 
     }
     
@@ -423,78 +422,135 @@ public class Report_DocGiaController implements Initializable {
             TableColumn MaDGCol = new TableColumn("Mã Độc Giả");
             MaDGCol.setCellValueFactory(new PropertyValueFactory<>("MaDocGia"));
             TBdocgia_moi.getColumns().add(MaDGCol);
-            TBdocgia_hethan.getColumns().add(MaDGCol);
+           
             //   MaDGCol.setCellFactory(new );
             //Column CMND
             TableColumn<DocGia, String> CMNDCol = new TableColumn("   CMND   ");
             CMNDCol.setCellValueFactory(new PropertyValueFactory<>("CMND"));
             TBdocgia_moi.getColumns().add(CMNDCol);
-            TBdocgia_hethan.getColumns().add(CMNDCol);
+           
             //Column Hovaten
             TableColumn<DocGia, String> TenCol = new TableColumn("    Họ Và Tên   ");
             TenCol.setMinWidth(120);
             TenCol.setCellValueFactory(new PropertyValueFactory<>("Hovaten"));
             TBdocgia_moi.getColumns().add(TenCol);
-            TBdocgia_hethan.getColumns().add(TenCol);
+          
             //Column NgheNghiep
             TableColumn<DocGia, String> jobCol = new TableColumn("Nghề Nghiệp");
             jobCol.setMinWidth(120);
             jobCol.setCellValueFactory(new PropertyValueFactory<>("NgheNghiep"));
             TBdocgia_moi.getColumns().add(jobCol);
-            TBdocgia_hethan.getColumns().add(jobCol);
-            //Column CoQuan
-            TableColumn<DocGia, String> coquanCol = new TableColumn("Cơ Quan");
-            coquanCol.setMinWidth(120);
-            coquanCol.setCellValueFactory(new PropertyValueFactory<>("CoQuan"));
-            TBdocgia_moi.getColumns().add(coquanCol);
-            TBdocgia_hethan.getColumns().add(coquanCol);
-            //Column SoDT
+         
+           
             TableColumn<DocGia, String> sdtCol = new TableColumn("Số Điện Thoại");
             
             sdtCol.setCellValueFactory(new PropertyValueFactory<>("SoDT"));
             TBdocgia_moi.getColumns().add(sdtCol);
-            TBdocgia_hethan.getColumns().add(sdtCol);
+            
             //Column DiaChi
             TableColumn<DocGia, String> diachiCol = new TableColumn("Địa Chỉ");
             diachiCol.setMinWidth(120);
             diachiCol.setCellValueFactory(new PropertyValueFactory<>("diachi"));
             TBdocgia_moi.getColumns().add(diachiCol);
-            TBdocgia_hethan.getColumns().add(diachiCol);
+           
             //Column NgaySinh
             TableColumn<DocGia, Date> ngaysinhCol = new TableColumn("Ngày Sinh");
             
             ngaysinhCol.setCellValueFactory(new PropertyValueFactory<>("ngaysinh"));
             TBdocgia_moi.getColumns().add(ngaysinhCol);
-            TBdocgia_hethan.getColumns().add(ngaysinhCol);
+         
             //Column GioiTinh
             TableColumn<DocGia, String> gtCol = new TableColumn("Giới Tính");
             
             gtCol.setCellValueFactory(new PropertyValueFactory<>("gioitinh"));
             TBdocgia_moi.getColumns().add(gtCol);
-            TBdocgia_hethan.getColumns().add(gtCol);
+          
             //Column Email
             TableColumn<DocGia, Date> emailCol = new TableColumn("Email");
             
             emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
             TBdocgia_moi.getColumns().add(emailCol);
-            TBdocgia_hethan.getColumns().add(emailCol);
+          
             //Column HanSD
             TableColumn<DocGia, Date> ngaylamthe = new TableColumn("Ngày Làm Thẻ");
             
             ngaylamthe.setCellValueFactory(new PropertyValueFactory<>("ngaylamthe"));
             TBdocgia_moi.getColumns().add(ngaylamthe);
-            TBdocgia_hethan.getColumns().add(ngaylamthe);
+            
             TableColumn<DocGia, Date> hansdCol = new TableColumn("Hạn Sử Dụng");
             hansdCol.setMinWidth(120);
             hansdCol.setCellValueFactory(new PropertyValueFactory<>("HanSD"));
             TBdocgia_moi.getColumns().add(hansdCol);
-            TBdocgia_hethan.getColumns().add(hansdCol);
+           
 //         //Column Anh
-            TableColumn<DocGia, String> imageCol = new TableColumn("Ảnh");
-            imageCol.setMinWidth(120);
-            imageCol.setCellValueFactory(new PropertyValueFactory<>("Anh"));
-            TBdocgia_moi.getColumns().add(imageCol);
-            TBdocgia_hethan.getColumns().add(imageCol);
+//            TableColumn<DocGia, String> imageCol = new TableColumn("Ảnh");
+//            imageCol.setMinWidth(120);
+//            imageCol.setCellValueFactory(new PropertyValueFactory<>("Anh"));
+//            TBdocgia_moi.getColumns().add(imageCol);
+//            TBdocgia_hethan.getColumns().add(imageCol);
+            
+             TableColumn MaDGCol2 = new TableColumn("Mã Độc Giả");
+            MaDGCol2.setCellValueFactory(new PropertyValueFactory<>("MaDocGia"));
+            TBdocgia_hethan.getColumns().add(MaDGCol2);
+           
+            //   MaDGCol.setCellFactory(new );
+            //Column CMND
+            TableColumn<DocGia, String> CMNDCol2 = new TableColumn("   CMND   ");
+            CMNDCol2.setCellValueFactory(new PropertyValueFactory<>("CMND"));
+            TBdocgia_hethan.getColumns().add(CMNDCol2);
+           
+            //Column Hovaten
+            TableColumn<DocGia, String> TenCol2 = new TableColumn("    Họ Và Tên   ");
+            TenCol2.setMinWidth(120);
+            TenCol2.setCellValueFactory(new PropertyValueFactory<>("Hovaten"));
+            TBdocgia_hethan.getColumns().add(TenCol2);
+          
+            //Column NgheNghiep
+            TableColumn<DocGia, String> jobCol2 = new TableColumn("Nghề Nghiệp");
+            jobCol2.setMinWidth(120);
+            jobCol2.setCellValueFactory(new PropertyValueFactory<>("NgheNghiep"));
+            TBdocgia_hethan.getColumns().add(jobCol2);
+         
+           
+            TableColumn<DocGia, String> sdtCol2 = new TableColumn("Số Điện Thoại");
+            
+            sdtCol2.setCellValueFactory(new PropertyValueFactory<>("SoDT"));
+            TBdocgia_hethan.getColumns().add(sdtCol2);
+            
+            //Column DiaChi
+            TableColumn<DocGia, String> diachiCol2 = new TableColumn("Địa Chỉ");
+            diachiCol2.setMinWidth(120);
+            diachiCol2.setCellValueFactory(new PropertyValueFactory<>("diachi"));
+            TBdocgia_hethan.getColumns().add(diachiCol2);
+           
+            //Column NgaySinh
+            TableColumn<DocGia, Date> ngaysinhCol2 = new TableColumn("Ngày Sinh");
+            
+            ngaysinhCol2.setCellValueFactory(new PropertyValueFactory<>("ngaysinh"));
+            TBdocgia_hethan.getColumns().add(ngaysinhCol2);
+         
+            //Column GioiTinh
+            TableColumn<DocGia, String> gtCol2 = new TableColumn("Giới Tính");
+            
+            gtCol2.setCellValueFactory(new PropertyValueFactory<>("gioitinh"));
+            TBdocgia_hethan.getColumns().add(gtCol2);
+          
+            //Column Email
+            TableColumn<DocGia, Date> emailCol2 = new TableColumn("Email");
+            
+            emailCol2.setCellValueFactory(new PropertyValueFactory<>("email"));
+            TBdocgia_hethan.getColumns().add(emailCol2);
+          
+            //Column HanSD
+            TableColumn<DocGia, Date> ngaylamthe2 = new TableColumn("Ngày Làm Thẻ");
+            
+            ngaylamthe2.setCellValueFactory(new PropertyValueFactory<>("ngaylamthe"));
+            TBdocgia_hethan.getColumns().add(ngaylamthe2);
+            
+            TableColumn<DocGia, Date> hansdCol2 = new TableColumn("Hạn Sử Dụng");
+            hansdCol2.setMinWidth(120);
+            hansdCol2.setCellValueFactory(new PropertyValueFactory<>("HanSD"));
+            TBdocgia_hethan.getColumns().add(hansdCol2);
              Date today = new Date();
              java.sql.Date hansd= new java.sql.Date(today.getTime());
             cn = util.Connect_JDBC.getConnection();

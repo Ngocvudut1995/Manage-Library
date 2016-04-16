@@ -5,6 +5,7 @@
  */
 package Template.quanLy;
 
+import Validate.NameTextField;
 import com.sun.rowset.CachedRowSetImpl;
 import java.net.URL;
 import java.sql.Connection;
@@ -54,12 +55,14 @@ public class TacGiaController implements Initializable {
     @FXML
     private TextField tf_maTG;
     @FXML
-    private TextField tf_tenTG;
+    private NameTextField tf_tenTG;
    
     @FXML
     private DatePicker tf_namSinh;
     @FXML
     private Button btn_huy;
+    @FXML
+    private Button bt_load;
 
     @FXML
     private void focus_CTTG(MouseEvent event) {
@@ -128,27 +131,7 @@ public class TacGiaController implements Initializable {
 
         
 
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            CachedRowSet crs = new CachedRowSetImpl();
-            crs.setUsername(util.Connect_JDBC.userName);
-            crs.setPassword(util.Connect_JDBC.password);
-            crs.setUrl(util.Connect_JDBC.url);
-            crs.setCommand("select * from TacGia");
-            crs.execute();
-            while (crs.next()) {
-                data.add(new tacGia(crs.getString("MaTacGia"), crs.getString("TenTacGia"), crs.getDate("NgaySinh"), null));
-            }
-            crs.acceptChanges();
-            crs.close();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TacGiaController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(TacGiaController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        //data.add(new tacGia("TG001", "Tú MỠ", "1995", "nam"));
-        TB_TG.setItems(data);
+        reload_data(null);
     }
 
     @FXML
@@ -301,6 +284,24 @@ public class TacGiaController implements Initializable {
         tf_namSinh.setDisable(true);
         btn_huy.setDisable(true);
         btn_save.setDisable(true);
+        
+    }
+
+    @FXML
+    private void reload_data(ActionEvent event) {
+          data.clear();
+        try {
+            cn = util.Connect_JDBC.getConnection();
+            Statement st = cn.createStatement();
+             ResultSet crs = st.executeQuery("select * from TacGia");
+            
+            while (crs.next()) {
+                data.add(new tacGia(crs.getString("MaTacGia"), crs.getString("TenTacGia"), crs.getDate("NgaySinh"), null));
+            }
+           TB_TG.setItems(data);
+        } catch (SQLException ex) {
+            Logger.getLogger(TacGiaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 

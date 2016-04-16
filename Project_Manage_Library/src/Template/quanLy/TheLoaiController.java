@@ -5,6 +5,7 @@
  */
 package Template.quanLy;
 
+import Validate.NameTextField;
 import com.sun.rowset.CachedRowSetImpl;
 import java.net.URL;
 import java.sql.CallableStatement;
@@ -50,13 +51,15 @@ public class TheLoaiController implements Initializable {
     @FXML
     private TextField tf_maTL;
     @FXML
-    private TextField tf_tenTl;
+    private NameTextField tf_tenTl;
     @FXML
     private ComboBox<?> cb_phong;
     @FXML
     private TextField tf_tang;
     @FXML
     private Button btn_huy;
+    @FXML
+    private Button bt_load;
 
     @FXML
     private void focus_CTTL(MouseEvent event) {
@@ -207,6 +210,30 @@ public class TheLoaiController implements Initializable {
         
     }
 
+    @FXML
+    private void reload_data(ActionEvent event) {
+          data.clear();
+           try {
+
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+              Statement st = cn.createStatement();
+            ResultSet crs = st.executeQuery("SELECT a.*,b.* FROM TheLoai a,Phong b where a.MaPhong = b.MaPhong");
+            while (crs.next()) {
+                data.add(new theloai(crs.getString("MaTheLoai"), crs.getNString("TenTheLoai"),
+                        crs.getNString("TenPhong"), crs.getInt("Tang"), crs.getInt("stt_phong")));
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TheLoaiController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TheLoaiController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        TB_Theloai.setItems(data);
+    }
+
     /**
      * Initializes the controller class.
      *
@@ -311,25 +338,8 @@ public class TheLoaiController implements Initializable {
         TableColumn<theloai, Integer> tang = new TableColumn<>("Tầng");
         tang.setCellValueFactory(new PropertyValueFactory<>("tang"));
         TB_Theloai.getColumns().add(tang);
-        try {
-
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            st = cn.createStatement();
-            ResultSet crs = st.executeQuery("SELECT a.*,b.* FROM TheLoai a,Phong b where a.MaPhong = b.MaPhong");
-            while (crs.next()) {
-                data.add(new theloai(crs.getString("MaTheLoai"), crs.getNString("TenTheLoai"),
-                        crs.getNString("TenPhong"), crs.getInt("Tang"), crs.getInt("stt_phong")));
-
-            }
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TheLoaiController.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(TheLoaiController.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-        TB_Theloai.setItems(data);
+        reload_data(null);
+       
     }
 
     @FXML

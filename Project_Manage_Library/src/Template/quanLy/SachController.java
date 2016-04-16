@@ -5,6 +5,7 @@
  */
 package Template.quanLy;
 
+import Validate.NumberTextField;
 import java.net.URL;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -63,7 +64,7 @@ public class SachController implements Initializable {
     private TextField tf_SLcon;
 
     @FXML
-    private TextField tf_gia;
+    private NumberTextField tf_gia;
 
     @FXML
     private Button btn_luu;
@@ -77,6 +78,8 @@ public class SachController implements Initializable {
     
     @FXML
     private Button btn_huy;
+    @FXML
+    private Button bt_load;
 
     @FXML
     private void focus_CTsach(MouseEvent event) {
@@ -299,6 +302,12 @@ public class SachController implements Initializable {
         focus_CTsach(null);
        // btn_edit.setDisable(true);
         //loaddata();
+    }
+
+    @FXML
+    private void reload_data(ActionEvent event) {
+        data.clear();
+        loaddata();
     }
 
     public class sach {

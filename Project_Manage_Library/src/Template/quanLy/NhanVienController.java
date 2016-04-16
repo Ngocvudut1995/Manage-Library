@@ -5,6 +5,8 @@
  */
 package Template.quanLy;
 
+import Validate.NameTextField;
+import Validate.NumberTextField;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
@@ -34,6 +37,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
+import static util.Encode.getSecurePassword;
 
 /**
  * FXML Controller class
@@ -54,10 +58,10 @@ public class NhanVienController implements Initializable {
     private TextField tf_maNV;
     @FXML
     private TextField tf_tenNV;
-    
+
     @FXML
     private TextField tf_sdt;
-   
+
     @FXML
     private TextField tf_dc;
     @FXML
@@ -78,6 +82,8 @@ public class NhanVienController implements Initializable {
     private TextField tf_email;
     @FXML
     private Button btn_huy;
+    @FXML
+    private Button bt_load;
 
     @FXML
     private void focus_ct(MouseEvent event) {
@@ -100,7 +106,7 @@ public class NhanVienController implements Initializable {
         tf_chucVu.setText(nv.getChucVu());
         tf_luong.setText(nv.luong.toString());
        // tf_maNV.setDisable(false);
-       // btn_save.setDisable(true);
+        // btn_save.setDisable(true);
 
     }
     Connection cn = null;
@@ -228,8 +234,7 @@ public class NhanVienController implements Initializable {
     private void Edit(ActionEvent event) {
         tf_maNV.setDisable(true);
 
-        
-         tf_maNV.setDisable(true);
+        tf_maNV.setDisable(true);
         btn_save.setDisable(false);
         cb_GT.setDisable(false);
         tf_chucVu.setEditable(true);
@@ -260,6 +265,12 @@ public class NhanVienController implements Initializable {
         btn_huy.setDisable(true);
         btn_save.setDisable(true);
         focus_ct(null);
+    }
+
+    @FXML
+    private void reload_data(ActionEvent event) {
+        data.clear();
+        load_data();
     }
 
     public class nhanvien {
@@ -440,7 +451,7 @@ public class NhanVienController implements Initializable {
         TB_NV.setEditable(true);
         TableColumn<nhanvien, String> manvcol = new TableColumn("   Mã Nhân Viên   ");
         manvcol.setCellValueFactory(new PropertyValueFactory<>("MaNV"));
-         manvcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        manvcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(manvcol);
         TableColumn<nhanvien, String> tennvcol = new TableColumn("   Tên Nhân Viên   ");
         tennvcol.setCellValueFactory(new PropertyValueFactory<>("TenNV"));
@@ -462,31 +473,31 @@ public class NhanVienController implements Initializable {
         TB_NV.getColumns().add(ngaycol);
         TableColumn<nhanvien, String> sdtcol = new TableColumn("   SDT   ");
         sdtcol.setCellValueFactory(new PropertyValueFactory<>("sdt"));
-         sdtcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        sdtcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(sdtcol);
         TableColumn<nhanvien, String> gtcol = new TableColumn("   Giới Tính   ");
         gtcol.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
-         gtcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        gtcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(gtcol);
         TableColumn<nhanvien, String> dccol = new TableColumn("   Địa  Chỉ   ");
         dccol.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
-         dccol.setCellFactory(TextFieldTableCell.forTableColumn());
+        dccol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(dccol);
         TableColumn<nhanvien, String> email = new TableColumn("   Email   ");
         email.setCellValueFactory(new PropertyValueFactory<>("email"));
-         email.setCellFactory(TextFieldTableCell.forTableColumn());
+        email.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(email);
         TableColumn<nhanvien, String> cmndcol = new TableColumn("   CMND   ");
         cmndcol.setCellValueFactory(new PropertyValueFactory<>("CMND"));
-         cmndcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        cmndcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(cmndcol);
         TableColumn<nhanvien, String> CVcol = new TableColumn("   Chức Vụ  ");
         CVcol.setCellValueFactory(new PropertyValueFactory<>("ChucVu"));
-         CVcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        CVcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(CVcol);
         TableColumn<nhanvien, Double> luongcol = new TableColumn("   Lương   ");
         luongcol.setCellValueFactory(new PropertyValueFactory<>("luong"));
-      //   luongcol.setCellFactory(TextFieldTableCell.forTableColumn());
+        //   luongcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(luongcol);
 
         //   ObservableList<nhanvien> data = FXCollections.observableArrayList();
@@ -497,30 +508,57 @@ public class NhanVienController implements Initializable {
 
     @FXML
     public void themNhanVien(ActionEvent e) {
-        tf_email.setText("");
-        tf_maNV.setText("");
-        tf_tenNV.setText("");
-        
-        db_ngaysinh.getEditor().setText("");
-        tf_dc.setText("");
-        cb_GT.getSelectionModel().select(-2);
-        tf_cmnd.setText("");
-        tf_sdt.setText("");
-        tf_chucVu.setText("");
-        tf_luong.setText("");
-        tf_maNV.setDisable(true);
-        btn_save.setDisable(false);
-        cb_GT.setDisable(false);
-        tf_chucVu.setEditable(true);
-        tf_cmnd.setEditable(true);
-        tf_dc.setEditable(true);
-        tf_email.setEditable(true);
-        db_ngaysinh.setDisable(false);
-        tf_maNV.setEditable(true);
-        tf_luong.setEditable(true);
-        tf_sdt.setEditable(true);
-        tf_tenNV.setEditable(true);
-        btn_huy.setDisable(false);
+//        tf_email.setText("");
+//        tf_maNV.setText("");
+//        tf_tenNV.setText("");
+//        
+//        db_ngaysinh.getEditor().setText("");
+//        tf_dc.setText("");
+//        cb_GT.getSelectionModel().select(-2);
+//        tf_cmnd.setText("");
+//        tf_sdt.setText("");
+//        tf_chucVu.setText("");
+//        tf_luong.setText("");
+//        tf_maNV.setDisable(true);
+//        btn_save.setDisable(false);
+//        cb_GT.setDisable(false);
+//        tf_chucVu.setEditable(true);
+//        tf_cmnd.setEditable(true);
+//        tf_dc.setEditable(true);
+//        tf_email.setEditable(true);
+//        db_ngaysinh.setDisable(false);
+//        tf_maNV.setEditable(true);
+//        tf_luong.setEditable(true);
+//        tf_sdt.setEditable(true);
+//        tf_tenNV.setEditable(true);
+//        btn_huy.setDisable(false);
+        int i = TB_NV.getFocusModel().getFocusedIndex();
+        nhanvien nv = data.get(i);
+        Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
+        alert1.setTitle("Thông Báo");
+        alert1.setHeaderText("Bạn Chắc Chắn Khôi Phục Mật Khẩu ");
+        //alert.setContentText("Thêm Thành Công!");
+        alert1.showAndWait();
+        ButtonType result = alert1.getResult();
+        if (result.getText().equals("OK")) {
+            cn = util.Connect_JDBC.getConnection();
+            try {
+                PreparedStatement ps = cn.prepareStatement("Update Member set Password = ? "
+                        + "where MaNV = ?");
+                String salt = "VuDang";
+                String securePass = getSecurePassword("admin", salt);
+                ps.setString(1, securePass);
+                ps.setString(2, nv.getMaNV());
+                ps.executeUpdate();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông Báo");
+                alert.setHeaderText("Mật Khẩu Đã Trở Về Mặc Định");
+                //alert.setContentText("Thêm Thành Công!");
+                alert.showAndWait();
+            } catch (SQLException ex) {
+                Logger.getLogger(NhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
     }
 
