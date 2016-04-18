@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import Validate.*?>
 
 <AnchorPane id="AnchorPane" prefHeight="443.0" prefWidth="990.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Template.index.TaoNVController">
    <stylesheets>
@@ -26,9 +27,9 @@
                </font>
             </Label>
             <Label layoutX="14.0" layoutY="77.0" text="Tên NV" />
-            <TextField fx:id="tf_tennv" layoutX="106.0" layoutY="72.0" prefHeight="31.0" prefWidth="225.0" />
+            <NameTextField fx:id="tf_tennv" layoutX="106.0" layoutY="72.0" prefHeight="31.0" prefWidth="225.0" />
             <Label layoutX="347.0" layoutY="77.0" text="Ngày sinh " />
-            <TextField fx:id="tf_sdt" layoutX="106.0" layoutY="112.0" prefHeight="31.0" prefWidth="225.0" />
+            <NumberTextField fx:id="tf_sdt" layoutX="106.0" layoutY="112.0" prefHeight="31.0" prefWidth="225.0" />
             <Label layoutX="14.0" layoutY="200.0" prefHeight="21.0" prefWidth="71.0" text="Địa chỉ " />
             <TextField fx:id="tf_email" layoutX="106.0" layoutY="153.0" prefHeight="31.0" prefWidth="225.0" />
             <TextField fx:id="tf_diachi" layoutX="107.0" layoutY="195.0" prefHeight="31.0" prefWidth="225.0" />
@@ -44,8 +45,8 @@
             <PasswordField fx:id="tf_pass" layoutX="108.0" layoutY="279.0" prefHeight="31.0" prefWidth="225.0" />
             <PasswordField fx:id="tf_pass_again" layoutX="108.0" layoutY="321.0" prefHeight="31.0" prefWidth="225.0" />
             <DatePicker fx:id="dp_ngaysinh" layoutX="426.0" layoutY="69.0" prefHeight="31.0" prefWidth="142.0" />
-            <TextField fx:id="tf_cmnd" layoutX="426.0" layoutY="111.0" prefHeight="31.0" prefWidth="142.0" />
-            <TextField fx:id="tf_chucvu" layoutX="426.0" layoutY="195.0" prefHeight="31.0" prefWidth="142.0" />
+            <NumberTextField fx:id="tf_cmnd" layoutX="426.0" layoutY="111.0" prefHeight="31.0" prefWidth="142.0" />
+            <NameTextField fx:id="tf_chucvu" layoutX="426.0" layoutY="195.0" prefHeight="31.0" prefWidth="142.0" />
             <Pane fx:id="pane_image" layoutX="426.0" layoutY="242.0" prefHeight="107.0" prefWidth="100.0" style="-fx-border-color: black;">
                <children>
                   <ImageView fx:id="image_view" fitHeight="105.0" fitWidth="98.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />

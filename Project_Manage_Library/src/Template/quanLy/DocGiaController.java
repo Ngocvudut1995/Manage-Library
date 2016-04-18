@@ -225,8 +225,8 @@ public class DocGiaController implements Initializable {
                         alert1.setHeaderText("Tạo thành công");
                         alert1.showAndWait();
                         TB_DG.setItems(data);
-                       // huy_edit(event);
-                        tf_cmnd.setStyle("-fx-border-width:0px;");
+                        huy_edit(event);
+                       // tf_cmnd.setStyle("-fx-border-width:0px;");
                     } else {
                         tf_cmnd.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
                         Alert alert1 = new Alert(Alert.AlertType.ERROR);
@@ -338,6 +338,7 @@ public class DocGiaController implements Initializable {
 
     @FXML
     private void huy_edit(ActionEvent event) {
+        tf_cmnd.setStyle("-fx-border-width: 0px ;");
         bt_up.setDisable(true);
         tf_NN.setEditable(false);
         tf_maDG.setDisable(false);

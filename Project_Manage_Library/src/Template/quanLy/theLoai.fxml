@@ -53,14 +53,15 @@
             <TextField fx:id="tf_maTL" layoutX="109.0" layoutY="75.0" prefHeight="31.0" prefWidth="186.5" />
             <Label layoutX="22.0" layoutY="152.0" text="Tên thể loại" />
             <NameTextField fx:id="tf_tenTl" layoutX="109.0" layoutY="147.0" prefHeight="31.0" prefWidth="186.5" />
+            <ComboBox fx:id="cb_phong" layoutX="109.0" layoutY="218.0" prefHeight="25.0" prefWidth="186.5" />
+            <TextField fx:id="tf_tang" layoutX="109.0" layoutY="287.0" prefHeight="31.0" prefWidth="186.5" />
             <Button fx:id="btn_save" layoutX="67.0" layoutY="371.0" mnemonicParsing="false" onAction="#newSave" prefHeight="31.0" prefWidth="65.0" text="Lưu">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
             <Label layoutX="22.0" layoutY="222.0" text="Phòng " />
             <Label layoutX="22.0" layoutY="294.0" text="Tầng" />
-            <ComboBox fx:id="cb_phong" layoutX="109.0" layoutY="218.0" prefHeight="25.0" prefWidth="186.5" />
-            <TextField fx:id="tf_tang" layoutX="109.0" layoutY="287.0" prefHeight="31.0" prefWidth="186.5" />
+            
             <Button fx:id="btn_huy" layoutX="194.0" layoutY="371.0" mnemonicParsing="false" onAction="#huy_edit" prefHeight="31.0" prefWidth="65.0" text="Hủy">
                <cursor>
                   <Cursor fx:constant="HAND" />

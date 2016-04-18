@@ -53,12 +53,13 @@
             <TextField fx:id="tf_maTG" layoutX="105.0" layoutY="129.0" prefWidth="186.5" />
             <Label layoutX="19.0" layoutY="191.0" text="Tên tác giả" />
             <NameTextField fx:id="tf_tenTG" layoutX="105.0" layoutY="186.0" prefWidth="186.5" />
+             <DatePicker fx:id="tf_namSinh" layoutX="105.0" layoutY="244.0" prefHeight="31.0" prefWidth="186.5" />
             <Label layoutX="19.0" layoutY="249.0" text="Ngày Sinh" />
             <Button fx:id="btn_save" layoutX="73.0" layoutY="371.0" mnemonicParsing="false" onAction="#saveNew" prefHeight="31.0" prefWidth="64.0" text="Lưu">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <DatePicker fx:id="tf_namSinh" layoutX="105.0" layoutY="244.0" prefHeight="31.0" prefWidth="186.5" />
+           
             <Button fx:id="btn_huy" layoutX="189.0" layoutY="371.0" mnemonicParsing="false" onAction="#huy_edit" prefHeight="31.0" prefWidth="64.0" text="Hủy">
                <cursor>
                   <Cursor fx:constant="HAND" />

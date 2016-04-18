@@ -443,4 +443,9 @@
     -fx-background-image: url("../Picture/Button-Up-icon.png");
   -fx-background-repeat: no-repeat;
 }
+.btn-stop{
+    -fx-background-image: url("../Picture/Button-Stop-icon.png");
+  -fx-background-repeat: no-repeat;
+}
+
 

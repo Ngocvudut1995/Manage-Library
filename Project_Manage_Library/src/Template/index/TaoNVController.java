@@ -92,6 +92,7 @@ public class TaoNVController extends Login.LoginController implements Initializa
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         String pattern = "dd/MM/yyyy";
+        util.LimittextField.addTextLimiter(tf_sdt, 15);
 
         dp_ngaysinh.setPromptText(pattern.toLowerCase());
 
@@ -282,6 +283,7 @@ public class TaoNVController extends Login.LoginController implements Initializa
                         alert1.setHeaderText("Tạo thành công");
                         alert1.showAndWait();
                           tf_cmnd.setStyle("-fx-border-width:0px;");
+                          huy(event);
                         
                      //   huy(event);
                     } else {

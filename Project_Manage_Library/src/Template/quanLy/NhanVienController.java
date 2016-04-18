@@ -105,7 +105,7 @@ public class NhanVienController implements Initializable {
         tf_sdt.setText(nv.getSdt());
         tf_chucVu.setText(nv.getChucVu());
         tf_luong.setText(nv.luong.toString());
-       // tf_maNV.setDisable(false);
+        // tf_maNV.setDisable(false);
         // btn_save.setDisable(true);
 
     }
@@ -285,6 +285,7 @@ public class NhanVienController implements Initializable {
         private String ChucVu;
         private Double luong;
         private String email;
+        private String user;
 
         public String getEmail() {
             return email;
@@ -330,6 +331,14 @@ public class NhanVienController implements Initializable {
             return gioiTinh;
         }
 
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
+
         public void setGioiTinh(String gioiTinh) {
             this.gioiTinh = gioiTinh;
         }
@@ -366,7 +375,7 @@ public class NhanVienController implements Initializable {
             this.luong = luong;
         }
 
-        public nhanvien(String MaNV, String TenNV, Date ngaySinh, String sdt, String gioiTinh, String diaChi, Double luong, String ChucVu, String CMND, String email) {
+        public nhanvien(String MaNV, String TenNV, Date ngaySinh, String sdt, String gioiTinh, String diaChi, Double luong, String ChucVu, String CMND, String email, String user) {
             this.MaNV = MaNV;
             this.TenNV = TenNV;
             this.ngaySinh = ngaySinh;
@@ -377,6 +386,7 @@ public class NhanVienController implements Initializable {
             this.ChucVu = ChucVu;
             this.luong = luong;
             this.email = email;
+            this.user = user;
         }
 
     }
@@ -388,13 +398,13 @@ public class NhanVienController implements Initializable {
         try {
             cn = util.Connect_JDBC.getConnection();
             Statement st = cn.createStatement();
-            ResultSet crs = st.executeQuery("select * from NhanVien");
+            ResultSet crs = st.executeQuery("select a.*,b.Username from NhanVien a,Member b where a.MaNV = b.MaNV");
 
             while (crs.next()) {
                 data.add(new nhanvien(crs.getString("MaNV"), crs.getString("HoVaTen"),
                         crs.getDate("NgaySinh"), crs.getString("SoDT"), crs.getString("Gioitinh"),
                         crs.getString("DiaChi"), crs.getDouble("Luong"),
-                        crs.getString("ChucVu"), crs.getString("CMND"), crs.getString("Email")));
+                        crs.getString("ChucVu"), crs.getString("CMND"), crs.getString("Email"), crs.getString("Username")));
             }
 
             crs.close();
@@ -499,7 +509,11 @@ public class NhanVienController implements Initializable {
         luongcol.setCellValueFactory(new PropertyValueFactory<>("luong"));
         //   luongcol.setCellFactory(TextFieldTableCell.forTableColumn());
         TB_NV.getColumns().add(luongcol);
-
+     
+        TableColumn<nhanvien, String> usercol = new TableColumn("   Username   ");
+        usercol.setCellValueFactory(new PropertyValueFactory<>("user"));
+        usercol.setCellFactory(TextFieldTableCell.forTableColumn());
+        TB_NV.getColumns().add(usercol);
         //   ObservableList<nhanvien> data = FXCollections.observableArrayList();
         load_data();
 

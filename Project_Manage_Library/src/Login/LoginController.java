@@ -78,7 +78,8 @@ public class LoginController implements Initializable {
             stmt = cn.createStatement(
                     ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
-            rs = stmt.executeQuery("SELECT * FROM Member");
+            rs = stmt.executeQuery("SELECT a.Username,b.Password FROM Member a,NhanVien b where a.MaNV = b.MaNV and "
+                    + "b.ChucVu not like N'Thôi Việc'");
             while (rs.next()) {
                 String salt = "VuDang";
                 String securepass = util.Encode.getSecurePassword(pass, salt);
