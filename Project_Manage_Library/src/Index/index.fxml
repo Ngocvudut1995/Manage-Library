@@ -36,7 +36,7 @@
          <children>
             <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="622.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="119.0" prefWidth="1004.0" style="-fx-background-color: #80ccff;">
                <tabs>
-                  <Tab closable="false" text="           Trang Chinh           ">
+                  <Tab closable="false" text="           Trang Chính           ">
                      <content>
                         <GridPane prefHeight="139.0" prefWidth="1198.0">
                           <columnConstraints>

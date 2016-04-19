@@ -25,7 +25,7 @@
    <children>
       <Pane prefHeight="443.0" prefWidth="216.0">
          <children>
-            <Button fx:id="bt_tra" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="82.0" mnemonicParsing="false" onAction="#trasach" prefHeight="40.0" prefWidth="38.0" styleClass="btn-ok" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="bt_tra" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="99.0" mnemonicParsing="false" onAction="#trasach" prefHeight="40.0" prefWidth="38.0" styleClass="btn-ok" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -33,17 +33,17 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="bt_luu" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="246.0" mnemonicParsing="false" onAction="#Luu_vao_DB" prefHeight="40.0" prefWidth="38.0" styleClass="btn-save" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="bt_luu" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="264.0" mnemonicParsing="false" onAction="#Luu_vao_DB" prefHeight="40.0" prefWidth="38.0" styleClass="btn-save" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="bt_giahan" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="165.0" mnemonicParsing="false" onAction="#giahanSach" prefHeight="40.0" prefWidth="38.0" styleClass="btn-update" stylesheets="@../../CSS/fextile.css">
+            <Button fx:id="bt_giahan" alignment="CENTER_RIGHT" layoutX="13.0" layoutY="183.0" mnemonicParsing="false" onAction="#giahanSach" prefHeight="40.0" prefWidth="38.0" styleClass="btn-update" stylesheets="@../../CSS/fextile.css">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Label layoutX="54.0" layoutY="88.0" text="Trả" />
-            <Label layoutX="54.0" layoutY="171.0" text="Gia hạn" />
-            <Label layoutX="54.0" layoutY="252.0" text="Lưu" />
+            <Label layoutX="56.0" layoutY="109.0" text="Trả" />
+            <Label layoutX="54.0" layoutY="192.0" text="Gia hạn" />
+            <Label layoutX="54.0" layoutY="271.0" text="Lưu" />
             <Label layoutX="54.0" layoutY="343.0" text="Xóa" />
          </children>
       </Pane>

@@ -14,20 +14,22 @@
       <URL value="@../CSS/style.css" />
     </stylesheets>
    <children>
-      <Pane layoutX="157.0" layoutY="12.0" prefHeight="420.0" prefWidth="656.0" styleClass="backgroundAbout" stylesheets="@../CSS/fextile.css">
+      <Pane layoutX="163.0" layoutY="12.0" prefHeight="420.0" prefWidth="650.0" styleClass="backgroundAbout" stylesheets="@../CSS/fextile.css">
          <children>
             <Label layoutX="258.0" layoutY="24.0" style="-fx-text-fill: #006600;" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="PROJECT SEM 2" />
             <Label layoutX="172.0" layoutY="69.0" style="-fx-text-fill: #990000;" styleClass="fontTiltlePro" stylesheets="@../CSS/fextile.css" text="Quản Lý Thư Viện" />
-            <Label layoutX="157.0" layoutY="210.0" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="GVHD" />
-            <Label layoutX="289.0" layoutY="210.0" style="-fx-text-fill: #0000e6;" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="Nguyễn Quốc Nguyên" />
-            <Label layoutX="159.0" layoutY="268.0" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="HVTH" />
-            <Label layoutX="289.0" layoutY="268.0" style="-fx-text-fill: #0000e6;" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="Đặng Ngọc Vũ" />
-            <Label layoutX="292.0" layoutY="311.0" style="-fx-text-fill: #0000e6;" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="Lê Văn Tú" />
+            <Label layoutX="157.0" layoutY="226.0" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="GVHD" />
+            <Label layoutX="289.0" layoutY="226.0" style="-fx-text-fill: #0000e6;" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="Nguyễn Quốc Nguyên" />
+            <Label layoutX="159.0" layoutY="284.0" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="HVTH" />
+            <Label layoutX="289.0" layoutY="284.0" style="-fx-text-fill: #0000e6;" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="Đặng Ngọc Vũ" />
+            <Label layoutX="292.0" layoutY="327.0" style="-fx-text-fill: #0000e6;" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="Lê Văn Tú" />
             <Button layoutX="303.0" layoutY="142.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="51.0" styleClass="btn-book4" stylesheets="@../CSS/fextile.css" />
-            <Label layoutX="292.0" layoutY="356.0" style="-fx-text-fill: #0000e6;" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="Phan Khắc Đạo" />
+            <Label layoutX="292.0" layoutY="372.0" style="-fx-text-fill: #0000e6;" styleClass="fontTiltle" stylesheets="@../CSS/fextile.css" text="Phan Khắc Đạo" />
          </children></Pane>
-      <Button layoutX="852.0" layoutY="184.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="90.0" styleClass="btn-about1" stylesheets="@../CSS/fextile.css" />
-      <Button layoutX="66.0" layoutY="184.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="78.0" styleClass="btn-about2" stylesheets="@../CSS/fextile.css" />
+      <Button layoutX="806.0" layoutY="280.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="90.0" styleClass="btn-about1" stylesheets="@../CSS/fextile.css" />
+      <Button layoutX="90.0" layoutY="280.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="78.0" styleClass="btn-about2" stylesheets="@../CSS/fextile.css" />
+      <Button layoutX="765.0" layoutY="23.0" mnemonicParsing="false" prefHeight="99.0" prefWidth="173.0" style="-fx-border-radius: 2px;" styleClass="btn-aptech" stylesheets="@../CSS/fextile.css" />
+      <Button layoutX="43.0" layoutY="23.0" mnemonicParsing="false" prefHeight="99.0" prefWidth="173.0" style="-fx-border-radius: 2px;" styleClass="btn-softech" stylesheets="@../CSS/fextile.css" />
    </children>
    <styleClass>
       <String fx:value="mainFxmlClass" />

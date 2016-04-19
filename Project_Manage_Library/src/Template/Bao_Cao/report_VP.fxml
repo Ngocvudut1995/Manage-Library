@@ -49,22 +49,22 @@
             </SplitPane>
             <Pane prefHeight="127.0" prefWidth="611.0">
                <children>
-                  <Button fx:id="bt_search" alignment="TOP_RIGHT" layoutX="493.0" layoutY="33.0" mnemonicParsing="false" onAction="#Load_data" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css">
+                  <Button fx:id="bt_search" alignment="TOP_RIGHT" layoutX="407.0" layoutY="33.0" mnemonicParsing="false" onAction="#Load_data" prefHeight="32.0" prefWidth="32.0" styleClass="btn-search-small" stylesheets="@../../CSS/fextile.css">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <Label layoutX="121.0" layoutY="16.0" text="Từ Ngày:">
+                  <Label layoutX="58.0" layoutY="16.0" text="Từ Ngày:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="117.0" layoutY="54.0" text="Đến Ngày:">
+                  <Label layoutX="60.0" layoutY="54.0" text="Đến Ngày:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <DatePicker fx:id="text_tungay" layoutX="216.0" layoutY="12.0" prefHeight="25.0" prefWidth="202.0" />
-                  <DatePicker fx:id="text_denngay" layoutX="216.0" layoutY="49.0" prefHeight="25.0" prefWidth="202.0" />
+                  <DatePicker fx:id="text_tungay" layoutX="141.0" layoutY="12.0" prefHeight="25.0" prefWidth="202.0" />
+                  <DatePicker fx:id="text_denngay" layoutX="141.0" layoutY="49.0" prefHeight="25.0" prefWidth="202.0" />
                   <Label layoutX="140.0" layoutY="90.0" text="Danh Sách Đọc Giả Vi Phạm Trong Thư Viện">
                      <font>
                         <Font name="System Bold" size="16.0" />
@@ -76,42 +76,42 @@
       </GridPane>
       <Pane prefHeight="443.0" prefWidth="282.0" GridPane.columnIndex="2">
          <children>
-            <Label layoutX="107.0" layoutY="38.0" text="Thông tin chi tiết">
+            <Label layoutX="107.0" layoutY="53.0" text="Thông tin chi tiết">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="19.0" layoutY="106.0" text="Mã Đọc Giả:">
+            <Label layoutX="19.0" layoutY="137.0" text="Mã Đọc Giả:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="ct_maDG" layoutX="133.0" layoutY="102.0" prefHeight="25.0" prefWidth="193.0" />
-            <Label layoutX="17.0" layoutY="147.0" text="Tên Đọc Giả:">
+            <TextField fx:id="ct_maDG" layoutX="133.0" layoutY="133.0" prefHeight="25.0" prefWidth="193.0" />
+            <Label layoutX="17.0" layoutY="178.0" text="Tên Đọc Giả:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="ten_DG" layoutX="133.0" layoutY="143.0" prefHeight="25.0" prefWidth="193.0" />
-            <Label layoutX="22.0" layoutY="187.0" text="Lý Do:">
+            <TextField fx:id="ten_DG" layoutX="133.0" layoutY="174.0" prefHeight="25.0" prefWidth="193.0" />
+            <Label layoutX="22.0" layoutY="218.0" text="Lý Do:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="Ly_do" layoutX="133.0" layoutY="183.0" prefHeight="25.0" prefWidth="193.0" />
-            <Label layoutX="19.0" layoutY="227.0" text="Hình Thức Xử Lý:">
+            <TextField fx:id="Ly_do" layoutX="133.0" layoutY="214.0" prefHeight="25.0" prefWidth="193.0" />
+            <Label layoutX="19.0" layoutY="258.0" text="Hình Thức Xử Lý:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="ht_xu_ly" layoutX="133.0" layoutY="223.0" prefHeight="25.0" prefWidth="193.0" />
-            <Label layoutX="22.0" layoutY="267.0" text="Ngày Xử Lý:">
+            <TextField fx:id="ht_xu_ly" layoutX="133.0" layoutY="254.0" prefHeight="25.0" prefWidth="193.0" />
+            <Label layoutX="22.0" layoutY="298.0" text="Ngày Xử Lý:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="ngay_xu_ly" layoutX="133.0" layoutY="263.0" prefHeight="25.0" prefWidth="193.0" />
-            <Button fx:id="bt_xuat" alignment="CENTER_RIGHT" layoutX="230.0" layoutY="332.0" mnemonicParsing="false" onAction="#xuat_Excel" prefHeight="32.0" prefWidth="82.0" styleClass="btn-export" stylesheets="@../../CSS/fextile.css" text="Xuất">
+            <TextField fx:id="ngay_xu_ly" layoutX="133.0" layoutY="294.0" prefHeight="25.0" prefWidth="193.0" />
+            <Button fx:id="bt_xuat" alignment="CENTER_RIGHT" layoutX="237.0" layoutY="367.0" mnemonicParsing="false" onAction="#xuat_Excel" prefHeight="32.0" prefWidth="82.0" styleClass="btn-export" stylesheets="@../../CSS/fextile.css" text="Xuất">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>

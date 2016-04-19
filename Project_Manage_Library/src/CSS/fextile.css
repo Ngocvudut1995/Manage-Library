@@ -447,5 +447,13 @@
     -fx-background-image: url("../Picture/Button-Stop-icon.png");
   -fx-background-repeat: no-repeat;
 }
+.btn-softech{
+    -fx-background-image: url("../Picture/softech.png");
+  -fx-background-repeat: no-repeat;
+}
+.btn-aptech{
+    -fx-background-image: url("../Picture/aptech.png");
+  -fx-background-repeat: no-repeat;
+}
 
 
